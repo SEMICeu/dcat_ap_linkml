@@ -1,0 +1,3493 @@
+name: dcat_ap
+description: A LinkML approximation of the SEMIC DCAT-AP 3.0.1 specification. This
+  schema captures the core classes and properties of DCAT-AP 3.0.1 as defined by the
+  SHACL shapes at https://semiceu.github.io/DCAT-AP/releases/3.0.1/html/shacl/shapes.ttl
+  and the JSON-LD context at https://semiceu.github.io/DCAT-AP/releases/3.0.1/context/dcat-ap.jsonld
+  This is a SCOPING/DEMO schema, not a production specification. Some constructs (e.g.
+  property-level disjunction shapes, sh:or with multiple datatypes, inverse paths)
+  are not directly expressible in LinkML and are approximated or omitted.
+title: DCAT-AP 3.0.1 (LinkML approximation)
+id: https://w3id.org/semic/dcat-ap/3.0.1
+imports:
+- linkml:types
+license: CC-BY-4.0
+prefixes:
+  linkml:
+    prefix_prefix: linkml
+    prefix_reference: https://w3id.org/linkml/
+  dcat_ap:
+    prefix_prefix: dcat_ap
+    prefix_reference: https://w3id.org/semic/dcat-ap/
+  dcat:
+    prefix_prefix: dcat
+    prefix_reference: http://www.w3.org/ns/dcat#
+  dcatap:
+    prefix_prefix: dcatap
+    prefix_reference: http://data.europa.eu/r5r/
+  dct:
+    prefix_prefix: dct
+    prefix_reference: http://purl.org/dc/terms/
+  foaf:
+    prefix_prefix: foaf
+    prefix_reference: http://xmlns.com/foaf/0.1/
+  skos:
+    prefix_prefix: skos
+    prefix_reference: http://www.w3.org/2004/02/skos/core#
+  adms:
+    prefix_prefix: adms
+    prefix_reference: http://www.w3.org/ns/adms#
+  spdx:
+    prefix_prefix: spdx
+    prefix_reference: http://spdx.org/rdf/terms#
+  prov:
+    prefix_prefix: prov
+    prefix_reference: http://www.w3.org/ns/prov#
+  odrl:
+    prefix_prefix: odrl
+    prefix_reference: http://www.w3.org/ns/odrl/2/
+  locn:
+    prefix_prefix: locn
+    prefix_reference: http://www.w3.org/ns/locn#
+  time:
+    prefix_prefix: time
+    prefix_reference: http://www.w3.org/2006/time#
+  vcard:
+    prefix_prefix: vcard
+    prefix_reference: http://www.w3.org/2006/vcard/ns#
+  eli:
+    prefix_prefix: eli
+    prefix_reference: http://data.europa.eu/eli/ontology#
+  rdf:
+    prefix_prefix: rdf
+    prefix_reference: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs:
+    prefix_prefix: rdfs
+    prefix_reference: http://www.w3.org/2000/01/rdf-schema#
+  owl:
+    prefix_prefix: owl
+    prefix_reference: http://www.w3.org/2002/07/owl#
+  xsd:
+    prefix_prefix: xsd
+    prefix_reference: http://www.w3.org/2001/XMLSchema#
+default_prefix: dcat_ap
+default_range: string
+types:
+  hexBinary:
+    name: hexBinary
+    definition_uri: https://w3id.org/semic/dcat-ap/HexBinary
+    description: A hex-binary encoded value.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    base: str
+    uri: xsd:hexBinary
+  duration:
+    name: duration
+    definition_uri: https://w3id.org/semic/dcat-ap/Duration
+    description: An XSD duration literal.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    base: str
+    uri: xsd:duration
+  nonNegativeInteger:
+    name: nonNegativeInteger
+    definition_uri: https://w3id.org/semic/dcat-ap/NonNegativeInteger
+    description: An XSD non-negative integer.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    base: int
+    uri: xsd:nonNegativeInteger
+    minimum_value: 0
+  string:
+    name: string
+    definition_uri: https://w3id.org/linkml/String
+    description: A character string
+    notes:
+    - In RDF serializations, a slot with range of string is treated as a literal or
+      type xsd:string.   If you are authoring schemas in LinkML YAML, the type is
+      referenced with the lower case "string".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Text
+    base: str
+    uri: xsd:string
+  integer:
+    name: integer
+    definition_uri: https://w3id.org/linkml/Integer
+    description: An integer
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "integer".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Integer
+    base: int
+    uri: xsd:integer
+  boolean:
+    name: boolean
+    definition_uri: https://w3id.org/linkml/Boolean
+    description: A binary (true or false) value
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "boolean".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Boolean
+    base: Bool
+    uri: xsd:boolean
+    repr: bool
+  float:
+    name: float
+    definition_uri: https://w3id.org/linkml/Float
+    description: A real number that conforms to the xsd:float specification
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "float".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Float
+    base: float
+    uri: xsd:float
+  double:
+    name: double
+    definition_uri: https://w3id.org/linkml/Double
+    description: A real number that conforms to the xsd:double specification
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "double".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    close_mappings:
+    - schema:Float
+    base: float
+    uri: xsd:double
+  decimal:
+    name: decimal
+    definition_uri: https://w3id.org/linkml/Decimal
+    description: A real number with arbitrary precision that conforms to the xsd:decimal
+      specification
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "decimal".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    broad_mappings:
+    - schema:Number
+    base: Decimal
+    uri: xsd:decimal
+  time:
+    name: time
+    definition_uri: https://w3id.org/linkml/Time
+    description: A time object represents a (local) time of day, independent of any
+      particular day
+    notes:
+    - URI is dateTime because OWL reasoners do not work with straight date or time
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "time".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Time
+    base: XSDTime
+    uri: xsd:time
+    repr: str
+  date:
+    name: date
+    definition_uri: https://w3id.org/linkml/Date
+    description: a date (year, month and day) in an idealized calendar
+    notes:
+    - URI is dateTime because OWL reasoners don't work with straight date or time
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "date".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:Date
+    base: XSDDate
+    uri: xsd:date
+    repr: str
+  datetime:
+    name: datetime
+    definition_uri: https://w3id.org/linkml/Datetime
+    description: The combination of a date and time
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "datetime".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    exact_mappings:
+    - schema:DateTime
+    base: XSDDateTime
+    uri: xsd:dateTime
+    repr: str
+  date_or_datetime:
+    name: date_or_datetime
+    definition_uri: https://w3id.org/linkml/DateOrDatetime
+    description: Either a date or a datetime
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "date_or_datetime".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: str
+    uri: linkml:DateOrDatetime
+    repr: str
+  uriorcurie:
+    name: uriorcurie
+    definition_uri: https://w3id.org/linkml/Uriorcurie
+    description: a URI or a CURIE
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "uriorcurie".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: URIorCURIE
+    uri: xsd:anyURI
+    repr: str
+  curie:
+    name: curie
+    definition_uri: https://w3id.org/linkml/Curie
+    conforms_to: https://www.w3.org/TR/curie/
+    description: a compact URI
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "curie".
+    comments:
+    - in RDF serializations this MUST be expanded to a URI
+    - in non-RDF serializations MAY be serialized as the compact representation
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: Curie
+    uri: xsd:string
+    repr: str
+  uri:
+    name: uri
+    definition_uri: https://w3id.org/linkml/Uri
+    conforms_to: https://www.ietf.org/rfc/rfc3987.txt
+    description: a complete URI
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "uri".
+    comments:
+    - in RDF serializations a slot with range of uri is treated as a literal or type
+      xsd:anyURI unless it is an identifier or a reference to an identifier, in which
+      case it is translated directly to a node
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    close_mappings:
+    - schema:URL
+    base: URI
+    uri: xsd:anyURI
+    repr: str
+  ncname:
+    name: ncname
+    definition_uri: https://w3id.org/linkml/Ncname
+    description: Prefix part of CURIE
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "ncname".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: NCName
+    uri: xsd:string
+    repr: str
+  objectidentifier:
+    name: objectidentifier
+    definition_uri: https://w3id.org/linkml/Objectidentifier
+    description: A URI or CURIE that represents an object in the model.
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "objectidentifier".
+    comments:
+    - Used for inheritance and type checking
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: ElementIdentifier
+    uri: shex:iri
+    repr: str
+  nodeidentifier:
+    name: nodeidentifier
+    definition_uri: https://w3id.org/linkml/Nodeidentifier
+    description: A URI, CURIE or BNODE that represents a node in a model.
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "nodeidentifier".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: NodeIdentifier
+    uri: shex:nonLiteral
+    repr: str
+  jsonpointer:
+    name: jsonpointer
+    definition_uri: https://w3id.org/linkml/Jsonpointer
+    conforms_to: https://datatracker.ietf.org/doc/html/rfc6901
+    description: A string encoding a JSON Pointer. The value of the string MUST conform
+      to JSON Point syntax and SHOULD dereference to a valid object within the current
+      instance document when encoded in tree form.
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "jsonpointer".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: str
+    uri: xsd:string
+    repr: str
+  jsonpath:
+    name: jsonpath
+    definition_uri: https://w3id.org/linkml/Jsonpath
+    conforms_to: https://www.ietf.org/archive/id/draft-goessner-dispatch-jsonpath-00.html
+    description: A string encoding a JSON Path. The value of the string MUST conform
+      to JSON Point syntax and SHOULD dereference to zero or more valid objects within
+      the current instance document when encoded in tree form.
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "jsonpath".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: str
+    uri: xsd:string
+    repr: str
+  sparqlpath:
+    name: sparqlpath
+    definition_uri: https://w3id.org/linkml/Sparqlpath
+    conforms_to: https://www.w3.org/TR/sparql11-query/#propertypaths
+    description: A string encoding a SPARQL Property Path. The value of the string
+      MUST conform to SPARQL syntax and SHOULD dereference to zero or more valid objects
+      within the current instance document when encoded as RDF.
+    notes:
+    - If you are authoring schemas in LinkML YAML, the type is referenced with the
+      lower case "sparqlpath".
+    from_schema: https://w3id.org/linkml/types
+    imported_from: linkml:types
+    base: str
+    uri: xsd:string
+    repr: str
+slots:
+  title:
+    name: title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    slot_uri: dct:title
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - CatalogueRecord
+    - ConceptScheme
+    - DataService
+    - Dataset
+    - DatasetSeries
+    - Distribution
+    range: string
+    multivalued: true
+  description:
+    name: description
+    definition_uri: https://w3id.org/semic/dcat-ap/description
+    description: A free-text account of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:description
+    slot_uri: dct:description
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - CatalogueRecord
+    - DataService
+    - Dataset
+    - DatasetSeries
+    - Distribution
+    range: string
+    multivalued: true
+  identifier:
+    name: identifier
+    definition_uri: https://w3id.org/semic/dcat-ap/identifier
+    description: A unique identifier of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:identifier
+    slot_uri: dct:identifier
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: string
+    multivalued: true
+  keyword:
+    name: keyword
+    definition_uri: https://w3id.org/semic/dcat-ap/keyword
+    description: A keyword or tag describing the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:keyword
+    slot_uri: dcat:keyword
+    owner: Dataset
+    domain_of:
+    - DataService
+    - Dataset
+    range: string
+    multivalued: true
+  notation:
+    name: notation
+    definition_uri: https://w3id.org/semic/dcat-ap/notation
+    description: A string used to identify a concept within a scheme.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:notation
+    slot_uri: skos:notation
+    owner: Identifier
+    domain_of:
+    - Identifier
+    range: string
+  preferredLabel:
+    name: preferredLabel
+    definition_uri: https://w3id.org/semic/dcat-ap/preferredLabel
+    description: The preferred lexical label for a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:prefLabel
+    slot_uri: skos:prefLabel
+    owner: Concept
+    domain_of:
+    - Concept
+    range: string
+    multivalued: true
+  name:
+    name: name
+    definition_uri: https://w3id.org/semic/dcat-ap/name
+    description: A name for an agent.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:name
+    slot_uri: foaf:name
+    owner: Agent
+    domain_of:
+    - Agent
+    range: string
+    multivalued: true
+  version:
+    name: version
+    definition_uri: https://w3id.org/semic/dcat-ap/version
+    description: The version indicator of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:version
+    slot_uri: dcat:version
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: string
+  versionNotes:
+    name: versionNotes
+    definition_uri: https://w3id.org/semic/dcat-ap/versionNotes
+    description: A description of changes between versions.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:versionNotes
+    slot_uri: adms:versionNotes
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: string
+    multivalued: true
+  bbox:
+    name: bbox
+    definition_uri: https://w3id.org/semic/dcat-ap/bbox
+    description: The geographic bounding box of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:bbox
+    slot_uri: dcat:bbox
+    owner: Location
+    domain_of:
+    - Location
+    range: string
+  centroid:
+    name: centroid
+    definition_uri: https://w3id.org/semic/dcat-ap/centroid
+    description: The geographic centroid of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:centroid
+    slot_uri: dcat:centroid
+    owner: Location
+    domain_of:
+    - Location
+    range: string
+  startDate:
+    name: startDate
+    definition_uri: https://w3id.org/semic/dcat-ap/startDate
+    description: The start of the period.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:startDate
+    slot_uri: dcat:startDate
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    range: string
+  endDate:
+    name: endDate
+    definition_uri: https://w3id.org/semic/dcat-ap/endDate
+    description: The end of the period.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:endDate
+    slot_uri: dcat:endDate
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    range: string
+  releaseDate:
+    name: releaseDate
+    definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
+    description: The date of formal issuance of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    slot_uri: dct:issued
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - Dataset
+    - DatasetSeries
+    - Distribution
+    range: string
+  modificationDate:
+    name: modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    slot_uri: dct:modified
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - CatalogueRecord
+    - Dataset
+    - DatasetSeries
+    - Distribution
+    range: string
+  listingDate:
+    name: listingDate
+    definition_uri: https://w3id.org/semic/dcat-ap/listingDate
+    description: The date on which the description was listed in the catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    slot_uri: dct:issued
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    range: string
+  byteSize:
+    name: byteSize
+    definition_uri: https://w3id.org/semic/dcat-ap/byteSize
+    description: The size of a distribution in bytes.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:byteSize
+    slot_uri: dcat:byteSize
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: integer
+  spatialResolution:
+    name: spatialResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/spatialResolution
+    description: Minimum spatial separation resolvable, in meters.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:spatialResolutionInMeters
+    slot_uri: dcat:spatialResolutionInMeters
+    owner: Distribution
+    domain_of:
+    - Dataset
+    - Distribution
+    range: decimal
+    multivalued: true
+  temporalResolution:
+    name: temporalResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/temporalResolution
+    description: Minimum time period resolvable in the dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:temporalResolution
+    slot_uri: dcat:temporalResolution
+    owner: Distribution
+    domain_of:
+    - Dataset
+    - Distribution
+    range: string
+  checksumValue:
+    name: checksumValue
+    definition_uri: https://w3id.org/semic/dcat-ap/checksumValue
+    description: A lower-case hexadecimal-encoded checksum value.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:checksumValue
+    slot_uri: spdx:checksumValue
+    owner: Checksum
+    domain_of:
+    - Checksum
+    range: string
+  publisher:
+    name: publisher
+    definition_uri: https://w3id.org/semic/dcat-ap/publisher
+    description: An entity responsible for making the resource available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:publisher
+    slot_uri: dct:publisher
+    owner: DatasetSeries
+    domain_of:
+    - Catalogue
+    - DataService
+    - Dataset
+    - DatasetSeries
+    range: Agent
+    inlined: true
+    inlined_as_list: true
+  creator:
+    name: creator
+    definition_uri: https://w3id.org/semic/dcat-ap/creator
+    description: The entity responsible for producing the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:creator
+    slot_uri: dct:creator
+    owner: Dataset
+    domain_of:
+    - Catalogue
+    - Dataset
+    range: Agent
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  contactPoint:
+    name: contactPoint
+    definition_uri: https://w3id.org/semic/dcat-ap/contactPoint
+    description: Contact information for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:contactPoint
+    slot_uri: dcat:contactPoint
+    owner: DatasetSeries
+    domain_of:
+    - DataService
+    - Dataset
+    - DatasetSeries
+    range: Kind
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  language:
+    name: language
+    definition_uri: https://w3id.org/semic/dcat-ap/language
+    description: A language of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:language
+    slot_uri: dct:language
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - CatalogueRecord
+    - Dataset
+    - Distribution
+    range: LinguisticSystem
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  licence:
+    name: licence
+    definition_uri: https://w3id.org/semic/dcat-ap/licence
+    description: A licence under which the resource is made available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:license
+    slot_uri: dct:license
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - DataService
+    - Distribution
+    range: LicenceDocument
+    inlined: true
+    inlined_as_list: true
+  rights:
+    name: rights
+    definition_uri: https://w3id.org/semic/dcat-ap/rights
+    description: Rights statement for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:rights
+    slot_uri: dct:rights
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - Distribution
+    range: RightsStatement
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  hasPart:
+    name: hasPart
+    definition_uri: https://w3id.org/semic/dcat-ap/hasPart
+    description: A related resource that is included physically or logically.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:hasPart
+    slot_uri: dct:hasPart
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: Catalogue
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  geographicalCoverage:
+    name: geographicalCoverage
+    definition_uri: https://w3id.org/semic/dcat-ap/geographicalCoverage
+    description: The geographic coverage of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:spatial
+    slot_uri: dct:spatial
+    owner: DatasetSeries
+    domain_of:
+    - Catalogue
+    - Dataset
+    - DatasetSeries
+    range: Location
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  temporalCoverage:
+    name: temporalCoverage
+    definition_uri: https://w3id.org/semic/dcat-ap/temporalCoverage
+    description: The temporal coverage of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:temporal
+    slot_uri: dct:temporal
+    owner: DatasetSeries
+    domain_of:
+    - Catalogue
+    - Dataset
+    - DatasetSeries
+    range: PeriodOfTime
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  themes:
+    name: themes
+    definition_uri: https://w3id.org/semic/dcat-ap/themes
+    description: A theme taxonomy used to classify the catalogue's resources.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:themeTaxonomy
+    slot_uri: dcat:themeTaxonomy
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: ConceptScheme
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  theme:
+    name: theme
+    definition_uri: https://w3id.org/semic/dcat-ap/theme
+    description: A category of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:theme
+    slot_uri: dcat:theme
+    owner: Dataset
+    domain_of:
+    - DataService
+    - Dataset
+    range: Concept
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  homepage:
+    name: homepage
+    definition_uri: https://w3id.org/semic/dcat-ap/homepage
+    description: A web page that is the primary access point for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:homepage
+    slot_uri: foaf:homepage
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: Document
+    inlined: true
+    inlined_as_list: true
+  catalogue:
+    name: catalogue
+    definition_uri: https://w3id.org/semic/dcat-ap/catalogue
+    description: A subordinate catalogue contained in this catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:catalog
+    slot_uri: dcat:catalog
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: Catalogue
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  dataset:
+    name: dataset
+    definition_uri: https://w3id.org/semic/dcat-ap/dataset
+    description: A dataset listed by the catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:dataset
+    slot_uri: dcat:dataset
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: Dataset
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  service:
+    name: service
+    definition_uri: https://w3id.org/semic/dcat-ap/service
+    description: A data service listed by the catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:service
+    slot_uri: dcat:service
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: DataService
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  record:
+    name: record
+    definition_uri: https://w3id.org/semic/dcat-ap/record
+    description: A record describing a registration of a resource in the catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:record
+    slot_uri: dcat:record
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    range: CatalogueRecord
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  applicationProfile:
+    name: applicationProfile
+    definition_uri: https://w3id.org/semic/dcat-ap/applicationProfile
+    description: The application profile this catalogue record conforms to.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:conformsTo
+    slot_uri: dct:conformsTo
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    range: Standard
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  changeType:
+    name: changeType
+    definition_uri: https://w3id.org/semic/dcat-ap/changeType
+    description: The type of update on the cataloged resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:status
+    slot_uri: adms:status
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    range: Concept
+    inlined: true
+    inlined_as_list: true
+  primaryTopic:
+    name: primaryTopic
+    definition_uri: https://w3id.org/semic/dcat-ap/primaryTopic
+    description: The resource described by this catalogue record.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:primaryTopic
+    slot_uri: foaf:primaryTopic
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    range: CataloguedResource
+    inlined: true
+    inlined_as_list: true
+  sourceMetadata:
+    name: sourceMetadata
+    definition_uri: https://w3id.org/semic/dcat-ap/sourceMetadata
+    description: Original metadata source for the catalog record.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:source
+    slot_uri: dct:source
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    range: CatalogueRecord
+    inlined: true
+    inlined_as_list: true
+  applicableLegislation:
+    name: applicableLegislation
+    definition_uri: https://w3id.org/semic/dcat-ap/applicableLegislation
+    description: The legislation applicable to the resource (DCAT-AP extension).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcatap:applicableLegislation
+    slot_uri: dcatap:applicableLegislation
+    owner: Distribution
+    domain_of:
+    - Catalogue
+    - DataService
+    - Dataset
+    - DatasetSeries
+    - Distribution
+    range: LegalResource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  algorithm:
+    name: algorithm
+    definition_uri: https://w3id.org/semic/dcat-ap/algorithm
+    description: The algorithm used to produce a checksum.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:algorithm
+    slot_uri: spdx:algorithm
+    owner: Checksum
+    domain_of:
+    - Checksum
+    range: ChecksumAlgorithm
+    inlined: true
+    inlined_as_list: true
+  type:
+    name: type
+    definition_uri: https://w3id.org/semic/dcat-ap/type
+    description: The nature or genre of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:type
+    slot_uri: dct:type
+    owner: LicenceDocument
+    domain_of:
+    - Agent
+    - Dataset
+    - LicenceDocument
+    range: Concept
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  accessRights:
+    name: accessRights
+    definition_uri: https://w3id.org/semic/dcat-ap/accessRights
+    description: Information about who can access the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accessRights
+    slot_uri: dct:accessRights
+    owner: Dataset
+    domain_of:
+    - DataService
+    - Dataset
+    range: RightsStatement
+    inlined: true
+    inlined_as_list: true
+  conformsTo:
+    name: conformsTo
+    definition_uri: https://w3id.org/semic/dcat-ap/conformsTo
+    description: An established standard the resource conforms to.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:conformsTo
+    slot_uri: dct:conformsTo
+    owner: Dataset
+    domain_of:
+    - DataService
+    - Dataset
+    range: Standard
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  documentation:
+    name: documentation
+    definition_uri: https://w3id.org/semic/dcat-ap/documentation
+    description: A page or document about the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:page
+    slot_uri: foaf:page
+    owner: Distribution
+    domain_of:
+    - DataService
+    - Dataset
+    - Distribution
+    range: Document
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  endpointUrl:
+    name: endpointUrl
+    definition_uri: https://w3id.org/semic/dcat-ap/endpointUrl
+    description: The root location of the service.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:endpointURL
+    slot_uri: dcat:endpointURL
+    owner: DataService
+    domain_of:
+    - DataService
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  endpointDescription:
+    name: endpointDescription
+    definition_uri: https://w3id.org/semic/dcat-ap/endpointDescription
+    description: A description of the service endpoint, including operations.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:endpointDescription
+    slot_uri: dcat:endpointDescription
+    owner: DataService
+    domain_of:
+    - DataService
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  format:
+    name: format
+    definition_uri: https://w3id.org/semic/dcat-ap/format
+    description: The file format, physical medium, or dimensions of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:format
+    slot_uri: dct:format
+    owner: Distribution
+    domain_of:
+    - DataService
+    - Distribution
+    range: MediaType
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  landingPage:
+    name: landingPage
+    definition_uri: https://w3id.org/semic/dcat-ap/landingPage
+    description: A web page that gives access to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:landingPage
+    slot_uri: dcat:landingPage
+    owner: Dataset
+    domain_of:
+    - DataService
+    - Dataset
+    range: Document
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  servesDataset:
+    name: servesDataset
+    definition_uri: https://w3id.org/semic/dcat-ap/servesDataset
+    description: A dataset that this service serves.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:servesDataset
+    slot_uri: dcat:servesDataset
+    owner: DataService
+    domain_of:
+    - DataService
+    range: Dataset
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  datasetDistribution:
+    name: datasetDistribution
+    definition_uri: https://w3id.org/semic/dcat-ap/datasetDistribution
+    description: An available distribution of the dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:distribution
+    slot_uri: dcat:distribution
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Distribution
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  frequency:
+    name: frequency
+    definition_uri: https://w3id.org/semic/dcat-ap/frequency
+    description: The frequency at which the dataset is updated.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accrualPeriodicity
+    slot_uri: dct:accrualPeriodicity
+    owner: DatasetSeries
+    domain_of:
+    - Dataset
+    - DatasetSeries
+    range: Frequency
+    inlined: true
+    inlined_as_list: true
+  hasVersion:
+    name: hasVersion
+    definition_uri: https://w3id.org/semic/dcat-ap/hasVersion
+    description: A related dataset that is a version of this dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:hasVersion
+    slot_uri: dcat:hasVersion
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Dataset
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  inSeries:
+    name: inSeries
+    definition_uri: https://w3id.org/semic/dcat-ap/inSeries
+    description: A dataset series of which this dataset is a part.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:inSeries
+    slot_uri: dcat:inSeries
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: DatasetSeries
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  isReferencedBy:
+    name: isReferencedBy
+    definition_uri: https://w3id.org/semic/dcat-ap/isReferencedBy
+    description: A related resource that references the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:isReferencedBy
+    slot_uri: dct:isReferencedBy
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  otherIdentifier:
+    name: otherIdentifier
+    definition_uri: https://w3id.org/semic/dcat-ap/otherIdentifier
+    description: A secondary identifier of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:identifier
+    slot_uri: adms:identifier
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Identifier
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  provenance:
+    name: provenance
+    definition_uri: https://w3id.org/semic/dcat-ap/provenance
+    description: A statement about provenance of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:provenance
+    slot_uri: dct:provenance
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: ProvenanceStatement
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  qualifiedAttribution:
+    name: qualifiedAttribution
+    definition_uri: https://w3id.org/semic/dcat-ap/qualifiedAttribution
+    description: An attribution of an agent to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - prov:qualifiedAttribution
+    slot_uri: prov:qualifiedAttribution
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Attribution
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  qualifiedRelation:
+    name: qualifiedRelation
+    definition_uri: https://w3id.org/semic/dcat-ap/qualifiedRelation
+    description: A qualified relationship to another resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:qualifiedRelation
+    slot_uri: dcat:qualifiedRelation
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Relationship
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  relatedResource:
+    name: relatedResource
+    definition_uri: https://w3id.org/semic/dcat-ap/relatedResource
+    description: A related resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:relation
+    slot_uri: dct:relation
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  sample:
+    name: sample
+    definition_uri: https://w3id.org/semic/dcat-ap/sample
+    description: A sample distribution of the dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:sample
+    slot_uri: adms:sample
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Distribution
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  source:
+    name: source
+    definition_uri: https://w3id.org/semic/dcat-ap/source
+    description: A related resource from which the described resource is derived.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:source
+    slot_uri: dct:source
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Dataset
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  wasGeneratedBy:
+    name: wasGeneratedBy
+    definition_uri: https://w3id.org/semic/dcat-ap/wasGeneratedBy
+    description: An activity that generated the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - prov:wasGeneratedBy
+    slot_uri: prov:wasGeneratedBy
+    owner: Dataset
+    domain_of:
+    - Dataset
+    range: Activity
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  accessUrl:
+    name: accessUrl
+    definition_uri: https://w3id.org/semic/dcat-ap/accessUrl
+    description: A URL of the resource that gives access to a distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:accessURL
+    slot_uri: dcat:accessURL
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  accessService:
+    name: accessService
+    definition_uri: https://w3id.org/semic/dcat-ap/accessService
+    description: A data service that provides access to the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:accessService
+    slot_uri: dcat:accessService
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: DataService
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  availability:
+    name: availability
+    definition_uri: https://w3id.org/semic/dcat-ap/availability
+    description: The availability level of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcatap:availability
+    slot_uri: dcatap:availability
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Concept
+    inlined: true
+    inlined_as_list: true
+  checksum:
+    name: checksum
+    definition_uri: https://w3id.org/semic/dcat-ap/checksum
+    description: A checksum of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:checksum
+    slot_uri: spdx:checksum
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Checksum
+    inlined: true
+    inlined_as_list: true
+  compressionFormat:
+    name: compressionFormat
+    definition_uri: https://w3id.org/semic/dcat-ap/compressionFormat
+    description: The compression format of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:compressFormat
+    slot_uri: dcat:compressFormat
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: MediaType
+    inlined: true
+    inlined_as_list: true
+  downloadUrl:
+    name: downloadUrl
+    definition_uri: https://w3id.org/semic/dcat-ap/downloadUrl
+    description: A URL of the downloadable file in a given format.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:downloadURL
+    slot_uri: dcat:downloadURL
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  hasPolicy:
+    name: hasPolicy
+    definition_uri: https://w3id.org/semic/dcat-ap/hasPolicy
+    description: An ODRL policy attached to the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - odrl:hasPolicy
+    slot_uri: odrl:hasPolicy
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Policy
+    inlined: true
+    inlined_as_list: true
+  linkedSchemas:
+    name: linkedSchemas
+    definition_uri: https://w3id.org/semic/dcat-ap/linkedSchemas
+    description: A schema that the distribution conforms to.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:conformsTo
+    slot_uri: dct:conformsTo
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Standard
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  mediaType:
+    name: mediaType
+    definition_uri: https://w3id.org/semic/dcat-ap/mediaType
+    description: The media type of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:mediaType
+    slot_uri: dcat:mediaType
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: MediaType
+    inlined: true
+    inlined_as_list: true
+  packagingFormat:
+    name: packagingFormat
+    definition_uri: https://w3id.org/semic/dcat-ap/packagingFormat
+    description: The package format of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:packageFormat
+    slot_uri: dcat:packageFormat
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: MediaType
+    inlined: true
+    inlined_as_list: true
+  status:
+    name: status
+    definition_uri: https://w3id.org/semic/dcat-ap/status
+    description: The status of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:status
+    slot_uri: adms:status
+    owner: Distribution
+    domain_of:
+    - Distribution
+    range: Concept
+    inlined: true
+    inlined_as_list: true
+  hadRole:
+    name: hadRole
+    definition_uri: https://w3id.org/semic/dcat-ap/hadRole
+    description: The role of an agent in the relationship.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:hadRole
+    slot_uri: dcat:hadRole
+    owner: Relationship
+    domain_of:
+    - Relationship
+    range: Role
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  relation:
+    name: relation
+    definition_uri: https://w3id.org/semic/dcat-ap/relation
+    description: The resource related through this relationship.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:relation
+    slot_uri: dct:relation
+    owner: Relationship
+    domain_of:
+    - Relationship
+    range: Resource
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  beginning:
+    name: beginning
+    definition_uri: https://w3id.org/semic/dcat-ap/beginning
+    description: The start of a period of time.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - time:hasBeginning
+    slot_uri: time:hasBeginning
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    range: string
+  end:
+    name: end
+    definition_uri: https://w3id.org/semic/dcat-ap/end
+    description: The end of a period of time.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - time:hasEnd
+    slot_uri: time:hasEnd
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    range: string
+  geometry:
+    name: geometry
+    definition_uri: https://w3id.org/semic/dcat-ap/geometry
+    description: The geometry of a location.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - locn:geometry
+    slot_uri: locn:geometry
+    owner: Location
+    domain_of:
+    - Location
+    range: Geometry
+    inlined: true
+    inlined_as_list: true
+  Agent_name:
+    name: Agent_name
+    definition_uri: https://w3id.org/semic/dcat-ap/name
+    description: A name for an agent.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:name
+    is_a: name
+    domain: Agent
+    slot_uri: foaf:name
+    alias: name
+    owner: Agent
+    domain_of:
+    - Agent
+    is_usage_slot: true
+    usage_slot_name: name
+    range: string
+    required: true
+    multivalued: true
+  Agent_type:
+    name: Agent_type
+    definition_uri: https://w3id.org/semic/dcat-ap/type
+    description: The nature or genre of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:type
+    is_a: type
+    domain: Agent
+    slot_uri: dct:type
+    alias: type
+    owner: Agent
+    domain_of:
+    - Agent
+    is_usage_slot: true
+    usage_slot_name: type
+    range: Concept
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Catalogue_title:
+    name: Catalogue_title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    is_a: title
+    domain: Catalogue
+    slot_uri: dct:title
+    alias: title
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: title
+    range: string
+    required: true
+    multivalued: true
+  Catalogue_description:
+    name: Catalogue_description
+    definition_uri: https://w3id.org/semic/dcat-ap/description
+    description: A free-text account of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:description
+    is_a: description
+    domain: Catalogue
+    slot_uri: dct:description
+    alias: description
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: description
+    range: string
+    required: true
+    multivalued: true
+  Catalogue_publisher:
+    name: Catalogue_publisher
+    definition_uri: https://w3id.org/semic/dcat-ap/publisher
+    description: An entity responsible for making the resource available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:publisher
+    is_a: publisher
+    domain: Catalogue
+    slot_uri: dct:publisher
+    alias: publisher
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: publisher
+    range: Agent
+    required: true
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Catalogue_creator:
+    name: Catalogue_creator
+    definition_uri: https://w3id.org/semic/dcat-ap/creator
+    description: The entity responsible for producing the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:creator
+    is_a: creator
+    domain: Catalogue
+    slot_uri: dct:creator
+    alias: creator
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: creator
+    range: Agent
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Catalogue_licence:
+    name: Catalogue_licence
+    definition_uri: https://w3id.org/semic/dcat-ap/licence
+    description: A licence under which the resource is made available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:license
+    is_a: licence
+    domain: Catalogue
+    slot_uri: dct:license
+    alias: licence
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: licence
+    range: LicenceDocument
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Catalogue_homepage:
+    name: Catalogue_homepage
+    definition_uri: https://w3id.org/semic/dcat-ap/homepage
+    description: A web page that is the primary access point for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:homepage
+    is_a: homepage
+    domain: Catalogue
+    slot_uri: foaf:homepage
+    alias: homepage
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: homepage
+    range: Document
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  CatalogueRecord_primaryTopic:
+    name: CatalogueRecord_primaryTopic
+    definition_uri: https://w3id.org/semic/dcat-ap/primaryTopic
+    description: The resource described by this catalogue record.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:primaryTopic
+    is_a: primaryTopic
+    domain: CatalogueRecord
+    slot_uri: foaf:primaryTopic
+    alias: primaryTopic
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: primaryTopic
+    range: CataloguedResource
+    required: true
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  CatalogueRecord_modificationDate:
+    name: CatalogueRecord_modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    is_a: modificationDate
+    domain: CatalogueRecord
+    slot_uri: dct:modified
+    alias: modificationDate
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: modificationDate
+    range: string
+    required: true
+    multivalued: false
+  CatalogueRecord_applicationProfile:
+    name: CatalogueRecord_applicationProfile
+    definition_uri: https://w3id.org/semic/dcat-ap/applicationProfile
+    description: The application profile this catalogue record conforms to.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:conformsTo
+    is_a: applicationProfile
+    domain: CatalogueRecord
+    slot_uri: dct:conformsTo
+    alias: applicationProfile
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: applicationProfile
+    range: Standard
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  CatalogueRecord_listingDate:
+    name: CatalogueRecord_listingDate
+    definition_uri: https://w3id.org/semic/dcat-ap/listingDate
+    description: The date on which the description was listed in the catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    is_a: listingDate
+    domain: CatalogueRecord
+    slot_uri: dct:issued
+    alias: listingDate
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: listingDate
+    range: string
+    multivalued: false
+  CatalogueRecord_changeType:
+    name: CatalogueRecord_changeType
+    definition_uri: https://w3id.org/semic/dcat-ap/changeType
+    description: The type of update on the cataloged resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:status
+    is_a: changeType
+    domain: CatalogueRecord
+    slot_uri: adms:status
+    alias: changeType
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: changeType
+    range: Concept
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  CatalogueRecord_sourceMetadata:
+    name: CatalogueRecord_sourceMetadata
+    definition_uri: https://w3id.org/semic/dcat-ap/sourceMetadata
+    description: Original metadata source for the catalog record.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:source
+    is_a: sourceMetadata
+    domain: CatalogueRecord
+    slot_uri: dct:source
+    alias: sourceMetadata
+    owner: CatalogueRecord
+    domain_of:
+    - CatalogueRecord
+    is_usage_slot: true
+    usage_slot_name: sourceMetadata
+    range: CatalogueRecord
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Checksum_algorithm:
+    name: Checksum_algorithm
+    definition_uri: https://w3id.org/semic/dcat-ap/algorithm
+    description: The algorithm used to produce a checksum.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:algorithm
+    is_a: algorithm
+    domain: Checksum
+    slot_uri: spdx:algorithm
+    alias: algorithm
+    owner: Checksum
+    domain_of:
+    - Checksum
+    is_usage_slot: true
+    usage_slot_name: algorithm
+    range: ChecksumAlgorithm
+    required: true
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Checksum_checksumValue:
+    name: Checksum_checksumValue
+    definition_uri: https://w3id.org/semic/dcat-ap/checksumValue
+    description: A lower-case hexadecimal-encoded checksum value.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:checksumValue
+    is_a: checksumValue
+    domain: Checksum
+    slot_uri: spdx:checksumValue
+    alias: checksumValue
+    owner: Checksum
+    domain_of:
+    - Checksum
+    is_usage_slot: true
+    usage_slot_name: checksumValue
+    range: hexBinary
+    required: true
+    multivalued: false
+  Concept_preferredLabel:
+    name: Concept_preferredLabel
+    definition_uri: https://w3id.org/semic/dcat-ap/preferredLabel
+    description: The preferred lexical label for a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:prefLabel
+    is_a: preferredLabel
+    domain: Concept
+    slot_uri: skos:prefLabel
+    alias: preferredLabel
+    owner: Concept
+    domain_of:
+    - Concept
+    is_usage_slot: true
+    usage_slot_name: preferredLabel
+    range: string
+    required: true
+    multivalued: true
+  ConceptScheme_title:
+    name: ConceptScheme_title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    is_a: title
+    domain: ConceptScheme
+    slot_uri: dct:title
+    alias: title
+    owner: ConceptScheme
+    domain_of:
+    - ConceptScheme
+    is_usage_slot: true
+    usage_slot_name: title
+    range: string
+    required: true
+    multivalued: true
+  DataService_title:
+    name: DataService_title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    is_a: title
+    domain: DataService
+    slot_uri: dct:title
+    alias: title
+    owner: DataService
+    domain_of:
+    - DataService
+    is_usage_slot: true
+    usage_slot_name: title
+    range: string
+    required: true
+    multivalued: true
+  DataService_endpointUrl:
+    name: DataService_endpointUrl
+    definition_uri: https://w3id.org/semic/dcat-ap/endpointUrl
+    description: The root location of the service.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:endpointURL
+    is_a: endpointUrl
+    domain: DataService
+    slot_uri: dcat:endpointURL
+    alias: endpointUrl
+    owner: DataService
+    domain_of:
+    - DataService
+    is_usage_slot: true
+    usage_slot_name: endpointUrl
+    range: Resource
+    required: true
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  DataService_accessRights:
+    name: DataService_accessRights
+    definition_uri: https://w3id.org/semic/dcat-ap/accessRights
+    description: Information about who can access the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accessRights
+    is_a: accessRights
+    domain: DataService
+    slot_uri: dct:accessRights
+    alias: accessRights
+    owner: DataService
+    domain_of:
+    - DataService
+    is_usage_slot: true
+    usage_slot_name: accessRights
+    range: RightsStatement
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  DataService_licence:
+    name: DataService_licence
+    definition_uri: https://w3id.org/semic/dcat-ap/licence
+    description: A licence under which the resource is made available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:license
+    is_a: licence
+    domain: DataService
+    slot_uri: dct:license
+    alias: licence
+    owner: DataService
+    domain_of:
+    - DataService
+    is_usage_slot: true
+    usage_slot_name: licence
+    range: LicenceDocument
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  DataService_publisher:
+    name: DataService_publisher
+    definition_uri: https://w3id.org/semic/dcat-ap/publisher
+    description: An entity responsible for making the resource available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:publisher
+    is_a: publisher
+    domain: DataService
+    slot_uri: dct:publisher
+    alias: publisher
+    owner: DataService
+    domain_of:
+    - DataService
+    is_usage_slot: true
+    usage_slot_name: publisher
+    range: Agent
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Dataset_title:
+    name: Dataset_title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    is_a: title
+    domain: Dataset
+    slot_uri: dct:title
+    alias: title
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: title
+    range: string
+    required: true
+    multivalued: true
+  Dataset_description:
+    name: Dataset_description
+    definition_uri: https://w3id.org/semic/dcat-ap/description
+    description: A free-text account of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:description
+    is_a: description
+    domain: Dataset
+    slot_uri: dct:description
+    alias: description
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: description
+    range: string
+    required: true
+    multivalued: true
+  Dataset_accessRights:
+    name: Dataset_accessRights
+    definition_uri: https://w3id.org/semic/dcat-ap/accessRights
+    description: Information about who can access the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accessRights
+    is_a: accessRights
+    domain: Dataset
+    slot_uri: dct:accessRights
+    alias: accessRights
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: accessRights
+    range: RightsStatement
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Dataset_frequency:
+    name: Dataset_frequency
+    definition_uri: https://w3id.org/semic/dcat-ap/frequency
+    description: The frequency at which the dataset is updated.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accrualPeriodicity
+    is_a: frequency
+    domain: Dataset
+    slot_uri: dct:accrualPeriodicity
+    alias: frequency
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: frequency
+    range: Frequency
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Dataset_modificationDate:
+    name: Dataset_modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    is_a: modificationDate
+    domain: Dataset
+    slot_uri: dct:modified
+    alias: modificationDate
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: modificationDate
+    range: string
+    multivalued: false
+  Dataset_publisher:
+    name: Dataset_publisher
+    definition_uri: https://w3id.org/semic/dcat-ap/publisher
+    description: An entity responsible for making the resource available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:publisher
+    is_a: publisher
+    domain: Dataset
+    slot_uri: dct:publisher
+    alias: publisher
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: publisher
+    range: Agent
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Dataset_releaseDate:
+    name: Dataset_releaseDate
+    definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
+    description: The date of formal issuance of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    is_a: releaseDate
+    domain: Dataset
+    slot_uri: dct:issued
+    alias: releaseDate
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: releaseDate
+    range: string
+    multivalued: false
+  Dataset_spatialResolution:
+    name: Dataset_spatialResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/spatialResolution
+    description: Minimum spatial separation resolvable, in meters.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:spatialResolutionInMeters
+    is_a: spatialResolution
+    domain: Dataset
+    slot_uri: dcat:spatialResolutionInMeters
+    alias: spatialResolution
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: spatialResolution
+    range: decimal
+    multivalued: true
+  Dataset_temporalResolution:
+    name: Dataset_temporalResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/temporalResolution
+    description: Minimum time period resolvable in the dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:temporalResolution
+    is_a: temporalResolution
+    domain: Dataset
+    slot_uri: dcat:temporalResolution
+    alias: temporalResolution
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: temporalResolution
+    range: duration
+    multivalued: false
+  Dataset_version:
+    name: Dataset_version
+    definition_uri: https://w3id.org/semic/dcat-ap/version
+    description: The version indicator of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:version
+    is_a: version
+    domain: Dataset
+    slot_uri: dcat:version
+    alias: version
+    owner: Dataset
+    domain_of:
+    - Dataset
+    is_usage_slot: true
+    usage_slot_name: version
+    range: string
+    multivalued: false
+  DatasetSeries_title:
+    name: DatasetSeries_title
+    definition_uri: https://w3id.org/semic/dcat-ap/title
+    description: A name given to the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:title
+    is_a: title
+    domain: DatasetSeries
+    slot_uri: dct:title
+    alias: title
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: title
+    range: string
+    required: true
+    multivalued: true
+  DatasetSeries_description:
+    name: DatasetSeries_description
+    definition_uri: https://w3id.org/semic/dcat-ap/description
+    description: A free-text account of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:description
+    is_a: description
+    domain: DatasetSeries
+    slot_uri: dct:description
+    alias: description
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: description
+    range: string
+    required: true
+    multivalued: true
+  DatasetSeries_publisher:
+    name: DatasetSeries_publisher
+    definition_uri: https://w3id.org/semic/dcat-ap/publisher
+    description: An entity responsible for making the resource available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:publisher
+    is_a: publisher
+    domain: DatasetSeries
+    slot_uri: dct:publisher
+    alias: publisher
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: publisher
+    range: Agent
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  DatasetSeries_frequency:
+    name: DatasetSeries_frequency
+    definition_uri: https://w3id.org/semic/dcat-ap/frequency
+    description: The frequency at which the dataset is updated.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:accrualPeriodicity
+    is_a: frequency
+    domain: DatasetSeries
+    slot_uri: dct:accrualPeriodicity
+    alias: frequency
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: frequency
+    range: Frequency
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  DatasetSeries_modificationDate:
+    name: DatasetSeries_modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    is_a: modificationDate
+    domain: DatasetSeries
+    slot_uri: dct:modified
+    alias: modificationDate
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: modificationDate
+    range: string
+    multivalued: false
+  DatasetSeries_releaseDate:
+    name: DatasetSeries_releaseDate
+    definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
+    description: The date of formal issuance of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    is_a: releaseDate
+    domain: DatasetSeries
+    slot_uri: dct:issued
+    alias: releaseDate
+    owner: DatasetSeries
+    domain_of:
+    - DatasetSeries
+    is_usage_slot: true
+    usage_slot_name: releaseDate
+    range: string
+    multivalued: false
+  Distribution_accessUrl:
+    name: Distribution_accessUrl
+    definition_uri: https://w3id.org/semic/dcat-ap/accessUrl
+    description: A URL of the resource that gives access to a distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:accessURL
+    is_a: accessUrl
+    domain: Distribution
+    slot_uri: dcat:accessURL
+    alias: accessUrl
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: accessUrl
+    range: Resource
+    required: true
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Distribution_availability:
+    name: Distribution_availability
+    definition_uri: https://w3id.org/semic/dcat-ap/availability
+    description: The availability level of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcatap:availability
+    is_a: availability
+    domain: Distribution
+    slot_uri: dcatap:availability
+    alias: availability
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: availability
+    range: Concept
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_byteSize:
+    name: Distribution_byteSize
+    definition_uri: https://w3id.org/semic/dcat-ap/byteSize
+    description: The size of a distribution in bytes.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:byteSize
+    is_a: byteSize
+    domain: Distribution
+    slot_uri: dcat:byteSize
+    alias: byteSize
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: byteSize
+    range: nonNegativeInteger
+    multivalued: false
+  Distribution_checksum:
+    name: Distribution_checksum
+    definition_uri: https://w3id.org/semic/dcat-ap/checksum
+    description: A checksum of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:checksum
+    is_a: checksum
+    domain: Distribution
+    slot_uri: spdx:checksum
+    alias: checksum
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: checksum
+    range: Checksum
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_compressionFormat:
+    name: Distribution_compressionFormat
+    definition_uri: https://w3id.org/semic/dcat-ap/compressionFormat
+    description: The compression format of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:compressFormat
+    is_a: compressionFormat
+    domain: Distribution
+    slot_uri: dcat:compressFormat
+    alias: compressionFormat
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: compressionFormat
+    range: MediaType
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_format:
+    name: Distribution_format
+    definition_uri: https://w3id.org/semic/dcat-ap/format
+    description: The file format, physical medium, or dimensions of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:format
+    is_a: format
+    domain: Distribution
+    slot_uri: dct:format
+    alias: format
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: format
+    range: MediaType
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Distribution_hasPolicy:
+    name: Distribution_hasPolicy
+    definition_uri: https://w3id.org/semic/dcat-ap/hasPolicy
+    description: An ODRL policy attached to the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - odrl:hasPolicy
+    is_a: hasPolicy
+    domain: Distribution
+    slot_uri: odrl:hasPolicy
+    alias: hasPolicy
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: hasPolicy
+    range: Policy
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_licence:
+    name: Distribution_licence
+    definition_uri: https://w3id.org/semic/dcat-ap/licence
+    description: A licence under which the resource is made available.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:license
+    is_a: licence
+    domain: Distribution
+    slot_uri: dct:license
+    alias: licence
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: licence
+    range: LicenceDocument
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_mediaType:
+    name: Distribution_mediaType
+    definition_uri: https://w3id.org/semic/dcat-ap/mediaType
+    description: The media type of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:mediaType
+    is_a: mediaType
+    domain: Distribution
+    slot_uri: dcat:mediaType
+    alias: mediaType
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: mediaType
+    range: MediaType
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_modificationDate:
+    name: Distribution_modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    is_a: modificationDate
+    domain: Distribution
+    slot_uri: dct:modified
+    alias: modificationDate
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: modificationDate
+    range: string
+    multivalued: false
+  Distribution_packagingFormat:
+    name: Distribution_packagingFormat
+    definition_uri: https://w3id.org/semic/dcat-ap/packagingFormat
+    description: The package format of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:packageFormat
+    is_a: packagingFormat
+    domain: Distribution
+    slot_uri: dcat:packageFormat
+    alias: packagingFormat
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: packagingFormat
+    range: MediaType
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_releaseDate:
+    name: Distribution_releaseDate
+    definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
+    description: The date of formal issuance of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    is_a: releaseDate
+    domain: Distribution
+    slot_uri: dct:issued
+    alias: releaseDate
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: releaseDate
+    range: string
+    multivalued: false
+  Distribution_rights:
+    name: Distribution_rights
+    definition_uri: https://w3id.org/semic/dcat-ap/rights
+    description: Rights statement for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:rights
+    is_a: rights
+    domain: Distribution
+    slot_uri: dct:rights
+    alias: rights
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: rights
+    range: RightsStatement
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Distribution_spatialResolution:
+    name: Distribution_spatialResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/spatialResolution
+    description: Minimum spatial separation resolvable, in meters.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:spatialResolutionInMeters
+    is_a: spatialResolution
+    domain: Distribution
+    slot_uri: dcat:spatialResolutionInMeters
+    alias: spatialResolution
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: spatialResolution
+    range: decimal
+    multivalued: true
+  Distribution_status:
+    name: Distribution_status
+    definition_uri: https://w3id.org/semic/dcat-ap/status
+    description: The status of the distribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:status
+    is_a: status
+    domain: Distribution
+    slot_uri: adms:status
+    alias: status
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: status
+    range: Concept
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  Distribution_temporalResolution:
+    name: Distribution_temporalResolution
+    definition_uri: https://w3id.org/semic/dcat-ap/temporalResolution
+    description: Minimum time period resolvable in the dataset.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:temporalResolution
+    is_a: temporalResolution
+    domain: Distribution
+    slot_uri: dcat:temporalResolution
+    alias: temporalResolution
+    owner: Distribution
+    domain_of:
+    - Distribution
+    is_usage_slot: true
+    usage_slot_name: temporalResolution
+    range: duration
+    multivalued: false
+  Identifier_notation:
+    name: Identifier_notation
+    definition_uri: https://w3id.org/semic/dcat-ap/notation
+    description: A string used to identify a concept within a scheme.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:notation
+    is_a: notation
+    domain: Identifier
+    slot_uri: skos:notation
+    alias: notation
+    owner: Identifier
+    domain_of:
+    - Identifier
+    is_usage_slot: true
+    usage_slot_name: notation
+    range: string
+    multivalued: false
+  LicenceDocument_type:
+    name: LicenceDocument_type
+    definition_uri: https://w3id.org/semic/dcat-ap/type
+    description: The nature or genre of the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:type
+    is_a: type
+    domain: LicenceDocument
+    slot_uri: dct:type
+    alias: type
+    owner: LicenceDocument
+    domain_of:
+    - LicenceDocument
+    is_usage_slot: true
+    usage_slot_name: type
+    range: Concept
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Location_bbox:
+    name: Location_bbox
+    definition_uri: https://w3id.org/semic/dcat-ap/bbox
+    description: The geographic bounding box of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:bbox
+    is_a: bbox
+    domain: Location
+    slot_uri: dcat:bbox
+    alias: bbox
+    owner: Location
+    domain_of:
+    - Location
+    is_usage_slot: true
+    usage_slot_name: bbox
+    range: string
+    multivalued: false
+  Location_centroid:
+    name: Location_centroid
+    definition_uri: https://w3id.org/semic/dcat-ap/centroid
+    description: The geographic centroid of a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:centroid
+    is_a: centroid
+    domain: Location
+    slot_uri: dcat:centroid
+    alias: centroid
+    owner: Location
+    domain_of:
+    - Location
+    is_usage_slot: true
+    usage_slot_name: centroid
+    range: string
+    multivalued: false
+  Location_geometry:
+    name: Location_geometry
+    definition_uri: https://w3id.org/semic/dcat-ap/geometry
+    description: The geometry of a location.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - locn:geometry
+    is_a: geometry
+    domain: Location
+    slot_uri: locn:geometry
+    alias: geometry
+    owner: Location
+    domain_of:
+    - Location
+    is_usage_slot: true
+    usage_slot_name: geometry
+    range: Geometry
+    multivalued: false
+    inlined: true
+    inlined_as_list: true
+  PeriodOfTime_beginning:
+    name: PeriodOfTime_beginning
+    definition_uri: https://w3id.org/semic/dcat-ap/beginning
+    description: The start of a period of time.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - time:hasBeginning
+    is_a: beginning
+    domain: PeriodOfTime
+    slot_uri: time:hasBeginning
+    alias: beginning
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    is_usage_slot: true
+    usage_slot_name: beginning
+    range: string
+    multivalued: false
+  PeriodOfTime_end:
+    name: PeriodOfTime_end
+    definition_uri: https://w3id.org/semic/dcat-ap/end
+    description: The end of a period of time.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - time:hasEnd
+    is_a: end
+    domain: PeriodOfTime
+    slot_uri: time:hasEnd
+    alias: end
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    is_usage_slot: true
+    usage_slot_name: end
+    range: string
+    multivalued: false
+  PeriodOfTime_endDate:
+    name: PeriodOfTime_endDate
+    definition_uri: https://w3id.org/semic/dcat-ap/endDate
+    description: The end of the period.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:endDate
+    is_a: endDate
+    domain: PeriodOfTime
+    slot_uri: dcat:endDate
+    alias: endDate
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    is_usage_slot: true
+    usage_slot_name: endDate
+    range: string
+    multivalued: false
+  PeriodOfTime_startDate:
+    name: PeriodOfTime_startDate
+    definition_uri: https://w3id.org/semic/dcat-ap/startDate
+    description: The start of the period.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:startDate
+    is_a: startDate
+    domain: PeriodOfTime
+    slot_uri: dcat:startDate
+    alias: startDate
+    owner: PeriodOfTime
+    domain_of:
+    - PeriodOfTime
+    is_usage_slot: true
+    usage_slot_name: startDate
+    range: string
+    multivalued: false
+  Relationship_hadRole:
+    name: Relationship_hadRole
+    definition_uri: https://w3id.org/semic/dcat-ap/hadRole
+    description: The role of an agent in the relationship.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:hadRole
+    is_a: hadRole
+    domain: Relationship
+    slot_uri: dcat:hadRole
+    alias: hadRole
+    owner: Relationship
+    domain_of:
+    - Relationship
+    is_usage_slot: true
+    usage_slot_name: hadRole
+    range: Role
+    required: true
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Relationship_relation:
+    name: Relationship_relation
+    definition_uri: https://w3id.org/semic/dcat-ap/relation
+    description: The resource related through this relationship.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:relation
+    is_a: relation
+    domain: Relationship
+    slot_uri: dct:relation
+    alias: relation
+    owner: Relationship
+    domain_of:
+    - Relationship
+    is_usage_slot: true
+    usage_slot_name: relation
+    range: Resource
+    required: true
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+classes:
+  Resource:
+    name: Resource
+    definition_uri: https://w3id.org/semic/dcat-ap/Resource
+    description: Top-level abstract resource. Used as a generic node range when the
+      DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific
+      class.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - rdfs:Resource
+    abstract: true
+    class_uri: rdfs:Resource
+  CataloguedResource:
+    name: CataloguedResource
+    definition_uri: https://w3id.org/semic/dcat-ap/CataloguedResource
+    description: Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Resource
+    is_a: Resource
+    abstract: true
+    class_uri: dcat:Resource
+  Agent:
+    name: Agent
+    definition_uri: https://w3id.org/semic/dcat-ap/Agent
+    description: An agent (e.g. a person, organisation) responsible for a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:Agent
+    slots:
+    - Agent_name
+    - Agent_type
+    slot_usage:
+      name:
+        name: name
+        required: true
+        multivalued: true
+      type:
+        name: type
+        multivalued: false
+    class_uri: foaf:Agent
+  Catalogue:
+    name: Catalogue
+    definition_uri: https://w3id.org/semic/dcat-ap/Catalogue
+    description: A curated collection of metadata about resources (e.g. datasets and
+      data services in the context of a data catalogue).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Catalog
+    is_a: CataloguedResource
+    slots:
+    - Catalogue_title
+    - Catalogue_description
+    - Catalogue_publisher
+    - applicableLegislation
+    - catalogue
+    - Catalogue_creator
+    - dataset
+    - geographicalCoverage
+    - hasPart
+    - Catalogue_homepage
+    - language
+    - Catalogue_licence
+    - modificationDate
+    - record
+    - releaseDate
+    - rights
+    - service
+    - temporalCoverage
+    - themes
+    slot_usage:
+      title:
+        name: title
+        required: true
+        multivalued: true
+      description:
+        name: description
+        required: true
+        multivalued: true
+      publisher:
+        name: publisher
+        required: true
+        multivalued: false
+      creator:
+        name: creator
+        multivalued: false
+      licence:
+        name: licence
+        multivalued: false
+      homepage:
+        name: homepage
+        multivalued: false
+    class_uri: dcat:Catalog
+  CatalogueRecord:
+    name: CatalogueRecord
+    definition_uri: https://w3id.org/semic/dcat-ap/CatalogueRecord
+    description: A description of a single entry in a data catalogue.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:CatalogRecord
+    slots:
+    - CatalogueRecord_applicationProfile
+    - CatalogueRecord_changeType
+    - description
+    - language
+    - CatalogueRecord_listingDate
+    - CatalogueRecord_modificationDate
+    - CatalogueRecord_primaryTopic
+    - CatalogueRecord_sourceMetadata
+    - title
+    slot_usage:
+      primaryTopic:
+        name: primaryTopic
+        required: true
+        multivalued: false
+      modificationDate:
+        name: modificationDate
+        required: true
+        multivalued: false
+      applicationProfile:
+        name: applicationProfile
+        multivalued: false
+      listingDate:
+        name: listingDate
+        multivalued: false
+      changeType:
+        name: changeType
+        multivalued: false
+      sourceMetadata:
+        name: sourceMetadata
+        multivalued: false
+    class_uri: dcat:CatalogRecord
+  Checksum:
+    name: Checksum
+    definition_uri: https://w3id.org/semic/dcat-ap/Checksum
+    description: A value that allows the contents of a file to be authenticated.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:Checksum
+    slots:
+    - Checksum_algorithm
+    - Checksum_checksumValue
+    slot_usage:
+      algorithm:
+        name: algorithm
+        required: true
+        multivalued: false
+      checksumValue:
+        name: checksumValue
+        range: hexBinary
+        required: true
+        multivalued: false
+    class_uri: spdx:Checksum
+  ChecksumAlgorithm:
+    name: ChecksumAlgorithm
+    definition_uri: https://w3id.org/semic/dcat-ap/ChecksumAlgorithm
+    description: An algorithm used to produce a checksum.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - spdx:ChecksumAlgorithm
+    is_a: Resource
+    class_uri: spdx:ChecksumAlgorithm
+  Concept:
+    name: Concept
+    definition_uri: https://w3id.org/semic/dcat-ap/Concept
+    description: A concept (e.g. a category, theme, keyword).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:Concept
+    slots:
+    - Concept_preferredLabel
+    slot_usage:
+      preferredLabel:
+        name: preferredLabel
+        required: true
+        multivalued: true
+    class_uri: skos:Concept
+  ConceptScheme:
+    name: ConceptScheme
+    definition_uri: https://w3id.org/semic/dcat-ap/ConceptScheme
+    description: A controlled vocabulary or category scheme.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - skos:ConceptScheme
+    slots:
+    - ConceptScheme_title
+    slot_usage:
+      title:
+        name: title
+        required: true
+        multivalued: true
+    class_uri: skos:ConceptScheme
+  DataService:
+    name: DataService
+    definition_uri: https://w3id.org/semic/dcat-ap/DataService
+    description: A collection of operations that provides access to one or more datasets
+      or data processing functions.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:DataService
+    is_a: CataloguedResource
+    slots:
+    - DataService_title
+    - description
+    - DataService_endpointUrl
+    - DataService_accessRights
+    - applicableLegislation
+    - conformsTo
+    - contactPoint
+    - documentation
+    - endpointDescription
+    - format
+    - keyword
+    - landingPage
+    - DataService_licence
+    - DataService_publisher
+    - servesDataset
+    - theme
+    slot_usage:
+      title:
+        name: title
+        required: true
+        multivalued: true
+      endpointUrl:
+        name: endpointUrl
+        required: true
+        multivalued: true
+      accessRights:
+        name: accessRights
+        multivalued: false
+      licence:
+        name: licence
+        multivalued: false
+      publisher:
+        name: publisher
+        multivalued: false
+    class_uri: dcat:DataService
+  Dataset:
+    name: Dataset
+    definition_uri: https://w3id.org/semic/dcat-ap/Dataset
+    description: A collection of data, published or curated by a single agent, and
+      available for access or download in one or more representations.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Dataset
+    is_a: CataloguedResource
+    slots:
+    - Dataset_title
+    - Dataset_description
+    - Dataset_accessRights
+    - applicableLegislation
+    - conformsTo
+    - contactPoint
+    - creator
+    - datasetDistribution
+    - documentation
+    - Dataset_frequency
+    - geographicalCoverage
+    - hasVersion
+    - identifier
+    - inSeries
+    - isReferencedBy
+    - keyword
+    - landingPage
+    - language
+    - Dataset_modificationDate
+    - otherIdentifier
+    - provenance
+    - Dataset_publisher
+    - qualifiedAttribution
+    - qualifiedRelation
+    - relatedResource
+    - Dataset_releaseDate
+    - sample
+    - source
+    - Dataset_spatialResolution
+    - temporalCoverage
+    - Dataset_temporalResolution
+    - theme
+    - type
+    - Dataset_version
+    - versionNotes
+    - wasGeneratedBy
+    slot_usage:
+      title:
+        name: title
+        required: true
+        multivalued: true
+      description:
+        name: description
+        required: true
+        multivalued: true
+      accessRights:
+        name: accessRights
+        multivalued: false
+      frequency:
+        name: frequency
+        multivalued: false
+      modificationDate:
+        name: modificationDate
+        multivalued: false
+      publisher:
+        name: publisher
+        multivalued: false
+      releaseDate:
+        name: releaseDate
+        multivalued: false
+      spatialResolution:
+        name: spatialResolution
+        range: decimal
+        multivalued: false
+      temporalResolution:
+        name: temporalResolution
+        range: duration
+        multivalued: false
+      version:
+        name: version
+        multivalued: false
+    class_uri: dcat:Dataset
+  DatasetSeries:
+    name: DatasetSeries
+    definition_uri: https://w3id.org/semic/dcat-ap/DatasetSeries
+    description: A collection of datasets that share a common schema and represent
+      a change over time.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:DatasetSeries
+    is_a: CataloguedResource
+    slots:
+    - DatasetSeries_title
+    - DatasetSeries_description
+    - DatasetSeries_publisher
+    - applicableLegislation
+    - contactPoint
+    - DatasetSeries_frequency
+    - geographicalCoverage
+    - DatasetSeries_modificationDate
+    - DatasetSeries_releaseDate
+    - temporalCoverage
+    slot_usage:
+      title:
+        name: title
+        required: true
+        multivalued: true
+      description:
+        name: description
+        required: true
+        multivalued: true
+      publisher:
+        name: publisher
+        multivalued: false
+      frequency:
+        name: frequency
+        multivalued: false
+      modificationDate:
+        name: modificationDate
+        multivalued: false
+      releaseDate:
+        name: releaseDate
+        multivalued: false
+    class_uri: dcat:DatasetSeries
+  Distribution:
+    name: Distribution
+    definition_uri: https://w3id.org/semic/dcat-ap/Distribution
+    description: A specific representation of a dataset (e.g. a downloadable file
+      or an API access).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Distribution
+    slots:
+    - Distribution_accessUrl
+    - accessService
+    - applicableLegislation
+    - Distribution_availability
+    - Distribution_byteSize
+    - Distribution_checksum
+    - Distribution_compressionFormat
+    - description
+    - documentation
+    - downloadUrl
+    - Distribution_format
+    - Distribution_hasPolicy
+    - language
+    - Distribution_licence
+    - linkedSchemas
+    - Distribution_mediaType
+    - Distribution_modificationDate
+    - Distribution_packagingFormat
+    - Distribution_releaseDate
+    - Distribution_rights
+    - Distribution_spatialResolution
+    - Distribution_status
+    - Distribution_temporalResolution
+    - title
+    slot_usage:
+      accessUrl:
+        name: accessUrl
+        required: true
+        multivalued: true
+      availability:
+        name: availability
+        multivalued: false
+      byteSize:
+        name: byteSize
+        range: nonNegativeInteger
+        multivalued: false
+      checksum:
+        name: checksum
+        multivalued: false
+      compressionFormat:
+        name: compressionFormat
+        multivalued: false
+      format:
+        name: format
+        multivalued: false
+      hasPolicy:
+        name: hasPolicy
+        multivalued: false
+      licence:
+        name: licence
+        multivalued: false
+      mediaType:
+        name: mediaType
+        multivalued: false
+      modificationDate:
+        name: modificationDate
+        multivalued: false
+      packagingFormat:
+        name: packagingFormat
+        multivalued: false
+      releaseDate:
+        name: releaseDate
+        multivalued: false
+      rights:
+        name: rights
+        multivalued: false
+      spatialResolution:
+        name: spatialResolution
+        range: decimal
+        multivalued: false
+      status:
+        name: status
+        multivalued: false
+      temporalResolution:
+        name: temporalResolution
+        range: duration
+        multivalued: false
+    class_uri: dcat:Distribution
+  Document:
+    name: Document
+    definition_uri: https://w3id.org/semic/dcat-ap/Document
+    description: A foaf:Document.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - foaf:Document
+    is_a: Resource
+    class_uri: foaf:Document
+  Frequency:
+    name: Frequency
+    definition_uri: https://w3id.org/semic/dcat-ap/Frequency
+    description: A rate at which something recurs (DC Terms Frequency).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:Frequency
+    is_a: Resource
+    class_uri: dct:Frequency
+  Geometry:
+    name: Geometry
+    definition_uri: https://w3id.org/semic/dcat-ap/Geometry
+    description: A spatial geometry (locn:Geometry).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - locn:Geometry
+    is_a: Resource
+    class_uri: locn:Geometry
+  Identifier:
+    name: Identifier
+    definition_uri: https://w3id.org/semic/dcat-ap/Identifier
+    description: An identifier in a particular context.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - adms:Identifier
+    slots:
+    - Identifier_notation
+    slot_usage:
+      notation:
+        name: notation
+        multivalued: false
+    class_uri: adms:Identifier
+  Kind:
+    name: Kind
+    definition_uri: https://w3id.org/semic/dcat-ap/Kind
+    description: A vCard Kind.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - vcard:Kind
+    is_a: Resource
+    class_uri: vcard:Kind
+  LegalResource:
+    name: LegalResource
+    definition_uri: https://w3id.org/semic/dcat-ap/LegalResource
+    description: A legal resource (ELI).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - eli:LegalResource
+    is_a: Resource
+    class_uri: eli:LegalResource
+  LicenceDocument:
+    name: LicenceDocument
+    definition_uri: https://w3id.org/semic/dcat-ap/LicenceDocument
+    description: A legal document giving official permission to do something with
+      a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:LicenseDocument
+    slots:
+    - LicenceDocument_type
+    slot_usage:
+      type:
+        name: type
+        multivalued: true
+    class_uri: dct:LicenseDocument
+  LinguisticSystem:
+    name: LinguisticSystem
+    definition_uri: https://w3id.org/semic/dcat-ap/LinguisticSystem
+    description: A linguistic system (DC Terms LinguisticSystem).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:LinguisticSystem
+    is_a: Resource
+    class_uri: dct:LinguisticSystem
+  Location:
+    name: Location
+    definition_uri: https://w3id.org/semic/dcat-ap/Location
+    description: A spatial region or named place.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:Location
+    slots:
+    - Location_bbox
+    - Location_centroid
+    - Location_geometry
+    slot_usage:
+      bbox:
+        name: bbox
+        multivalued: false
+      centroid:
+        name: centroid
+        multivalued: false
+      geometry:
+        name: geometry
+        multivalued: false
+    class_uri: dct:Location
+  MediaType:
+    name: MediaType
+    definition_uri: https://w3id.org/semic/dcat-ap/MediaType
+    description: An IANA media type (DC Terms MediaType).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:MediaType
+    is_a: Resource
+    class_uri: dct:MediaType
+  PeriodOfTime:
+    name: PeriodOfTime
+    definition_uri: https://w3id.org/semic/dcat-ap/PeriodOfTime
+    description: An interval of time named or defined by its start and end.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:PeriodOfTime
+    slots:
+    - PeriodOfTime_beginning
+    - PeriodOfTime_end
+    - PeriodOfTime_endDate
+    - PeriodOfTime_startDate
+    slot_usage:
+      beginning:
+        name: beginning
+        multivalued: false
+      end:
+        name: end
+        multivalued: false
+      endDate:
+        name: endDate
+        multivalued: false
+      startDate:
+        name: startDate
+        multivalued: false
+    class_uri: dct:PeriodOfTime
+  Policy:
+    name: Policy
+    definition_uri: https://w3id.org/semic/dcat-ap/Policy
+    description: An ODRL policy.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - odrl:Policy
+    is_a: Resource
+    class_uri: odrl:Policy
+  ProvenanceStatement:
+    name: ProvenanceStatement
+    definition_uri: https://w3id.org/semic/dcat-ap/ProvenanceStatement
+    description: A statement of provenance.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:ProvenanceStatement
+    is_a: Resource
+    class_uri: dct:ProvenanceStatement
+  Relationship:
+    name: Relationship
+    definition_uri: https://w3id.org/semic/dcat-ap/Relationship
+    description: An association between resources where one has a particular role.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Relationship
+    slots:
+    - Relationship_hadRole
+    - Relationship_relation
+    slot_usage:
+      hadRole:
+        name: hadRole
+        required: true
+        multivalued: true
+      relation:
+        name: relation
+        required: true
+        multivalued: true
+    class_uri: dcat:Relationship
+  RightsStatement:
+    name: RightsStatement
+    definition_uri: https://w3id.org/semic/dcat-ap/RightsStatement
+    description: A statement about rights associated with a resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:RightsStatement
+    is_a: Resource
+    class_uri: dct:RightsStatement
+  Role:
+    name: Role
+    definition_uri: https://w3id.org/semic/dcat-ap/Role
+    description: A role (dcat:Role).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dcat:Role
+    is_a: Resource
+    class_uri: dcat:Role
+  Standard:
+    name: Standard
+    definition_uri: https://w3id.org/semic/dcat-ap/Standard
+    description: A standard (DC Terms Standard).
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:Standard
+    is_a: Resource
+    class_uri: dct:Standard
+  Activity:
+    name: Activity
+    definition_uri: https://w3id.org/semic/dcat-ap/Activity
+    description: A PROV activity.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - prov:Activity
+    is_a: Resource
+    class_uri: prov:Activity
+  Attribution:
+    name: Attribution
+    definition_uri: https://w3id.org/semic/dcat-ap/Attribution
+    description: A PROV attribution.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - prov:Attribution
+    is_a: Resource
+    class_uri: prov:Attribution
+metamodel_version: 1.7.0
+source_file: dcat_ap.yaml
+source_file_date: '2026-04-29T10:02:13'
+source_file_size: 24599
+generation_date: '2026-04-29T10:02:40'
+

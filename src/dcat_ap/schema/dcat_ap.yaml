@@ -117,6 +117,12 @@ classes:
         multivalued: false
       homepage:
         multivalued: false
+      rights:
+        multivalued: false
+      releaseDate:
+        multivalued: false
+      modificationDate:
+        multivalued: false
 
   CatalogueRecord:
     description: >-
@@ -605,28 +611,39 @@ slots:
 
   startDate:
     slot_uri: dcat:startDate
-    description: The start of the period.
-    range: string
+    description: >-
+      The start of the period. Approximated as xsd:dateTime (see
+      DateOrDateTimeDataType_Shape gap).
+    range: datetime
 
   endDate:
     slot_uri: dcat:endDate
-    description: The end of the period.
-    range: string
+    description: >-
+      The end of the period. Approximated as xsd:dateTime.
+    range: datetime
 
   releaseDate:
     slot_uri: dct:issued
-    description: The date of formal issuance of the resource.
-    range: string
+    description: >-
+      The date of formal issuance of the resource. The original DCAT-AP shape
+      uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth;
+      LinkML can express only a single primary type, so this is approximated
+      as xsd:dateTime.
+    range: datetime
 
   modificationDate:
     slot_uri: dct:modified
-    description: The date on which the resource was changed.
-    range: string
+    description: >-
+      The date on which the resource was changed. Approximated as
+      xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).
+    range: datetime
 
   listingDate:
     slot_uri: dct:issued
-    description: The date on which the description was listed in the catalogue.
-    range: string
+    description: >-
+      The date on which the description was listed in the catalogue.
+      Approximated as xsd:dateTime.
+    range: datetime
 
   byteSize:
     slot_uri: dcat:byteSize

@@ -1,0 +1,1015 @@
+id: https://w3id.org/semic/dcat-ap/3.0.1
+name: dcat_ap
+title: DCAT-AP 3.0.1 (LinkML approximation)
+description: >-
+  A LinkML approximation of the SEMIC DCAT-AP 3.0.1 specification.
+  This schema captures the core classes and properties of DCAT-AP
+  3.0.1 as defined by the SHACL shapes at
+  https://semiceu.github.io/DCAT-AP/releases/3.0.1/html/shacl/shapes.ttl
+  and the JSON-LD context at
+  https://semiceu.github.io/DCAT-AP/releases/3.0.1/context/dcat-ap.jsonld
+  This is a SCOPING/DEMO schema, not a production specification. Some
+  constructs (e.g. property-level disjunction shapes, sh:or with multiple
+  datatypes, inverse paths) are not directly expressible in LinkML and are
+  approximated or omitted.
+license: CC-BY-4.0
+
+prefixes:
+  linkml: https://w3id.org/linkml/
+  dcat_ap: https://w3id.org/semic/dcat-ap/
+  dcat: http://www.w3.org/ns/dcat#
+  dcatap: http://data.europa.eu/r5r/
+  dct: http://purl.org/dc/terms/
+  foaf: http://xmlns.com/foaf/0.1/
+  skos: http://www.w3.org/2004/02/skos/core#
+  adms: http://www.w3.org/ns/adms#
+  spdx: http://spdx.org/rdf/terms#
+  prov: http://www.w3.org/ns/prov#
+  odrl: http://www.w3.org/ns/odrl/2/
+  locn: http://www.w3.org/ns/locn#
+  time: http://www.w3.org/2006/time#
+  vcard: http://www.w3.org/2006/vcard/ns#
+  eli: http://data.europa.eu/eli/ontology#
+  rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns#
+  rdfs: http://www.w3.org/2000/01/rdf-schema#
+  owl: http://www.w3.org/2002/07/owl#
+  xsd: http://www.w3.org/2001/XMLSchema#
+
+default_prefix: dcat_ap
+default_range: string
+
+imports:
+  - linkml:types
+
+# ---------------------------------------------------------------------
+# Classes
+# ---------------------------------------------------------------------
+
+classes:
+
+  Resource:
+    description: >-
+      Top-level abstract resource. Used as a generic node range when the
+      DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a
+      specific class.
+    class_uri: rdfs:Resource
+    abstract: true
+
+  CataloguedResource:
+    description: >-
+      Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource).
+    is_a: Resource
+    class_uri: dcat:Resource
+    abstract: true
+
+  Agent:
+    description: An agent (e.g. a person, organisation) responsible for a resource.
+    class_uri: foaf:Agent
+    slots:
+      - name
+      - type
+    slot_usage:
+      name:
+        required: true
+        multivalued: true
+      type:
+        multivalued: false
+
+  Catalogue:
+    description: >-
+      A curated collection of metadata about resources (e.g. datasets and data
+      services in the context of a data catalogue).
+    is_a: CataloguedResource
+    class_uri: dcat:Catalog
+    slots:
+      - title
+      - description
+      - publisher
+      - applicableLegislation
+      - catalogue
+      - creator
+      - dataset
+      - geographicalCoverage
+      - hasPart
+      - homepage
+      - language
+      - licence
+      - modificationDate
+      - record
+      - releaseDate
+      - rights
+      - service
+      - temporalCoverage
+      - themes
+    slot_usage:
+      title:
+        required: true
+        multivalued: true
+      description:
+        required: true
+        multivalued: true
+      publisher:
+        required: true
+        multivalued: false
+      creator:
+        multivalued: false
+      licence:
+        multivalued: false
+      homepage:
+        multivalued: false
+
+  CatalogueRecord:
+    description: >-
+      A description of a single entry in a data catalogue.
+    class_uri: dcat:CatalogRecord
+    slots:
+      - applicationProfile
+      - changeType
+      - description
+      - language
+      - listingDate
+      - modificationDate
+      - primaryTopic
+      - sourceMetadata
+      - title
+    slot_usage:
+      primaryTopic:
+        required: true
+        multivalued: false
+      modificationDate:
+        required: true
+        multivalued: false
+      applicationProfile:
+        multivalued: false
+      listingDate:
+        multivalued: false
+      changeType:
+        multivalued: false
+      sourceMetadata:
+        multivalued: false
+
+  Checksum:
+    description: >-
+      A value that allows the contents of a file to be authenticated.
+    class_uri: spdx:Checksum
+    slots:
+      - algorithm
+      - checksumValue
+    slot_usage:
+      algorithm:
+        required: true
+        multivalued: false
+      checksumValue:
+        required: true
+        multivalued: false
+        range: hexBinary
+
+  ChecksumAlgorithm:
+    description: An algorithm used to produce a checksum.
+    is_a: Resource
+    class_uri: spdx:ChecksumAlgorithm
+
+  Concept:
+    description: >-
+      A concept (e.g. a category, theme, keyword).
+    class_uri: skos:Concept
+    slots:
+      - preferredLabel
+    slot_usage:
+      preferredLabel:
+        required: true
+        multivalued: true
+
+  ConceptScheme:
+    description: >-
+      A controlled vocabulary or category scheme.
+    class_uri: skos:ConceptScheme
+    slots:
+      - title
+    slot_usage:
+      title:
+        required: true
+        multivalued: true
+
+  DataService:
+    description: >-
+      A collection of operations that provides access to one or more datasets
+      or data processing functions.
+    is_a: CataloguedResource
+    class_uri: dcat:DataService
+    slots:
+      - title
+      - description
+      - endpointUrl
+      - accessRights
+      - applicableLegislation
+      - conformsTo
+      - contactPoint
+      - documentation
+      - endpointDescription
+      - format
+      - keyword
+      - landingPage
+      - licence
+      - publisher
+      - servesDataset
+      - theme
+    slot_usage:
+      title:
+        required: true
+        multivalued: true
+      endpointUrl:
+        required: true
+        multivalued: true
+      accessRights:
+        multivalued: false
+      licence:
+        multivalued: false
+      publisher:
+        multivalued: false
+
+  Dataset:
+    description: >-
+      A collection of data, published or curated by a single agent, and
+      available for access or download in one or more representations.
+    is_a: CataloguedResource
+    class_uri: dcat:Dataset
+    slots:
+      - title
+      - description
+      - accessRights
+      - applicableLegislation
+      - conformsTo
+      - contactPoint
+      - creator
+      - datasetDistribution
+      - documentation
+      - frequency
+      - geographicalCoverage
+      - hasVersion
+      - identifier
+      - inSeries
+      - isReferencedBy
+      - keyword
+      - landingPage
+      - language
+      - modificationDate
+      - otherIdentifier
+      - provenance
+      - publisher
+      - qualifiedAttribution
+      - qualifiedRelation
+      - relatedResource
+      - releaseDate
+      - sample
+      - source
+      - spatialResolution
+      - temporalCoverage
+      - temporalResolution
+      - theme
+      - type
+      - version
+      - versionNotes
+      - wasGeneratedBy
+    slot_usage:
+      title:
+        required: true
+        multivalued: true
+      description:
+        required: true
+        multivalued: true
+      accessRights:
+        multivalued: false
+      frequency:
+        multivalued: false
+      modificationDate:
+        multivalued: false
+      publisher:
+        multivalued: false
+      releaseDate:
+        multivalued: false
+      spatialResolution:
+        multivalued: false
+        range: decimal
+      temporalResolution:
+        multivalued: false
+        range: duration
+      version:
+        multivalued: false
+
+  DatasetSeries:
+    description: >-
+      A collection of datasets that share a common schema and represent a
+      change over time.
+    is_a: CataloguedResource
+    class_uri: dcat:DatasetSeries
+    slots:
+      - title
+      - description
+      - publisher
+      - applicableLegislation
+      - contactPoint
+      - frequency
+      - geographicalCoverage
+      - modificationDate
+      - releaseDate
+      - temporalCoverage
+    slot_usage:
+      title:
+        required: true
+        multivalued: true
+      description:
+        required: true
+        multivalued: true
+      publisher:
+        multivalued: false
+      frequency:
+        multivalued: false
+      modificationDate:
+        multivalued: false
+      releaseDate:
+        multivalued: false
+
+  Distribution:
+    description: >-
+      A specific representation of a dataset (e.g. a downloadable file or an
+      API access).
+    class_uri: dcat:Distribution
+    slots:
+      - accessUrl
+      - accessService
+      - applicableLegislation
+      - availability
+      - byteSize
+      - checksum
+      - compressionFormat
+      - description
+      - documentation
+      - downloadUrl
+      - format
+      - hasPolicy
+      - language
+      - licence
+      - linkedSchemas
+      - mediaType
+      - modificationDate
+      - packagingFormat
+      - releaseDate
+      - rights
+      - spatialResolution
+      - status
+      - temporalResolution
+      - title
+    slot_usage:
+      accessUrl:
+        required: true
+        multivalued: true
+      availability:
+        multivalued: false
+      byteSize:
+        multivalued: false
+        range: nonNegativeInteger
+      checksum:
+        multivalued: false
+      compressionFormat:
+        multivalued: false
+      format:
+        multivalued: false
+      hasPolicy:
+        multivalued: false
+      licence:
+        multivalued: false
+      mediaType:
+        multivalued: false
+      modificationDate:
+        multivalued: false
+      packagingFormat:
+        multivalued: false
+      releaseDate:
+        multivalued: false
+      rights:
+        multivalued: false
+      spatialResolution:
+        multivalued: false
+        range: decimal
+      status:
+        multivalued: false
+      temporalResolution:
+        multivalued: false
+        range: duration
+
+  Document:
+    description: A foaf:Document.
+    is_a: Resource
+    class_uri: foaf:Document
+
+  Frequency:
+    description: A rate at which something recurs (DC Terms Frequency).
+    is_a: Resource
+    class_uri: dct:Frequency
+
+  Geometry:
+    description: A spatial geometry (locn:Geometry).
+    is_a: Resource
+    class_uri: locn:Geometry
+
+  Identifier:
+    description: An identifier in a particular context.
+    class_uri: adms:Identifier
+    slots:
+      - notation
+    slot_usage:
+      notation:
+        multivalued: false
+
+  Kind:
+    description: A vCard Kind.
+    is_a: Resource
+    class_uri: vcard:Kind
+
+  LegalResource:
+    description: A legal resource (ELI).
+    is_a: Resource
+    class_uri: eli:LegalResource
+
+  LicenceDocument:
+    description: A legal document giving official permission to do something with a resource.
+    class_uri: dct:LicenseDocument
+    slots:
+      - type
+    slot_usage:
+      type:
+        multivalued: true
+
+  LinguisticSystem:
+    description: A linguistic system (DC Terms LinguisticSystem).
+    is_a: Resource
+    class_uri: dct:LinguisticSystem
+
+  Location:
+    description: A spatial region or named place.
+    class_uri: dct:Location
+    slots:
+      - bbox
+      - centroid
+      - geometry
+    slot_usage:
+      bbox:
+        multivalued: false
+      centroid:
+        multivalued: false
+      geometry:
+        multivalued: false
+
+  MediaType:
+    description: An IANA media type (DC Terms MediaType).
+    is_a: Resource
+    class_uri: dct:MediaType
+
+  PeriodOfTime:
+    description: An interval of time named or defined by its start and end.
+    class_uri: dct:PeriodOfTime
+    slots:
+      - beginning
+      - end
+      - endDate
+      - startDate
+    slot_usage:
+      beginning:
+        multivalued: false
+      end:
+        multivalued: false
+      endDate:
+        multivalued: false
+      startDate:
+        multivalued: false
+
+  Policy:
+    description: An ODRL policy.
+    is_a: Resource
+    class_uri: odrl:Policy
+
+  ProvenanceStatement:
+    description: A statement of provenance.
+    is_a: Resource
+    class_uri: dct:ProvenanceStatement
+
+  Relationship:
+    description: An association between resources where one has a particular role.
+    class_uri: dcat:Relationship
+    slots:
+      - hadRole
+      - relation
+    slot_usage:
+      hadRole:
+        required: true
+        multivalued: true
+      relation:
+        required: true
+        multivalued: true
+
+  RightsStatement:
+    description: A statement about rights associated with a resource.
+    is_a: Resource
+    class_uri: dct:RightsStatement
+
+  Role:
+    description: A role (dcat:Role).
+    is_a: Resource
+    class_uri: dcat:Role
+
+  Standard:
+    description: A standard (DC Terms Standard).
+    is_a: Resource
+    class_uri: dct:Standard
+
+  Activity:
+    description: A PROV activity.
+    is_a: Resource
+    class_uri: prov:Activity
+
+  Attribution:
+    description: A PROV attribution.
+    is_a: Resource
+    class_uri: prov:Attribution
+
+# ---------------------------------------------------------------------
+# Slots
+# ---------------------------------------------------------------------
+
+slots:
+
+  # --- Common literals ---
+
+  title:
+    slot_uri: dct:title
+    description: A name given to the resource.
+    range: string
+    multivalued: true
+
+  description:
+    slot_uri: dct:description
+    description: A free-text account of the resource.
+    range: string
+    multivalued: true
+
+  identifier:
+    slot_uri: dct:identifier
+    description: A unique identifier of the resource.
+    range: string
+    multivalued: true
+
+  keyword:
+    slot_uri: dcat:keyword
+    description: A keyword or tag describing the resource.
+    range: string
+    multivalued: true
+
+  notation:
+    slot_uri: skos:notation
+    description: A string used to identify a concept within a scheme.
+    range: string
+
+  preferredLabel:
+    slot_uri: skos:prefLabel
+    description: The preferred lexical label for a resource.
+    range: string
+    multivalued: true
+
+  name:
+    slot_uri: foaf:name
+    description: A name for an agent.
+    range: string
+    multivalued: true
+
+  version:
+    slot_uri: dcat:version
+    description: The version indicator of a resource.
+    range: string
+
+  versionNotes:
+    slot_uri: adms:versionNotes
+    description: A description of changes between versions.
+    range: string
+    multivalued: true
+
+  bbox:
+    slot_uri: dcat:bbox
+    description: The geographic bounding box of a resource.
+    range: string
+
+  centroid:
+    slot_uri: dcat:centroid
+    description: The geographic centroid of a resource.
+    range: string
+
+  startDate:
+    slot_uri: dcat:startDate
+    description: The start of the period.
+    range: string
+
+  endDate:
+    slot_uri: dcat:endDate
+    description: The end of the period.
+    range: string
+
+  releaseDate:
+    slot_uri: dct:issued
+    description: The date of formal issuance of the resource.
+    range: string
+
+  modificationDate:
+    slot_uri: dct:modified
+    description: The date on which the resource was changed.
+    range: string
+
+  listingDate:
+    slot_uri: dct:issued
+    description: The date on which the description was listed in the catalogue.
+    range: string
+
+  byteSize:
+    slot_uri: dcat:byteSize
+    description: The size of a distribution in bytes.
+    range: integer
+
+  spatialResolution:
+    slot_uri: dcat:spatialResolutionInMeters
+    description: Minimum spatial separation resolvable, in meters.
+    range: decimal
+    multivalued: true
+
+  temporalResolution:
+    slot_uri: dcat:temporalResolution
+    description: Minimum time period resolvable in the dataset.
+    range: string
+
+  checksumValue:
+    slot_uri: spdx:checksumValue
+    description: A lower-case hexadecimal-encoded checksum value.
+    range: string
+
+  # --- Object properties (linking) ---
+
+  publisher:
+    slot_uri: dct:publisher
+    description: An entity responsible for making the resource available.
+    range: Agent
+
+  creator:
+    slot_uri: dct:creator
+    description: The entity responsible for producing the resource.
+    range: Agent
+    multivalued: true
+
+  contactPoint:
+    slot_uri: dcat:contactPoint
+    description: Contact information for the resource.
+    range: Kind
+    multivalued: true
+
+  language:
+    slot_uri: dct:language
+    description: A language of the resource.
+    range: LinguisticSystem
+    multivalued: true
+
+  licence:
+    slot_uri: dct:license
+    description: A licence under which the resource is made available.
+    range: LicenceDocument
+
+  rights:
+    slot_uri: dct:rights
+    description: Rights statement for the resource.
+    range: RightsStatement
+    multivalued: true
+
+  hasPart:
+    slot_uri: dct:hasPart
+    description: A related resource that is included physically or logically.
+    range: Catalogue
+    multivalued: true
+
+  geographicalCoverage:
+    slot_uri: dct:spatial
+    description: The geographic coverage of the resource.
+    range: Location
+    multivalued: true
+
+  temporalCoverage:
+    slot_uri: dct:temporal
+    description: The temporal coverage of the resource.
+    range: PeriodOfTime
+    multivalued: true
+
+  themes:
+    slot_uri: dcat:themeTaxonomy
+    description: A theme taxonomy used to classify the catalogue's resources.
+    range: ConceptScheme
+    multivalued: true
+
+  theme:
+    slot_uri: dcat:theme
+    description: A category of the resource.
+    range: Concept
+    multivalued: true
+
+  homepage:
+    slot_uri: foaf:homepage
+    description: A web page that is the primary access point for the resource.
+    range: Document
+
+  catalogue:
+    slot_uri: dcat:catalog
+    description: A subordinate catalogue contained in this catalogue.
+    range: Catalogue
+    multivalued: true
+
+  dataset:
+    slot_uri: dcat:dataset
+    description: A dataset listed by the catalogue.
+    range: Dataset
+    multivalued: true
+
+  service:
+    slot_uri: dcat:service
+    description: A data service listed by the catalogue.
+    range: DataService
+    multivalued: true
+
+  record:
+    slot_uri: dcat:record
+    description: A record describing a registration of a resource in the catalogue.
+    range: CatalogueRecord
+    multivalued: true
+
+  applicationProfile:
+    slot_uri: dct:conformsTo
+    description: The application profile this catalogue record conforms to.
+    range: Standard
+    multivalued: true
+
+  changeType:
+    slot_uri: adms:status
+    description: The type of update on the cataloged resource.
+    range: Concept
+
+  primaryTopic:
+    slot_uri: foaf:primaryTopic
+    description: The resource described by this catalogue record.
+    range: CataloguedResource
+
+  sourceMetadata:
+    slot_uri: dct:source
+    description: Original metadata source for the catalog record.
+    range: CatalogueRecord
+
+  applicableLegislation:
+    slot_uri: dcatap:applicableLegislation
+    description: The legislation applicable to the resource (DCAT-AP extension).
+    range: LegalResource
+    multivalued: true
+
+  algorithm:
+    slot_uri: spdx:algorithm
+    description: The algorithm used to produce a checksum.
+    range: ChecksumAlgorithm
+
+  type:
+    slot_uri: dct:type
+    description: The nature or genre of the resource.
+    range: Concept
+    multivalued: true
+
+  accessRights:
+    slot_uri: dct:accessRights
+    description: Information about who can access the resource.
+    range: RightsStatement
+
+  conformsTo:
+    slot_uri: dct:conformsTo
+    description: An established standard the resource conforms to.
+    range: Standard
+    multivalued: true
+
+  documentation:
+    slot_uri: foaf:page
+    description: A page or document about the resource.
+    range: Document
+    multivalued: true
+
+  endpointUrl:
+    slot_uri: dcat:endpointURL
+    description: The root location of the service.
+    range: Resource
+    multivalued: true
+
+  endpointDescription:
+    slot_uri: dcat:endpointDescription
+    description: A description of the service endpoint, including operations.
+    range: Resource
+    multivalued: true
+
+  format:
+    slot_uri: dct:format
+    description: The file format, physical medium, or dimensions of the resource.
+    range: MediaType
+    multivalued: true
+
+  landingPage:
+    slot_uri: dcat:landingPage
+    description: A web page that gives access to the resource.
+    range: Document
+    multivalued: true
+
+  servesDataset:
+    slot_uri: dcat:servesDataset
+    description: A dataset that this service serves.
+    range: Dataset
+    multivalued: true
+
+  datasetDistribution:
+    slot_uri: dcat:distribution
+    description: An available distribution of the dataset.
+    range: Distribution
+    multivalued: true
+
+  frequency:
+    slot_uri: dct:accrualPeriodicity
+    description: The frequency at which the dataset is updated.
+    range: Frequency
+
+  hasVersion:
+    slot_uri: dcat:hasVersion
+    description: A related dataset that is a version of this dataset.
+    range: Dataset
+    multivalued: true
+
+  inSeries:
+    slot_uri: dcat:inSeries
+    description: A dataset series of which this dataset is a part.
+    range: DatasetSeries
+    multivalued: true
+
+  isReferencedBy:
+    slot_uri: dct:isReferencedBy
+    description: A related resource that references the resource.
+    range: Resource
+    multivalued: true
+
+  otherIdentifier:
+    slot_uri: adms:identifier
+    description: A secondary identifier of the resource.
+    range: Identifier
+    multivalued: true
+
+  provenance:
+    slot_uri: dct:provenance
+    description: A statement about provenance of the resource.
+    range: ProvenanceStatement
+    multivalued: true
+
+  qualifiedAttribution:
+    slot_uri: prov:qualifiedAttribution
+    description: An attribution of an agent to the resource.
+    range: Attribution
+    multivalued: true
+
+  qualifiedRelation:
+    slot_uri: dcat:qualifiedRelation
+    description: A qualified relationship to another resource.
+    range: Relationship
+    multivalued: true
+
+  relatedResource:
+    slot_uri: dct:relation
+    description: A related resource.
+    range: Resource
+    multivalued: true
+
+  sample:
+    slot_uri: adms:sample
+    description: A sample distribution of the dataset.
+    range: Distribution
+    multivalued: true
+
+  source:
+    slot_uri: dct:source
+    description: A related resource from which the described resource is derived.
+    range: Dataset
+    multivalued: true
+
+  wasGeneratedBy:
+    slot_uri: prov:wasGeneratedBy
+    description: An activity that generated the resource.
+    range: Activity
+    multivalued: true
+
+  accessUrl:
+    slot_uri: dcat:accessURL
+    description: A URL of the resource that gives access to a distribution.
+    range: Resource
+    multivalued: true
+
+  accessService:
+    slot_uri: dcat:accessService
+    description: A data service that provides access to the distribution.
+    range: DataService
+    multivalued: true
+
+  availability:
+    slot_uri: dcatap:availability
+    description: The availability level of the distribution.
+    range: Concept
+
+  checksum:
+    slot_uri: spdx:checksum
+    description: A checksum of the distribution.
+    range: Checksum
+
+  compressionFormat:
+    slot_uri: dcat:compressFormat
+    description: The compression format of the distribution.
+    range: MediaType
+
+  downloadUrl:
+    slot_uri: dcat:downloadURL
+    description: A URL of the downloadable file in a given format.
+    range: Resource
+    multivalued: true
+
+  hasPolicy:
+    slot_uri: odrl:hasPolicy
+    description: An ODRL policy attached to the distribution.
+    range: Policy
+
+  linkedSchemas:
+    slot_uri: dct:conformsTo
+    description: A schema that the distribution conforms to.
+    range: Standard
+    multivalued: true
+
+  mediaType:
+    slot_uri: dcat:mediaType
+    description: The media type of the distribution.
+    range: MediaType
+
+  packagingFormat:
+    slot_uri: dcat:packageFormat
+    description: The package format of the distribution.
+    range: MediaType
+
+  status:
+    slot_uri: adms:status
+    description: The status of the distribution.
+    range: Concept
+
+  hadRole:
+    slot_uri: dcat:hadRole
+    description: The role of an agent in the relationship.
+    range: Role
+    multivalued: true
+
+  relation:
+    slot_uri: dct:relation
+    description: The resource related through this relationship.
+    range: Resource
+    multivalued: true
+
+  beginning:
+    slot_uri: time:hasBeginning
+    description: The start of a period of time.
+    range: string
+
+  end:
+    slot_uri: time:hasEnd
+    description: The end of a period of time.
+    range: string
+
+  geometry:
+    slot_uri: locn:geometry
+    description: The geometry of a location.
+    range: Geometry
+
+# ---------------------------------------------------------------------
+# Types (custom datatypes referenced above)
+# ---------------------------------------------------------------------
+
+types:
+
+  hexBinary:
+    uri: xsd:hexBinary
+    base: str
+    description: A hex-binary encoded value.
+
+  duration:
+    uri: xsd:duration
+    base: str
+    description: An XSD duration literal.
+
+  nonNegativeInteger:
+    uri: xsd:nonNegativeInteger
+    base: int
+    description: An XSD non-negative integer.
+    minimum_value: 0

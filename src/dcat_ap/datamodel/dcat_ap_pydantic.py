@@ -128,6 +128,22 @@ linkml_meta = LinkMLMeta({'default_prefix': 'dcat_ap',
                             'from_schema': 'https://w3id.org/semic/dcat-ap/3.0.1',
                             'name': 'duration',
                             'uri': 'xsd:duration'},
+               'gYear': {'base': 'str',
+                         'description': 'An XSD gYear literal (a Gregorian '
+                                        'calendar year, e.g. "2024"). Used in '
+                                        "DCAT-AP's DateOrDateTimeDataType "
+                                        'disjunction.',
+                         'from_schema': 'https://w3id.org/semic/dcat-ap/3.0.1',
+                         'name': 'gYear',
+                         'uri': 'xsd:gYear'},
+               'gYearMonth': {'base': 'str',
+                              'description': 'An XSD gYearMonth literal (a '
+                                             'Gregorian calendar year and month, '
+                                             'e.g. "2024-04"). Used in DCAT-AP\'s '
+                                             'DateOrDateTimeDataType disjunction.',
+                              'from_schema': 'https://w3id.org/semic/dcat-ap/3.0.1',
+                              'name': 'gYearMonth',
+                              'uri': 'xsd:gYearMonth'},
                'hexBinary': {'base': 'str',
                              'description': 'A hex-binary encoded value.',
                              'from_schema': 'https://w3id.org/semic/dcat-ap/3.0.1',
@@ -233,14 +249,22 @@ class Catalogue(CataloguedResource):
          'slot_uri': 'dct:language'} })
     licence: Optional[LicenceDocument] = Field(default=None, description="""A licence under which the resource is made available.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'DataService', 'Distribution'],
          'slot_uri': 'dct:license'} })
-    modificationDate: Optional[datetime ] = Field(default=None, description="""The date on which the resource was changed. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue',
+    modificationDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue',
                        'CatalogueRecord',
                        'Dataset',
                        'DatasetSeries',
                        'Distribution'],
          'slot_uri': 'dct:modified'} })
     record: Optional[list[CatalogueRecord]] = Field(default=None, description="""A record describing a registration of a resource in the catalogue.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue'], 'slot_uri': 'dcat:record'} })
-    releaseDate: Optional[datetime ] = Field(default=None, description="""The date of formal issuance of the resource. The original DCAT-AP shape uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth; LinkML can express only a single primary type, so this is approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
+    releaseDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
          'slot_uri': 'dct:issued'} })
     rights: Optional[RightsStatement] = Field(default=None, description="""Rights statement for the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Distribution'], 'slot_uri': 'dct:rights'} })
     service: Optional[list[DataService]] = Field(default=None, description="""A data service listed by the catalogue.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue'], 'slot_uri': 'dcat:service'} })
@@ -279,8 +303,17 @@ class CatalogueRecord(ConfiguredBaseModel):
          'slot_uri': 'dct:description'} })
     language: Optional[list[LinguisticSystem]] = Field(default=None, description="""A language of the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'CatalogueRecord', 'Dataset', 'Distribution'],
          'slot_uri': 'dct:language'} })
-    listingDate: Optional[datetime ] = Field(default=None, description="""The date on which the description was listed in the catalogue. Approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['CatalogueRecord'], 'slot_uri': 'dct:issued'} })
-    modificationDate: datetime  = Field(default=..., description="""The date on which the resource was changed. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue',
+    listingDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['CatalogueRecord'],
+         'slot_uri': 'dct:issued'} })
+    modificationDate: Union[date, datetime , str] = Field(default=..., description="""The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue',
                        'CatalogueRecord',
                        'Dataset',
                        'DatasetSeries',
@@ -482,7 +515,11 @@ class Dataset(CataloguedResource):
     landingPage: Optional[list[Document]] = Field(default=None, description="""A web page that gives access to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['DataService', 'Dataset'], 'slot_uri': 'dcat:landingPage'} })
     language: Optional[list[LinguisticSystem]] = Field(default=None, description="""A language of the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'CatalogueRecord', 'Dataset', 'Distribution'],
          'slot_uri': 'dct:language'} })
-    modificationDate: Optional[datetime ] = Field(default=None, description="""The date on which the resource was changed. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue',
+    modificationDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue',
                        'CatalogueRecord',
                        'Dataset',
                        'DatasetSeries',
@@ -495,7 +532,11 @@ class Dataset(CataloguedResource):
     qualifiedAttribution: Optional[list[Attribution]] = Field(default=None, description="""An attribution of an agent to the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset'], 'slot_uri': 'prov:qualifiedAttribution'} })
     qualifiedRelation: Optional[list[Relationship]] = Field(default=None, description="""A qualified relationship to another resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset'], 'slot_uri': 'dcat:qualifiedRelation'} })
     relatedResource: Optional[list[Resource]] = Field(default=None, description="""A related resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset'], 'slot_uri': 'dct:relation'} })
-    releaseDate: Optional[datetime ] = Field(default=None, description="""The date of formal issuance of the resource. The original DCAT-AP shape uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth; LinkML can express only a single primary type, so this is approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
+    releaseDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
          'slot_uri': 'dct:issued'} })
     sample: Optional[list[Distribution]] = Field(default=None, description="""A sample distribution of the dataset.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset'], 'slot_uri': 'adms:sample'} })
     source: Optional[list[Dataset]] = Field(default=None, description="""A related resource from which the described resource is derived.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset'], 'slot_uri': 'dct:source'} })
@@ -559,13 +600,21 @@ class DatasetSeries(CataloguedResource):
          'slot_uri': 'dct:accrualPeriodicity'} })
     geographicalCoverage: Optional[list[Location]] = Field(default=None, description="""The geographic coverage of the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries'],
          'slot_uri': 'dct:spatial'} })
-    modificationDate: Optional[datetime ] = Field(default=None, description="""The date on which the resource was changed. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue',
+    modificationDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue',
                        'CatalogueRecord',
                        'Dataset',
                        'DatasetSeries',
                        'Distribution'],
          'slot_uri': 'dct:modified'} })
-    releaseDate: Optional[datetime ] = Field(default=None, description="""The date of formal issuance of the resource. The original DCAT-AP shape uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth; LinkML can express only a single primary type, so this is approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
+    releaseDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
          'slot_uri': 'dct:issued'} })
     temporalCoverage: Optional[list[PeriodOfTime]] = Field(default=None, description="""The temporal coverage of the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries'],
          'slot_uri': 'dct:temporal'} })
@@ -635,14 +684,22 @@ class Distribution(ConfiguredBaseModel):
          'slot_uri': 'dct:license'} })
     linkedSchemas: Optional[list[Standard]] = Field(default=None, description="""A schema that the distribution conforms to.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Distribution'], 'slot_uri': 'dct:conformsTo'} })
     mediaType: Optional[MediaType] = Field(default=None, description="""The media type of the distribution.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Distribution'], 'slot_uri': 'dcat:mediaType'} })
-    modificationDate: Optional[datetime ] = Field(default=None, description="""The date on which the resource was changed. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue',
+    modificationDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue',
                        'CatalogueRecord',
                        'Dataset',
                        'DatasetSeries',
                        'Distribution'],
          'slot_uri': 'dct:modified'} })
     packagingFormat: Optional[MediaType] = Field(default=None, description="""The package format of the distribution.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Distribution'], 'slot_uri': 'dcat:packageFormat'} })
-    releaseDate: Optional[datetime ] = Field(default=None, description="""The date of formal issuance of the resource. The original DCAT-AP shape uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth; LinkML can express only a single primary type, so this is approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
+    releaseDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['Catalogue', 'Dataset', 'DatasetSeries', 'Distribution'],
          'slot_uri': 'dct:issued'} })
     rights: Optional[RightsStatement] = Field(default=None, description="""Rights statement for the resource.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Catalogue', 'Distribution'], 'slot_uri': 'dct:rights'} })
     spatialResolution: Optional[Decimal] = Field(default=None, description="""Minimum spatial separation resolvable, in meters.""", json_schema_extra = { "linkml_meta": {'domain_of': ['Dataset', 'Distribution'],
@@ -780,8 +837,18 @@ class PeriodOfTime(ConfiguredBaseModel):
 
     beginning: Optional[str] = Field(default=None, description="""The start of a period of time.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PeriodOfTime'], 'slot_uri': 'time:hasBeginning'} })
     end: Optional[str] = Field(default=None, description="""The end of a period of time.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PeriodOfTime'], 'slot_uri': 'time:hasEnd'} })
-    endDate: Optional[datetime ] = Field(default=None, description="""The end of the period. Approximated as xsd:dateTime.""", json_schema_extra = { "linkml_meta": {'domain_of': ['PeriodOfTime'], 'slot_uri': 'dcat:endDate'} })
-    startDate: Optional[datetime ] = Field(default=None, description="""The start of the period. Approximated as xsd:dateTime (see DateOrDateTimeDataType_Shape gap).""", json_schema_extra = { "linkml_meta": {'domain_of': ['PeriodOfTime'], 'slot_uri': 'dcat:startDate'} })
+    endDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['PeriodOfTime'],
+         'slot_uri': 'dcat:endDate'} })
+    startDate: Optional[Union[date, datetime , str]] = Field(default=None, description="""The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.""", json_schema_extra = { "linkml_meta": {'any_of': [{'range': 'date'},
+                    {'range': 'datetime'},
+                    {'range': 'gYear'},
+                    {'range': 'gYearMonth'}],
+         'domain_of': ['PeriodOfTime'],
+         'slot_uri': 'dcat:startDate'} })
 
 
 class Policy(Resource):

@@ -84,11 +84,12 @@ Exact match.
 
 ## What's missing in the LinkML version
 
-1. **`DateOrDateTimeDataType_Shape`** — the original uses a `sh:or` disjunction
-   over `xsd:date`, `xsd:dateTime`, `xsd:gYear`, `xsd:gYearMonth` for date-typed
-   slots. LinkML can declare only one type per slot, so generated SHACL emits
-   `xsd:string` for `dct:issued`, `dct:modified`, `dcat:startDate`,
-   `dcat:endDate`. **Significant semantic loss for date validation.**
+1. ~~**`DateOrDateTimeDataType_Shape`**~~ — *resolved.* Originally noted as a
+   gap; the latest revision uses LinkML `any_of` plus custom `gYear` /
+   `gYearMonth` types, and the SHACL generator emits an inlined `sh:or` with
+   all four datatype branches for `dct:issued`, `dct:modified`,
+   `dcat:startDate`, `dcat:endDate`. See "Datatype disjunction" below for the
+   detailed experimental result.
 
 2. **`DcatResource_Shape`** — the original `sh:or` over `dcat:Catalog |
    dcat:Dataset | dcat:DataService | dcat:DatasetSeries` becomes an abstract
@@ -148,10 +149,91 @@ Exact match.
 
 These are the most important gaps for the SEMIC × LinkML evaluation:
 
-1. **Datatype disjunction (`sh:or` over multiple datatypes)** — there is no
-   way in LinkML to say "this slot is one of `xsd:date`, `xsd:dateTime`,
-   `xsd:gYear`, or `xsd:gYearMonth`". This is the single most impactful gap
-   because DCAT-AP uses it pervasively for date-valued properties.
+1. **Datatype disjunction (`sh:or` over multiple datatypes)** — *partial gap.*
+   LinkML supports type disjunctions via `any_of`:
+
+   ```yaml
+   slots:
+     event_date:
+       any_of:
+         - range: date
+         - range: datetime
+   ```
+
+   The SHACL generator translates `any_of` → `sh:or`, so the round-trip works
+   for date/datetime. However:
+   - `xsd:gYear` and `xsd:gYearMonth` are **not built-in** LinkML types
+     (only `date`, `datetime`, `date_or_datetime`, `time` are). Custom types
+     with explicit `uri: xsd:gYear` are required, and downstream generators
+     (JSON Schema, Pydantic, Python dataclasses) may not handle them cleanly.
+   - **Generator coverage is uneven**: SHACL handles `any_of` well, but
+     pythongen, JSON Schema, and others tend to pick a single range or
+     flatten the union.
+
+   Net: expressible syntactically; the gap is narrower than "can't express it"
+   but real — the issue is custom XSD datatype support and inconsistent
+   generator handling, not the meta-modelling primitive.
+
+   **Experimental result (this project).** We replaced
+   `range: datetime` on `releaseDate` (`dct:issued`),
+   `modificationDate` (`dct:modified`), `listingDate` (`dct:issued` on
+   `dcat:CatalogRecord`), `startDate` and `endDate` with an `any_of` over
+   `date | datetime | gYear | gYearMonth` (the latter two declared as
+   custom types — see "Custom datatypes" below) and re-ran `gen-project`.
+   Observed behaviour:
+   - **SHACL** (`project/shacl/dcat_ap.shacl.ttl`): `sh:or` is emitted with
+     all four `sh:datatype` branches plus `sh:nodeKind sh:Literal` on each.
+     Structurally this is **equivalent** to the original
+     `:DateOrDateTimeDataType_Shape` `sh:or` block, just inlined into each
+     property shape rather than referenced via `sh:node` / `sh:shape`. Net
+     semantic content matches the original.
+   - **JSON Schema** (`project/jsonschema/dcat_ap.schema.json`): the slot
+     becomes a JSON Schema `anyOf` with four branches — `format: "date"`,
+     `format: "date-time"`, and two plain `type: "string"` (for `gYear` and
+     `gYearMonth`, since JSON Schema has no `format` for those). Validation
+     is therefore weaker for `gYear`/`gYearMonth` than for date/dateTime.
+   - **Pydantic** (`src/dcat_ap/datamodel/dcat_ap_pydantic.py`): the slot is
+     typed as `Union[date, datetime, str]` (deduplicated — both custom
+     `gYear` and `gYearMonth` collapse to `str`). The original `any_of`
+     metadata is preserved in `json_schema_extra`.
+   - **Python dataclasses** (`src/dcat_ap/datamodel/dcat_ap.py`):
+     pythongen flattens to plain `str` and adds string-coercion in
+     `__post_init__`. The disjunction is lost at the type level.
+
+   So the SHACL round-trip *is* faithful for this DCAT-AP construct; the
+   degradation lives in the JSON-and-Python-shaped end of the toolchain,
+   not in the SHACL output.
+
+### Custom datatypes (`xsd:gYear`, `xsd:gYearMonth`)
+
+To express the DCAT-AP date disjunction we added two custom types to the
+schema's `types:` section:
+
+```yaml
+gYear:
+  uri: xsd:gYear
+  base: str
+  description: An XSD gYear literal …
+
+gYearMonth:
+  uri: xsd:gYearMonth
+  base: str
+  description: An XSD gYearMonth literal …
+```
+
+Quirks observed:
+- `base: str` is the only practical option — LinkML doesn't ship Python
+  representations for partial-date XSD types, so values flow through as
+  strings.
+- The `uri:` is preserved correctly into SHACL (`sh:datatype xsd:gYear`)
+  and JSON-LD context output.
+- pythongen and pydanticgen both reduce these custom types to `str` (they
+  don't introspect the `uri:` to pick a richer type), so two distinct
+  custom types collapse into a single `str` member of the union — losing
+  the distinction between `gYear` and `gYearMonth` at the Python level.
+- gen-typescript prints a `WARNING: Unknown type.base: decimal` (unrelated
+  to our changes — pre-existing on `decimal`) but otherwise emits
+  `string` for the new types, as expected.
 
 2. **Class disjunction in property ranges** — LinkML requires a single named
    range. DCAT-AP's `DcatResource` (union of four classes) has to be

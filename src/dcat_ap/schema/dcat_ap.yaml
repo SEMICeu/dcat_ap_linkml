@@ -612,38 +612,65 @@ slots:
   startDate:
     slot_uri: dcat:startDate
     description: >-
-      The start of the period. Approximated as xsd:dateTime (see
-      DateOrDateTimeDataType_Shape gap).
-    range: datetime
+      The start of the period. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth)
+      to match DCAT-AP's DateOrDateTimeDataType_Shape.
+    any_of:
+      - range: date
+      - range: datetime
+      - range: gYear
+      - range: gYearMonth
 
   endDate:
     slot_uri: dcat:endDate
     description: >-
-      The end of the period. Approximated as xsd:dateTime.
-    range: datetime
+      The end of the period. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth)
+      to match DCAT-AP's DateOrDateTimeDataType_Shape.
+    any_of:
+      - range: date
+      - range: datetime
+      - range: gYear
+      - range: gYearMonth
 
   releaseDate:
     slot_uri: dct:issued
     description: >-
-      The date of formal issuance of the resource. The original DCAT-AP shape
-      uses sh:or over xsd:date / xsd:dateTime / xsd:gYear / xsd:gYearMonth;
-      LinkML can express only a single primary type, so this is approximated
-      as xsd:dateTime.
-    range: datetime
+      The date of formal issuance of the resource. Modelled as a
+      DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime |
+      xsd:gYear | xsd:gYearMonth) to match DCAT-AP's
+      DateOrDateTimeDataType_Shape.
+    any_of:
+      - range: date
+      - range: datetime
+      - range: gYear
+      - range: gYearMonth
 
   modificationDate:
     slot_uri: dct:modified
     description: >-
-      The date on which the resource was changed. Approximated as
-      xsd:dateTime (see DateOrDateTimeDataType_Shape gap in COMPARISON.md).
-    range: datetime
+      The date on which the resource was changed. Modelled as a
+      DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime |
+      xsd:gYear | xsd:gYearMonth) to match DCAT-AP's
+      DateOrDateTimeDataType_Shape.
+    any_of:
+      - range: date
+      - range: datetime
+      - range: gYear
+      - range: gYearMonth
 
   listingDate:
     slot_uri: dct:issued
     description: >-
       The date on which the description was listed in the catalogue.
-      Approximated as xsd:dateTime.
-    range: datetime
+      Modelled as a DateOrDateTimeDataType disjunction (xsd:date |
+      xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's
+      DateOrDateTimeDataType_Shape.
+    any_of:
+      - range: date
+      - range: datetime
+      - range: gYear
+      - range: gYearMonth
 
   byteSize:
     slot_uri: dcat:byteSize
@@ -1030,3 +1057,17 @@ types:
     base: int
     description: An XSD non-negative integer.
     minimum_value: 0
+
+  gYear:
+    uri: xsd:gYear
+    base: str
+    description: >-
+      An XSD gYear literal (a Gregorian calendar year, e.g. "2024").
+      Used in DCAT-AP's DateOrDateTimeDataType disjunction.
+
+  gYearMonth:
+    uri: xsd:gYearMonth
+    base: str
+    description: >-
+      An XSD gYearMonth literal (a Gregorian calendar year and month,
+      e.g. "2024-04"). Used in DCAT-AP's DateOrDateTimeDataType disjunction.

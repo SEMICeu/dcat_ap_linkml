@@ -1,5 +1,5 @@
 # Auto generated from dcat_ap.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-05-12T14:47:59
+# Generation date: 2026-05-12T16:29:32
 # Schema: dcat_ap
 #
 # id: https://w3id.org/semic/dcat-ap/3.0.1

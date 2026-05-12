@@ -1,0 +1,4 @@
+# Trivial negative example: Concept.slot_usage.preferredLabel is
+# required: true + multivalued: true, so at least one value must be
+# present. An empty list violates that constraint.
+preferredLabel: []

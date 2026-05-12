@@ -2,7 +2,16 @@
 
 This document compares the LinkML-generated SHACL shapes
 (`project/shacl/dcat_ap.shacl.ttl`) against the original SEMIC DCAT-AP 3.0.1
-SHACL shapes (`originals/shapes.ttl`).
+SHACL shapes (`original/releases/3.0.1/shacl/dcat-ap-SHACL.ttl`).
+
+> **Note on the snapshot.** The figures below were produced against an earlier
+> local snapshot of the SEMIC SHACL file that carried the
+> `releases/3.0.0/.../shapes.ttl` namespace (essentially the 3.0.0 shapes
+> labelled as 3.0.1). Now that the full upstream repository is available under
+> `original/`, the 3.0.1 SHACL is materially larger (~2200 lines vs ~750) and
+> the headline shape/property counts in this table should be re-derived. The
+> *qualitative* observations (matching target classes, the date-disjunction
+> gap, etc.) still hold; the numeric ones need a refresh.
 
 ## Headline numbers
 
@@ -109,10 +118,16 @@ Exact match.
    `dcatap:applicableLegislation`, `dcat:theme`). LinkML's generator emits
    `sh:BlankNodeOrIRI` for all object-valued slots.
 
-6. **Open-world shapes** — original SEMIC shapes are *open* (no
-   `sh:closed`). LinkML's generator emits `sh:closed true` plus
-   `sh:ignoredProperties (rdf:type)`. This will reject any property not
-   explicitly in the schema, which is stricter than DCAT-AP intends.
+6. **Open-world shapes** — *not a gap; CLI flag handles it.* Original
+   SEMIC shapes are *open* (no `sh:closed`). Default `gen-shacl`
+   output is closed. The bundled SHACL in `project/shacl/` is now
+   generated with `--non-closed`, so every shape carries
+   `sh:closed false` — matching the SEMIC semantics. Mixin and
+   abstract classes already get `sh:closed false` even in default
+   mode (see `shaclgen.py:488-493`). The only residual question is
+   per-class override, which is tracked upstream as
+   [linkml/linkml#1249](https://github.com/linkml/linkml/issues/1249).
+   Don't file a duplicate.
 
 7. **Specific SHACL `rdfs:label` and `_Shape`-suffixed IRIs** —
    the original has e.g. `:Catalog_Shape rdfs:label "Catalog"@en`. LinkML
@@ -132,8 +147,10 @@ Exact match.
    (e.g. `dct:Frequency`, `vcard:Kind`, `eli:LegalResource`, `prov:Activity`),
    most of them empty (no constraints). Harmless but verbose.
 
-2. **`sh:closed true` + `sh:ignoredProperties (rdf:type)`** on every shape —
-   makes the shapes much stricter than the original.
+2. ~~**`sh:closed true` + `sh:ignoredProperties (rdf:type)`** on every shape — makes the shapes much stricter than the original.~~
+   *Resolved.* The SHACL in `project/shacl/` is now generated with
+   `--non-closed`, so every shape is `sh:closed false`. (Default
+   `gen-shacl` is closed; the flag toggles it.)
 
 3. **`sh:class` ranges on object-valued slots** — the original is largely
    silent on the *type* of related resources (relying on `sh:nodeKind`); the
@@ -250,8 +267,13 @@ Quirks observed:
    emits `BlankNodeOrIRI` for object-valued slots; the stricter "must be an
    IRI" constraint isn't expressible.
 
-6. **Open-shape vs closed-shape control** — at minimum `gen-shacl` should
-   support a per-class or schema-wide open/closed flag.
+6. **Open-shape vs closed-shape control** — *already supported.*
+   `gen-shacl` has a `--closed/--non-closed` CLI flag (or
+   `shacl: { closed: false }` in the gen-project config). The bundled
+   SHACL is now built with `--non-closed`. Mixin/abstract classes
+   already get `sh:closed false` automatically. Per-class
+   override is the only remaining open question, tracked upstream as
+   [linkml/linkml#1249](https://github.com/linkml/linkml/issues/1249).
 
 7. **Language-tagged-string as a first-class type** — DCAT-AP relies on
    `rdf:langString`. LinkML maps everything to `xsd:string`.
@@ -280,7 +302,6 @@ Quirks observed:
 
 - Add `sh_or_datatypes` (or similar) annotation that lets a slot declare a
   union of acceptable XSD datatypes, generating `sh:or`.
-- Add `closed_shapes: false` config option (or per-class `closed: false`).
 - Make the gen-shacl generator honour `class_uri` for the *shape IRI* (or at
   least add a `_Shape` suffix to a configurable IRI base) so DCAT-AP shape
   IRIs can be reproduced exactly.

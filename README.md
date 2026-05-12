@@ -1,33 +1,98 @@
-<a href="https://github.com/dalito/linkml-project-copier"><img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-teal.json" alt="Copier Badge" style="max-width:100%;"/></a>
+# dcat-ap (LinkML)
 
-# dcat-ap
+A LinkML approximation of [SEMICeu DCAT-AP](https://github.com/SEMICeu/DCAT-AP)
+3.0.1, built as a **continuous evaluation harness** for LinkML itself.
 
-LinkML approximation of SEMIC DCAT-AP 3.0.1
+## What this is (and isn't)
 
-## Documentation Website
+This is a **scoping / demo schema**, not a production DCAT-AP profile. The
+deliverable is the evaluation: by trying to reproduce the upstream SEMIC SHACL,
+JSON-LD context, and HTML spec from a single LinkML source schema, we surface
+exactly where LinkML can and can't express what DCAT-AP needs.
 
-[https://matentzn.github.io/dcat-ap](https://matentzn.github.io/dcat-ap)
+The findings live in [`COMPARISON.md`](COMPARISON.md) — a running ledger of
+"what matches / what's missing / what LinkML can't yet express". Individual
+gaps get filed as issues under [`issues/`](issues/) and (manually) cross-linked
+to upstream [`linkml/linkml`](https://github.com/linkml/linkml) tickets.
 
-## Repository Structure
+## How it works
 
-* [docs/](docs/) - mkdocs-managed documentation
-  * [elements/](docs/elements/) - generated schema documentation
-* [examples/](examples/) - Examples of using the schema
-* [project/](project/) - project files (these files are auto-generated, do not edit)
-* [src/](src/) - source files (edit these)
-  * [dcat_ap](src/dcat_ap)
-    * [schema/](src/dcat_ap/schema) -- LinkML schema
-      (edit this)
-    * [datamodel/](src/dcat_ap/datamodel) -- generated
-      Python datamodel
-* [tests/](tests/) - Python tests
-  * [data/](tests/data) - Example data
+```
+src/dcat_ap/schema/dcat_ap.yaml         ← the only hand-edited file
+            │
+            │  just gen-project / just gen-doc
+            ▼
+project/{shacl,owl,jsonschema,...}      ← generated artefacts
+docs/elements/*.md                       ← generated documentation
+src/dcat_ap/datamodel/*.py               ← generated Python / Pydantic
+            │
+            │  diff against
+            ▼
+original/releases/3.0.1/{shacl,context,html,...}   ← upstream truth
+            │
+            ▼
+COMPARISON.md  + issues/issue_*.md       ← what's still off, and why
+```
 
-## Developer Tools
+`original/` is a gitignored clone of <https://github.com/SEMICeu/DCAT-AP>;
+refresh it with `git clone --depth=1 https://github.com/SEMICeu/DCAT-AP
+original`. The clone is read-only — never edit it.
 
-There are several pre-defined command-recipes available.
-They are written for the command runner [just](https://github.com/casey/just/). To list all pre-defined commands, run `just` or `just --list`.
+## LinkML version
+
+The project intentionally pins both `linkml` and `linkml-runtime` to git
+`linkml/linkml@main` (the linkml repo is now a uv workspace with both packages
+under `packages/`). This is permanent: the whole point is to evaluate against
+unreleased LinkML so we can see what *will* be possible, not just what is.
+Pull the latest commits with:
+
+```bash
+uv sync --group dev --refresh
+```
+
+## Quick start
+
+```bash
+just install      # uv sync --group dev (LinkML from git@main)
+just gen-project  # SHACL, OWL, JSON Schema, ShEx, Pydantic, dataclasses, ...
+just gen-doc      # mkdocs sources under docs/
+just test         # schema regen + pytest + linkml-run-examples
+```
+
+Run `just` with no arguments for the full recipe list.
+
+## Iterative workflow
+
+When something in DCAT-AP doesn't translate cleanly:
+
+1. Document the gap in `COMPARISON.md`.
+2. File it as `issues/issue_<topic>.md` (see the `track-issues` skill in
+   `.claude/skills/`).
+3. Work around it in the LinkML schema if a reasonable approximation exists.
+4. Re-run the `align-model` skill against the latest LinkML `main` to check
+   whether a recent merge has closed the gap.
+
+Both skills (`align-model`, `track-issues`) are stored as Claude Code project
+skills under `.claude/skills/` and are invoked automatically when their
+triggering conditions match.
+
+## Repository layout
+
+| Path | Purpose |
+|---|---|
+| `src/dcat_ap/schema/dcat_ap.yaml` | The LinkML schema — only hand-edited file |
+| `src/dcat_ap/datamodel/` | Generated Python dataclasses + Pydantic |
+| `project/` | Generated SHACL, OWL, JSON Schema, ShEx, GraphQL, Java, TypeScript, Protobuf, SQL DDL, JSON-LD context, prefix map (gitignored) |
+| `docs/elements/` | Generated per-class/per-slot Markdown (gitignored) |
+| `original/` | Read-only clone of SEMICeu/DCAT-AP (gitignored) |
+| `tests/data/{valid,invalid}/` | Example data tested by `linkml-run-examples` |
+| `issues/` | Local issue files describing LinkML gaps |
+| `COMPARISON.md` | Running gap analysis between generated and upstream artefacts |
+| `CLAUDE.md` | Operating manual for Claude Code working on the repo |
+| `.claude/skills/` | Project-local Claude Code skills (`align-model`, `track-issues`) |
 
 ## Credits
 
-This project uses the template [linkml-project-copier](https://github.com/dalito/linkml-project-copier) published as [doi:10.5281/zenodo.15163584](https://doi.org/10.5281/zenodo.15163584).
+Bootstrapped from the
+[linkml-project-copier](https://github.com/dalito/linkml-project-copier)
+template ([doi:10.5281/zenodo.15163584](https://doi.org/10.5281/zenodo.15163584)).

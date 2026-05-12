@@ -3,6 +3,9 @@
 # linkml-run-examples output (not useful to have in git in its current form)
 /examples/output/
 
+# Upstream SEMICeu/DCAT-AP checkout — read-only reference, refresh via `just refresh-original`
+/original/
+
 # Derived schemas, generated from the schema.yaml
 tmp/
 project/

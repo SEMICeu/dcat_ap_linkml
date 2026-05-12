@@ -1,0 +1,974 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+eli:LegalResourceShape a sh:NodeShape ;
+    rdfs:comment "A legal resource (ELI)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass eli:LegalResource .
+
+dct:FrequencyShape a sh:NodeShape ;
+    rdfs:comment "A rate at which something recurs (DC Terms Frequency)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:Frequency .
+
+dct:LicenseDocumentShape a sh:NodeShape ;
+    rdfs:comment "A legal document giving official permission to do something with a resource." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class skos:Concept ;
+            sh:description "The nature or genre of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path dct:type ] ;
+    sh:targetClass dct:LicenseDocument .
+
+dct:LinguisticSystemShape a sh:NodeShape ;
+    rdfs:comment "A linguistic system (DC Terms LinguisticSystem)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:LinguisticSystem .
+
+dct:LocationShape a sh:NodeShape ;
+    rdfs:comment "A spatial region or named place." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The geographic bounding box of a resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dcat:bbox ],
+        [ sh:class locn:Geometry ;
+            sh:description "The geometry of a location." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path locn:geometry ],
+        [ sh:datatype xsd:string ;
+            sh:description "The geographic centroid of a resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path dcat:centroid ] ;
+    sh:targetClass dct:Location .
+
+dct:MediaTypeShape a sh:NodeShape ;
+    rdfs:comment "An IANA media type (DC Terms MediaType)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:MediaType .
+
+dct:PeriodOfTimeShape a sh:NodeShape ;
+    rdfs:comment "An interval of time named or defined by its start and end." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The end of a period of time." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path time:hasEnd ],
+        [ sh:description "The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 3 ;
+            sh:path dcat:startDate ],
+        [ sh:datatype xsd:string ;
+            sh:description "The start of a period of time." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path time:hasBeginning ],
+        [ sh:description "The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 2 ;
+            sh:path dcat:endDate ] ;
+    sh:targetClass dct:PeriodOfTime .
+
+dct:ProvenanceStatementShape a sh:NodeShape ;
+    rdfs:comment "A statement of provenance." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:ProvenanceStatement .
+
+dct:RightsStatementShape a sh:NodeShape ;
+    rdfs:comment "A statement about rights associated with a resource." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:RightsStatement .
+
+dct:StandardShape a sh:NodeShape ;
+    rdfs:comment "A standard (DC Terms Standard)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dct:Standard .
+
+spdx:ChecksumAlgorithmShape a sh:NodeShape ;
+    rdfs:comment "An algorithm used to produce a checksum." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass spdx:ChecksumAlgorithm .
+
+spdx:ChecksumShape a sh:NodeShape ;
+    rdfs:comment "A value that allows the contents of a file to be authenticated." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:hexBinary ;
+            sh:description "A lower-case hexadecimal-encoded checksum value." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path spdx:checksumValue ],
+        [ sh:class spdx:ChecksumAlgorithm ;
+            sh:description "The algorithm used to produce a checksum." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path spdx:algorithm ] ;
+    sh:targetClass spdx:Checksum .
+
+rdfs:ResourceShape a sh:NodeShape ;
+    rdfs:comment "Top-level abstract resource. Used as a generic node range when the DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific class." ;
+    sh:closed false ;
+    sh:ignoredProperties ( prov:qualifiedAttribution dct:creator dcat:landingPage dct:spatial dcat:contactPoint dcat:service dct:accrualPeriodicity dct:modified dct:temporal dct:description dcat:inSeries dct:source dcat:version dcat:distribution dcat:qualifiedRelation prov:wasGeneratedBy dct:hasPart dct:isReferencedBy dcat:theme dct:issued dcat:endpointURL dcat:keyword dct:language rdf:type dcat:hasVersion dct:title dct:accessRights dct:rights dcat:servesDataset dct:identifier adms:identifier dcat:endpointDescription dct:format dct:relation foaf:page dct:provenance dcat:catalog dcat:themeTaxonomy adms:versionNotes dct:conformsTo adms:sample dcat:dataset foaf:homepage dct:license dcat:record dcatap:applicableLegislation dcat:spatialResolutionInMeters dct:type dct:publisher dcat:temporalResolution ) ;
+    sh:targetClass rdfs:Resource .
+
+skos:ConceptSchemeShape a sh:NodeShape ;
+    rdfs:comment "A controlled vocabulary or category scheme." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dct:title ] ;
+    sh:targetClass skos:ConceptScheme .
+
+skos:ConceptShape a sh:NodeShape ;
+    rdfs:comment "A concept (e.g. a category, theme, keyword)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "The preferred lexical label for a resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path skos:prefLabel ] ;
+    sh:targetClass skos:Concept .
+
+vcard:KindShape a sh:NodeShape ;
+    rdfs:comment "A vCard Kind." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass vcard:Kind .
+
+adms:IdentifierShape a sh:NodeShape ;
+    rdfs:comment "An identifier in a particular context." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:datatype xsd:string ;
+            sh:description "A string used to identify a concept within a scheme." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path skos:notation ] ;
+    sh:targetClass adms:Identifier .
+
+dcat:CatalogRecordShape a sh:NodeShape ;
+    rdfs:comment "A description of a single entry in a data catalogue." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class skos:Concept ;
+            sh:description "The type of update on the cataloged resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path adms:status ],
+        [ sh:class dcat:Resource ;
+            sh:description "The resource described by this catalogue record." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path foaf:primaryTopic ],
+        [ sh:class dcat:CatalogRecord ;
+            sh:description "Original metadata source for the catalog record." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path dct:source ],
+        [ sh:class dct:LinguisticSystem ;
+            sh:description "A language of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dct:language ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 8 ;
+            sh:path dct:title ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 2 ;
+            sh:path dct:description ],
+        [ sh:class dct:Standard ;
+            sh:description "The application profile this catalogue record conforms to." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path dct:conformsTo ],
+        [ sh:description "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 5 ;
+            sh:path dct:modified ],
+        [ sh:description "The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 4 ;
+            sh:path dct:issued ] ;
+    sh:targetClass dcat:CatalogRecord .
+
+dcat:CatalogShape a sh:NodeShape ;
+    rdfs:comment "A curated collection of metadata about resources (e.g. datasets and data services in the context of a data catalogue)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class dcat:Catalog ;
+            sh:description "A subordinate catalogue contained in this catalogue." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path dcat:catalog ],
+        [ sh:class dcat:CatalogRecord ;
+            sh:description "A record describing a registration of a resource in the catalogue." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path dcat:record ],
+        [ sh:class dcat:Catalog ;
+            sh:description "A related resource that is included physically or logically." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path dct:hasPart ],
+        [ sh:class foaf:Agent ;
+            sh:description "An entity responsible for making the resource available." ;
+            sh:maxCount 1 ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path dct:publisher ],
+        [ sh:description "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 14 ;
+            sh:path dct:issued ],
+        [ sh:class dct:Location ;
+            sh:description "The geographic coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path dct:spatial ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path dct:description ],
+        [ sh:class foaf:Agent ;
+            sh:description "The entity responsible for producing the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path dct:creator ],
+        [ sh:description "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 12 ;
+            sh:path dct:modified ],
+        [ sh:class foaf:Document ;
+            sh:description "A web page that is the primary access point for the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path foaf:homepage ],
+        [ sh:class skos:ConceptScheme ;
+            sh:description "A theme taxonomy used to classify the catalogue's resources." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 18 ;
+            sh:path dcat:themeTaxonomy ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dct:title ],
+        [ sh:class dcat:DataService ;
+            sh:description "A data service listed by the catalogue." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 16 ;
+            sh:path dcat:service ],
+        [ sh:class dct:LinguisticSystem ;
+            sh:description "A language of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path dct:language ],
+        [ sh:class eli:LegalResource ;
+            sh:description "The legislation applicable to the resource (DCAT-AP extension)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dcatap:applicableLegislation ],
+        [ sh:class dct:LicenseDocument ;
+            sh:description "A licence under which the resource is made available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path dct:license ],
+        [ sh:class dcat:Dataset ;
+            sh:description "A dataset listed by the catalogue." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path dcat:dataset ],
+        [ sh:class dct:PeriodOfTime ;
+            sh:description "The temporal coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 17 ;
+            sh:path dct:temporal ],
+        [ sh:class dct:RightsStatement ;
+            sh:description "Rights statement for the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 15 ;
+            sh:path dct:rights ] ;
+    sh:targetClass dcat:Catalog .
+
+dcat:DataServiceShape a sh:NodeShape ;
+    rdfs:comment "A collection of operations that provides access to one or more datasets or data processing functions." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class vcard:Kind ;
+            sh:description "Contact information for the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path dcat:contactPoint ],
+        [ sh:class foaf:Document ;
+            sh:description "A page or document about the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path foaf:page ],
+        [ sh:class foaf:Agent ;
+            sh:description "An entity responsible for making the resource available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path dct:publisher ],
+        [ sh:class foaf:Document ;
+            sh:description "A web page that gives access to the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path dcat:landingPage ],
+        [ sh:class dcat:Dataset ;
+            sh:description "A dataset that this service serves." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 14 ;
+            sh:path dcat:servesDataset ],
+        [ sh:class dct:MediaType ;
+            sh:description "The file format, physical medium, or dimensions of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path dct:format ],
+        [ sh:class dct:LicenseDocument ;
+            sh:description "A licence under which the resource is made available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 12 ;
+            sh:path dct:license ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dct:title ],
+        [ sh:datatype xsd:string ;
+            sh:description "A keyword or tag describing the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 10 ;
+            sh:path dcat:keyword ],
+        [ sh:class rdfs:Resource ;
+            sh:description "The root location of the service." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path dcat:endpointURL ],
+        [ sh:class skos:Concept ;
+            sh:description "A category of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 15 ;
+            sh:path dcat:theme ],
+        [ sh:class dct:RightsStatement ;
+            sh:description "Information about who can access the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dct:accessRights ],
+        [ sh:class eli:LegalResource ;
+            sh:description "The legislation applicable to the resource (DCAT-AP extension)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path dcatap:applicableLegislation ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path dct:description ],
+        [ sh:class dct:Standard ;
+            sh:description "An established standard the resource conforms to." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path dct:conformsTo ],
+        [ sh:class rdfs:Resource ;
+            sh:description "A description of the service endpoint, including operations." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path dcat:endpointDescription ] ;
+    sh:targetClass dcat:DataService .
+
+dcat:DatasetSeriesShape a sh:NodeShape ;
+    rdfs:comment "A collection of datasets that share a common schema and represent a change over time." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class dct:Frequency ;
+            sh:description "The frequency at which the dataset is updated." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path dct:accrualPeriodicity ],
+        [ sh:class eli:LegalResource ;
+            sh:description "The legislation applicable to the resource (DCAT-AP extension)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dcatap:applicableLegislation ],
+        [ sh:class dct:Location ;
+            sh:description "The geographic coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path dct:spatial ],
+        [ sh:class foaf:Agent ;
+            sh:description "An entity responsible for making the resource available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path dct:publisher ],
+        [ sh:class dct:PeriodOfTime ;
+            sh:description "The temporal coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path dct:temporal ],
+        [ sh:description "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 8 ;
+            sh:path dct:issued ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dct:title ],
+        [ sh:class vcard:Kind ;
+            sh:description "Contact information for the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path dcat:contactPoint ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path dct:description ],
+        [ sh:description "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 7 ;
+            sh:path dct:modified ] ;
+    sh:targetClass dcat:DatasetSeries .
+
+dcat:DatasetShape a sh:NodeShape ;
+    rdfs:comment "A collection of data, published or curated by a single agent, and available for access or download in one or more representations." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class dct:Frequency ;
+            sh:description "The frequency at which the dataset is updated." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path dct:accrualPeriodicity ],
+        [ sh:datatype xsd:string ;
+            sh:description "A unique identifier of the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 12 ;
+            sh:path dct:identifier ],
+        [ sh:class rdfs:Resource ;
+            sh:description "A related resource that references the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 14 ;
+            sh:path dct:isReferencedBy ],
+        [ sh:class dct:Standard ;
+            sh:description "An established standard the resource conforms to." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 4 ;
+            sh:path dct:conformsTo ],
+        [ sh:class foaf:Agent ;
+            sh:description "The entity responsible for producing the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path dct:creator ],
+        [ sh:class dct:LinguisticSystem ;
+            sh:description "A language of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 17 ;
+            sh:path dct:language ],
+        [ sh:class dcat:Distribution ;
+            sh:description "A sample distribution of the dataset." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 26 ;
+            sh:path adms:sample ],
+        [ sh:class foaf:Agent ;
+            sh:description "An entity responsible for making the resource available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 21 ;
+            sh:path dct:publisher ],
+        [ sh:datatype xsd:string ;
+            sh:description "A description of changes between versions." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 34 ;
+            sh:path adms:versionNotes ],
+        [ sh:description "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 18 ;
+            sh:path dct:modified ],
+        [ sh:class foaf:Document ;
+            sh:description "A web page that gives access to the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 16 ;
+            sh:path dcat:landingPage ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Minimum spatial separation resolvable, in meters." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 28 ;
+            sh:path dcat:spatialResolutionInMeters ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path dct:title ],
+        [ sh:class dcat:Dataset ;
+            sh:description "A related resource from which the described resource is derived." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 27 ;
+            sh:path dct:source ],
+        [ sh:class dcat:DatasetSeries ;
+            sh:description "A dataset series of which this dataset is a part." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path dcat:inSeries ],
+        [ sh:datatype xsd:duration ;
+            sh:description "Minimum time period resolvable in the dataset." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 30 ;
+            sh:path dcat:temporalResolution ],
+        [ sh:class vcard:Kind ;
+            sh:description "Contact information for the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path dcat:contactPoint ],
+        [ sh:class dct:ProvenanceStatement ;
+            sh:description "A statement about provenance of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 20 ;
+            sh:path dct:provenance ],
+        [ sh:class dct:PeriodOfTime ;
+            sh:description "The temporal coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 29 ;
+            sh:path dct:temporal ],
+        [ sh:class foaf:Document ;
+            sh:description "A page or document about the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path foaf:page ],
+        [ sh:class dcat:Relationship ;
+            sh:description "A qualified relationship to another resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 23 ;
+            sh:path dcat:qualifiedRelation ],
+        [ sh:class adms:Identifier ;
+            sh:description "A secondary identifier of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 19 ;
+            sh:path adms:identifier ],
+        [ sh:class skos:Concept ;
+            sh:description "A category of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 31 ;
+            sh:path dcat:theme ],
+        [ sh:class eli:LegalResource ;
+            sh:description "The legislation applicable to the resource (DCAT-AP extension)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dcatap:applicableLegislation ],
+        [ sh:datatype xsd:string ;
+            sh:description "The version indicator of a resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 33 ;
+            sh:path dcat:version ],
+        [ sh:class dct:RightsStatement ;
+            sh:description "Information about who can access the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path dct:accessRights ],
+        [ sh:description "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 25 ;
+            sh:path dct:issued ],
+        [ sh:class dcat:Dataset ;
+            sh:description "A related dataset that is a version of this dataset." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path dcat:hasVersion ],
+        [ sh:class skos:Concept ;
+            sh:description "The nature or genre of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 32 ;
+            sh:path dct:type ],
+        [ sh:class prov:Activity ;
+            sh:description "An activity that generated the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 35 ;
+            sh:path prov:wasGeneratedBy ],
+        [ sh:class prov:Attribution ;
+            sh:description "An attribution of an agent to the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 22 ;
+            sh:path prov:qualifiedAttribution ],
+        [ sh:class dct:Location ;
+            sh:description "The geographic coverage of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path dct:spatial ],
+        [ sh:datatype xsd:string ;
+            sh:description "A keyword or tag describing the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 15 ;
+            sh:path dcat:keyword ],
+        [ sh:class dcat:Distribution ;
+            sh:description "An available distribution of the dataset." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 7 ;
+            sh:path dcat:distribution ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 1 ;
+            sh:path dct:description ],
+        [ sh:class rdfs:Resource ;
+            sh:description "A related resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 24 ;
+            sh:path dct:relation ] ;
+    sh:targetClass dcat:Dataset .
+
+dcat:DistributionShape a sh:NodeShape ;
+    rdfs:comment "A specific representation of a dataset (e.g. a downloadable file or an API access)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class spdx:Checksum ;
+            sh:description "A checksum of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 5 ;
+            sh:path spdx:checksum ],
+        [ sh:class dct:MediaType ;
+            sh:description "The compression format of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 6 ;
+            sh:path dcat:compressFormat ],
+        [ sh:class dct:Standard ;
+            sh:description "A schema that the distribution conforms to." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 14 ;
+            sh:path dct:conformsTo ],
+        [ sh:class rdfs:Resource ;
+            sh:description "A URL of the resource that gives access to a distribution." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path dcat:accessURL ],
+        [ sh:class dct:MediaType ;
+            sh:description "The file format, physical medium, or dimensions of the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 10 ;
+            sh:path dct:format ],
+        [ sh:datatype xsd:string ;
+            sh:description "A free-text account of the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 7 ;
+            sh:path dct:description ],
+        [ sh:class rdfs:Resource ;
+            sh:description "A URL of the downloadable file in a given format." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 9 ;
+            sh:path dcat:downloadURL ],
+        [ sh:datatype xsd:duration ;
+            sh:description "Minimum time period resolvable in the dataset." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 22 ;
+            sh:path dcat:temporalResolution ],
+        [ sh:datatype xsd:decimal ;
+            sh:description "Minimum spatial separation resolvable, in meters." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 20 ;
+            sh:path dcat:spatialResolutionInMeters ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name given to the resource." ;
+            sh:nodeKind sh:Literal ;
+            sh:order 23 ;
+            sh:path dct:title ],
+        [ sh:class eli:LegalResource ;
+            sh:description "The legislation applicable to the resource (DCAT-AP extension)." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 2 ;
+            sh:path dcatap:applicableLegislation ],
+        [ sh:class foaf:Document ;
+            sh:description "A page or document about the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 8 ;
+            sh:path foaf:page ],
+        [ sh:description "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 16 ;
+            sh:path dct:modified ],
+        [ sh:class dct:LinguisticSystem ;
+            sh:description "A language of the resource." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 12 ;
+            sh:path dct:language ],
+        [ sh:class dct:MediaType ;
+            sh:description "The package format of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 17 ;
+            sh:path dcat:packageFormat ],
+        [ sh:class dcat:DataService ;
+            sh:description "A data service that provides access to the distribution." ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path dcat:accessService ],
+        [ sh:class odrl:Policy ;
+            sh:description "An ODRL policy attached to the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 11 ;
+            sh:path odrl:hasPolicy ],
+        [ sh:datatype xsd:nonNegativeInteger ;
+            sh:description "The size of a distribution in bytes." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 4 ;
+            sh:path dcat:byteSize ],
+        [ sh:class dct:RightsStatement ;
+            sh:description "Rights statement for the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 19 ;
+            sh:path dct:rights ],
+        [ sh:class skos:Concept ;
+            sh:description "The availability level of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 3 ;
+            sh:path dcatap:availability ],
+        [ sh:class skos:Concept ;
+            sh:description "The status of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 21 ;
+            sh:path adms:status ],
+        [ sh:class dct:LicenseDocument ;
+            sh:description "A licence under which the resource is made available." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 13 ;
+            sh:path dct:license ],
+        [ sh:description "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+            sh:maxCount 1 ;
+            sh:or ( [ sh:datatype xsd:date ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:dateTime ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYear ;
+                        sh:nodeKind sh:Literal ] [ sh:datatype xsd:gYearMonth ;
+                        sh:nodeKind sh:Literal ] ) ;
+            sh:order 18 ;
+            sh:path dct:issued ],
+        [ sh:class dct:MediaType ;
+            sh:description "The media type of the distribution." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 15 ;
+            sh:path dcat:mediaType ] ;
+    sh:targetClass dcat:Distribution .
+
+dcat:RelationshipShape a sh:NodeShape ;
+    rdfs:comment "An association between resources where one has a particular role." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class dcat:Role ;
+            sh:description "The role of an agent in the relationship." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 0 ;
+            sh:path dcat:hadRole ],
+        [ sh:class rdfs:Resource ;
+            sh:description "The resource related through this relationship." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path dct:relation ] ;
+    sh:targetClass dcat:Relationship .
+
+dcat:ResourceShape a sh:NodeShape ;
+    rdfs:comment "Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( prov:qualifiedAttribution dct:creator dcat:landingPage dct:spatial dcat:contactPoint dcat:service dct:accrualPeriodicity dct:modified dct:temporal dct:description dcat:inSeries dct:source dcat:version dcat:distribution dcat:qualifiedRelation prov:wasGeneratedBy dct:hasPart dct:isReferencedBy dcat:theme dct:issued dcat:endpointURL dcat:keyword dct:language rdf:type dcat:hasVersion dct:title dct:accessRights dct:rights dcat:servesDataset dct:identifier adms:identifier dcat:endpointDescription dct:format dct:relation foaf:page dct:provenance dcat:catalog dcat:themeTaxonomy adms:versionNotes dct:conformsTo adms:sample dcat:dataset foaf:homepage dct:license dcat:record dcatap:applicableLegislation dcat:spatialResolutionInMeters dct:type dct:publisher dcat:temporalResolution ) ;
+    sh:targetClass dcat:Resource .
+
+dcat:RoleShape a sh:NodeShape ;
+    rdfs:comment "A role (dcat:Role)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass dcat:Role .
+
+locn:GeometryShape a sh:NodeShape ;
+    rdfs:comment "A spatial geometry (locn:Geometry)." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass locn:Geometry .
+
+odrl:PolicyShape a sh:NodeShape ;
+    rdfs:comment "An ODRL policy." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass odrl:Policy .
+
+prov:ActivityShape a sh:NodeShape ;
+    rdfs:comment "A PROV activity." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prov:Activity .
+
+prov:AttributionShape a sh:NodeShape ;
+    rdfs:comment "A PROV attribution." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass prov:Attribution .
+
+foaf:AgentShape a sh:NodeShape ;
+    rdfs:comment "An agent (e.g. a person, organisation) responsible for a resource." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:property [ sh:class skos:Concept ;
+            sh:description "The nature or genre of the resource." ;
+            sh:maxCount 1 ;
+            sh:nodeKind sh:BlankNodeOrIRI ;
+            sh:order 1 ;
+            sh:path dct:type ],
+        [ sh:datatype xsd:string ;
+            sh:description "A name for an agent." ;
+            sh:minCount 1 ;
+            sh:nodeKind sh:Literal ;
+            sh:order 0 ;
+            sh:path foaf:name ] ;
+    sh:targetClass foaf:Agent .
+
+foaf:DocumentShape a sh:NodeShape ;
+    rdfs:comment "A foaf:Document." ;
+    sh:closed false ;
+    sh:ignoredProperties ( rdf:type ) ;
+    sh:targetClass foaf:Document .
+

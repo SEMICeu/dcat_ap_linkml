@@ -8,8 +8,8 @@
 
 # Derived schemas, generated from the schema.yaml
 tmp/
-project/
-!project/README.md
+# project/ is now tracked in git so consumers can fetch published artefacts
+# without having to install LinkML; regenerate via `just gen-project`.
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

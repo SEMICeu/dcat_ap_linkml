@@ -1,0 +1,1664 @@
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix dcat_ap: <https://w3id.org/semic/dcat-ap/> .
+@prefix dcatap: <http://data.europa.eu/r5r/> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix linkml: <https://w3id.org/linkml/> .
+@prefix locn: <http://www.w3.org/ns/locn#> .
+@prefix odrl: <http://www.w3.org/ns/odrl/2/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix spdx: <http://spdx.org/rdf/terms#> .
+@prefix time: <http://www.w3.org/2006/time#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+xsd:hexBinary a rdfs:Datatype .
+
+xsd:nonNegativeInteger a rdfs:Datatype ;
+    owl:equivalentClass [ a rdfs:Datatype ;
+            owl:onDatatype xsd:integer ;
+            owl:withRestrictions ( [ xsd:minInclusive 0 ] ) ] .
+
+dct:hasPart a owl:ObjectProperty ;
+    rdfs:label "hasPart" ;
+    rdfs:range dcat:Catalog ;
+    skos:definition "A related resource that is included physically or logically." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:identifier a owl:DatatypeProperty ;
+    rdfs:label "identifier" ;
+    rdfs:range xsd:string ;
+    skos:definition "A unique identifier of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:isReferencedBy a owl:ObjectProperty ;
+    rdfs:label "isReferencedBy" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "A related resource that references the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:provenance a owl:ObjectProperty ;
+    rdfs:label "provenance" ;
+    rdfs:range dct:ProvenanceStatement ;
+    skos:definition "A statement about provenance of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+spdx:Checksum a owl:Class ;
+    rdfs:label "Checksum" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty spdx:checksumValue ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty spdx:checksumValue ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty spdx:algorithm ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty spdx:algorithm ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom spdx:ChecksumAlgorithm ;
+            owl:onProperty spdx:algorithm ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:hexBinary ;
+            owl:onProperty spdx:checksumValue ],
+        linkml:ClassDefinition ;
+    skos:definition "A value that allows the contents of a file to be authenticated." ;
+    skos:exactMatch dcat_ap:Checksum ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+xsd:duration a rdfs:Datatype .
+
+skos:ConceptScheme a owl:Class ;
+    rdfs:label "ConceptScheme" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:title ],
+        linkml:ClassDefinition ;
+    skos:definition "A controlled vocabulary or category scheme." ;
+    skos:exactMatch dcat_ap:ConceptScheme ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+skos:prefLabel a owl:DatatypeProperty ;
+    rdfs:label "preferredLabel" ;
+    rdfs:range xsd:string ;
+    skos:definition "The preferred lexical label for a resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+adms:Identifier a owl:Class ;
+    rdfs:label "Identifier" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty skos:notation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty skos:notation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty skos:notation ],
+        linkml:ClassDefinition ;
+    skos:definition "An identifier in a particular context." ;
+    skos:exactMatch dcat_ap:Identifier ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+adms:identifier a owl:ObjectProperty ;
+    rdfs:label "otherIdentifier" ;
+    rdfs:range adms:Identifier ;
+    skos:definition "A secondary identifier of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+adms:sample a owl:ObjectProperty ;
+    rdfs:label "sample" ;
+    rdfs:range dcat:Distribution ;
+    skos:definition "A sample distribution of the dataset." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+adms:versionNotes a owl:DatatypeProperty ;
+    rdfs:label "versionNotes" ;
+    rdfs:range xsd:string ;
+    skos:definition "A description of changes between versions." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Relationship a owl:Class ;
+    rdfs:label "Relationship" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:relation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dcat:hadRole ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Role ;
+            owl:onProperty dcat:hadRole ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dct:relation ],
+        linkml:ClassDefinition ;
+    skos:definition "An association between resources where one has a particular role." ;
+    skos:exactMatch dcat_ap:Relationship ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:accessService a owl:ObjectProperty ;
+    rdfs:label "accessService" ;
+    rdfs:range dcat:DataService ;
+    skos:definition "A data service that provides access to the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:accessURL a owl:ObjectProperty ;
+    rdfs:label "accessUrl" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "A URL of the resource that gives access to a distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:catalog a owl:ObjectProperty ;
+    rdfs:label "catalogue" ;
+    rdfs:range dcat:Catalog ;
+    skos:definition "A subordinate catalogue contained in this catalogue." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:dataset a owl:ObjectProperty ;
+    rdfs:label "dataset" ;
+    rdfs:range dcat:Dataset ;
+    skos:definition "A dataset listed by the catalogue." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:distribution a owl:ObjectProperty ;
+    rdfs:label "datasetDistribution" ;
+    rdfs:range dcat:Distribution ;
+    skos:definition "An available distribution of the dataset." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:downloadURL a owl:ObjectProperty ;
+    rdfs:label "downloadUrl" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "A URL of the downloadable file in a given format." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:endpointDescription a owl:ObjectProperty ;
+    rdfs:label "endpointDescription" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "A description of the service endpoint, including operations." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:endpointURL a owl:ObjectProperty ;
+    rdfs:label "endpointUrl" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "The root location of the service." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:hadRole a owl:ObjectProperty ;
+    rdfs:label "hadRole" ;
+    rdfs:range dcat:Role ;
+    skos:definition "The role of an agent in the relationship." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:hasVersion a owl:ObjectProperty ;
+    rdfs:label "hasVersion" ;
+    rdfs:range dcat:Dataset ;
+    skos:definition "A related dataset that is a version of this dataset." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:inSeries a owl:ObjectProperty ;
+    rdfs:label "inSeries" ;
+    rdfs:range dcat:DatasetSeries ;
+    skos:definition "A dataset series of which this dataset is a part." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:qualifiedRelation a owl:ObjectProperty ;
+    rdfs:label "qualifiedRelation" ;
+    rdfs:range dcat:Relationship ;
+    skos:definition "A qualified relationship to another resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:record a owl:ObjectProperty ;
+    rdfs:label "record" ;
+    rdfs:range dcat:CatalogRecord ;
+    skos:definition "A record describing a registration of a resource in the catalogue." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:servesDataset a owl:ObjectProperty ;
+    rdfs:label "servesDataset" ;
+    rdfs:range dcat:Dataset ;
+    skos:definition "A dataset that this service serves." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:service a owl:ObjectProperty ;
+    rdfs:label "service" ;
+    rdfs:range dcat:DataService ;
+    skos:definition "A data service listed by the catalogue." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:themeTaxonomy a owl:ObjectProperty ;
+    rdfs:label "themes" ;
+    rdfs:range skos:ConceptScheme ;
+    skos:definition "A theme taxonomy used to classify the catalogue's resources." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+prov:qualifiedAttribution a owl:ObjectProperty ;
+    rdfs:label "qualifiedAttribution" ;
+    rdfs:range prov:Attribution ;
+    skos:definition "An attribution of an agent to the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+prov:wasGeneratedBy a owl:ObjectProperty ;
+    rdfs:label "wasGeneratedBy" ;
+    rdfs:range prov:Activity ;
+    skos:definition "An activity that generated the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:name a owl:DatatypeProperty ;
+    rdfs:label "name" ;
+    rdfs:range xsd:string ;
+    skos:definition "A name for an agent." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcatap:availability a owl:ObjectProperty ;
+    rdfs:label "availability" ;
+    rdfs:range skos:Concept ;
+    skos:definition "The availability level of the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:ProvenanceStatement a owl:Class ;
+    rdfs:label "ProvenanceStatement" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A statement of provenance." ;
+    skos:exactMatch dcat_ap:ProvenanceStatement ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+spdx:ChecksumAlgorithm a owl:Class ;
+    rdfs:label "ChecksumAlgorithm" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "An algorithm used to produce a checksum." ;
+    skos:exactMatch dcat_ap:ChecksumAlgorithm ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+spdx:algorithm a owl:ObjectProperty ;
+    rdfs:label "algorithm" ;
+    rdfs:range spdx:ChecksumAlgorithm ;
+    skos:definition "The algorithm used to produce a checksum." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+spdx:checksum a owl:ObjectProperty ;
+    rdfs:label "checksum" ;
+    rdfs:range spdx:Checksum ;
+    skos:definition "A checksum of the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+spdx:checksumValue a owl:DatatypeProperty ;
+    rdfs:label "checksumValue" ;
+    rdfs:range xsd:string ;
+    skos:definition "A lower-case hexadecimal-encoded checksum value." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+skos:notation a owl:DatatypeProperty ;
+    rdfs:label "notation" ;
+    rdfs:range xsd:string ;
+    skos:definition "A string used to identify a concept within a scheme." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+time:hasBeginning a owl:DatatypeProperty ;
+    rdfs:label "beginning" ;
+    rdfs:range xsd:string ;
+    skos:definition "The start of a period of time." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+time:hasEnd a owl:DatatypeProperty ;
+    rdfs:label "end" ;
+    rdfs:range xsd:string ;
+    skos:definition "The end of a period of time." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:DatasetSeries a owl:Class ;
+    rdfs:label "DatasetSeries" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:PeriodOfTime ;
+            owl:onProperty dct:temporal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Location ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Frequency ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom vcard:Kind ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:temporal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom eli:LegalResource ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        dcat:Resource ;
+    skos:definition "A collection of datasets that share a common schema and represent a change over time." ;
+    skos:exactMatch dcat_ap:DatasetSeries ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Role a owl:Class ;
+    rdfs:label "Role" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A role (dcat:Role)." ;
+    skos:exactMatch dcat_ap:Role ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:bbox a owl:DatatypeProperty ;
+    rdfs:label "bbox" ;
+    rdfs:range xsd:string ;
+    skos:definition "The geographic bounding box of a resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:byteSize a owl:DatatypeProperty ;
+    rdfs:label "byteSize" ;
+    rdfs:range xsd:integer ;
+    skos:definition "The size of a distribution in bytes." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:centroid a owl:DatatypeProperty ;
+    rdfs:label "centroid" ;
+    rdfs:range xsd:string ;
+    skos:definition "The geographic centroid of a resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:compressFormat a owl:ObjectProperty ;
+    rdfs:label "compressionFormat" ;
+    rdfs:range dct:MediaType ;
+    skos:definition "The compression format of the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:endDate a owl:DatatypeProperty ;
+    rdfs:label "endDate" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+    skos:definition "The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:mediaType a owl:ObjectProperty ;
+    rdfs:label "mediaType" ;
+    rdfs:range dct:MediaType ;
+    skos:definition "The media type of the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:packageFormat a owl:ObjectProperty ;
+    rdfs:label "packagingFormat" ;
+    rdfs:range dct:MediaType ;
+    skos:definition "The package format of the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:startDate a owl:DatatypeProperty ;
+    rdfs:label "startDate" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+    skos:definition "The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:version a owl:DatatypeProperty ;
+    rdfs:label "version" ;
+    rdfs:range xsd:string ;
+    skos:definition "The version indicator of a resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+locn:Geometry a owl:Class ;
+    rdfs:label "Geometry" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A spatial geometry (locn:Geometry)." ;
+    skos:exactMatch dcat_ap:Geometry ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+locn:geometry a owl:ObjectProperty ;
+    rdfs:label "geometry" ;
+    rdfs:range locn:Geometry ;
+    skos:definition "The geometry of a location." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+odrl:Policy a owl:Class ;
+    rdfs:label "Policy" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "An ODRL policy." ;
+    skos:exactMatch dcat_ap:Policy ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+odrl:hasPolicy a owl:ObjectProperty ;
+    rdfs:label "hasPolicy" ;
+    rdfs:range odrl:Policy ;
+    skos:definition "An ODRL policy attached to the distribution." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+prov:Activity a owl:Class ;
+    rdfs:label "Activity" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A PROV activity." ;
+    skos:exactMatch dcat_ap:Activity ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+prov:Attribution a owl:Class ;
+    rdfs:label "Attribution" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A PROV attribution." ;
+    skos:exactMatch dcat_ap:Attribution ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:homepage a owl:ObjectProperty ;
+    rdfs:label "homepage" ;
+    rdfs:range foaf:Document ;
+    skos:definition "A web page that is the primary access point for the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:primaryTopic a owl:ObjectProperty ;
+    rdfs:label "primaryTopic" ;
+    rdfs:range dcat:Resource ;
+    skos:definition "The resource described by this catalogue record." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:Frequency a owl:Class ;
+    rdfs:label "Frequency" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A rate at which something recurs (DC Terms Frequency)." ;
+    skos:exactMatch dcat_ap:Frequency ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:LicenseDocument a owl:Class ;
+    rdfs:label "LicenceDocument" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:type ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dct:type ],
+        linkml:ClassDefinition ;
+    skos:definition "A legal document giving official permission to do something with a resource." ;
+    skos:exactMatch dcat_ap:LicenceDocument ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:Location a owl:Class ;
+    rdfs:label "Location" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom locn:Geometry ;
+            owl:onProperty locn:geometry ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcat:bbox ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcat:centroid ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:centroid ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:bbox ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty locn:geometry ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty locn:geometry ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:bbox ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:centroid ],
+        linkml:ClassDefinition ;
+    skos:definition "A spatial region or named place." ;
+    skos:exactMatch dcat_ap:Location ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:PeriodOfTime a owl:Class ;
+    rdfs:label "PeriodOfTime" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:startDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty time:hasEnd ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty time:hasEnd ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dcat:startDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:endDate ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:endDate ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty time:hasEnd ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dcat:endDate ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:startDate ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty time:hasBeginning ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty time:hasBeginning ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty time:hasBeginning ],
+        linkml:ClassDefinition ;
+    skos:definition "An interval of time named or defined by its start and end." ;
+    skos:exactMatch dcat_ap:PeriodOfTime ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:creator a owl:ObjectProperty ;
+    rdfs:label "creator" ;
+    rdfs:range foaf:Agent ;
+    skos:definition "The entity responsible for producing the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:format a owl:ObjectProperty ;
+    rdfs:label "format" ;
+    rdfs:range dct:MediaType ;
+    skos:definition "The file format, physical medium, or dimensions of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:relation a owl:ObjectProperty ;
+    rdfs:label "relatedResource",
+        "relation" ;
+    rdfs:range rdfs:Resource ;
+    skos:definition "A related resource.",
+        "The resource related through this relationship." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:rights a owl:ObjectProperty ;
+    rdfs:label "rights" ;
+    rdfs:range dct:RightsStatement ;
+    skos:definition "Rights statement for the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:CatalogRecord a owl:Class ;
+    rdfs:label "CatalogueRecord" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom dcat:CatalogRecord ;
+            owl:onProperty dct:source ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:source ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:source ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty foaf:primaryTopic ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LinguisticSystem ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty foaf:primaryTopic ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Resource ;
+            owl:onProperty foaf:primaryTopic ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Standard ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:modified ],
+        linkml:ClassDefinition ;
+    skos:definition "A description of a single entry in a data catalogue." ;
+    skos:exactMatch dcat_ap:CatalogueRecord ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Distribution a owl:Class ;
+    rdfs:label "Distribution" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom dct:RightsStatement ;
+            owl:onProperty dct:rights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom eli:LegalResource ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:MediaType ;
+            owl:onProperty dcat:packageFormat ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:format ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:rights ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:mediaType ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dcatap:availability ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LinguisticSystem ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Standard ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:byteSize ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:accessService ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:duration ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:compressFormat ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:spatialResolutionInMeters ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:availability ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:MediaType ;
+            owl:onProperty dcat:compressFormat ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom spdx:Checksum ;
+            owl:onProperty spdx:checksum ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:packageFormat ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty adms:status ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:mediaType ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty odrl:hasPolicy ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:DataService ;
+            owl:onProperty dcat:accessService ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:decimal ;
+            owl:onProperty dcat:spatialResolutionInMeters ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty spdx:checksum ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LicenseDocument ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:MediaType ;
+            owl:onProperty dct:format ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:MediaType ;
+            owl:onProperty dcat:mediaType ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dcat:downloadURL ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:nonNegativeInteger ;
+            owl:onProperty dcat:byteSize ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom odrl:Policy ;
+            owl:onProperty odrl:hasPolicy ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dcat:accessURL ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dcat:accessURL ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:packageFormat ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:byteSize ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty spdx:checksum ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcatap:availability ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:downloadURL ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:compressFormat ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty odrl:hasPolicy ],
+        linkml:ClassDefinition ;
+    skos:definition "A specific representation of a dataset (e.g. a downloadable file or an API access)." ;
+    skos:exactMatch dcat_ap:Distribution ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:keyword a owl:DatatypeProperty ;
+    rdfs:label "keyword" ;
+    rdfs:range xsd:string ;
+    skos:definition "A keyword or tag describing the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:landingPage a owl:ObjectProperty ;
+    rdfs:label "landingPage" ;
+    rdfs:range foaf:Document ;
+    skos:definition "A web page that gives access to the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:spatialResolutionInMeters a owl:DatatypeProperty ;
+    rdfs:label "spatialResolution" ;
+    rdfs:range xsd:decimal ;
+    skos:definition "Minimum spatial separation resolvable, in meters." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:theme a owl:ObjectProperty ;
+    rdfs:label "theme" ;
+    rdfs:range skos:Concept ;
+    skos:definition "A category of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:source a owl:ObjectProperty ;
+    rdfs:label "source",
+        "sourceMetadata" ;
+    rdfs:range dcat:CatalogRecord,
+        dcat:Dataset ;
+    skos:definition "A related resource from which the described resource is derived.",
+        "Original metadata source for the catalog record." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+vcard:Kind a owl:Class ;
+    rdfs:label "Kind" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A vCard Kind." ;
+    skos:exactMatch dcat_ap:Kind ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Catalog a owl:Class ;
+    rdfs:label "Catalogue" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:record ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:PeriodOfTime ;
+            owl:onProperty dct:temporal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Dataset ;
+            owl:onProperty dcat:dataset ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LicenseDocument ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:creator ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:DataService ;
+            owl:onProperty dcat:service ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty foaf:homepage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty foaf:homepage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:themeTaxonomy ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:RightsStatement ;
+            owl:onProperty dct:rights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Catalog ;
+            owl:onProperty dct:hasPart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:hasPart ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:service ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:creator ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LinguisticSystem ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:dataset ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:catalog ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Location ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:CatalogRecord ;
+            owl:onProperty dcat:record ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Catalog ;
+            owl:onProperty dcat:catalog ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty foaf:homepage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:rights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:ConceptScheme ;
+            owl:onProperty dcat:themeTaxonomy ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom eli:LegalResource ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:temporal ],
+        dcat:Resource ;
+    skos:definition "A curated collection of metadata about resources (e.g. datasets and data services in the context of a data catalogue)." ;
+    skos:exactMatch dcat_ap:Catalogue ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:DataService a owl:Class ;
+    rdfs:label "DataService" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dcat:endpointDescription ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:MediaType ;
+            owl:onProperty dct:format ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LicenseDocument ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom eli:LegalResource ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty dcat:landingPage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcat:keyword ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dcat:endpointURL ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dcat:theme ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:format ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:servesDataset ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:keyword ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Standard ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:license ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:theme ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:landingPage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:RightsStatement ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:endpointDescription ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom vcard:Kind ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Dataset ;
+            owl:onProperty dcat:servesDataset ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dcat:endpointURL ],
+        dcat:Resource ;
+    skos:definition "A collection of operations that provides access to one or more datasets or data processing functions." ;
+    skos:exactMatch dcat_ap:DataService ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:LinguisticSystem a owl:Class ;
+    rdfs:label "LinguisticSystem" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A linguistic system (DC Terms LinguisticSystem)." ;
+    skos:exactMatch dcat_ap:LinguisticSystem ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:Standard a owl:Class ;
+    rdfs:label "Standard" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A standard (DC Terms Standard)." ;
+    skos:exactMatch dcat_ap:Standard ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:accessRights a owl:ObjectProperty ;
+    rdfs:label "accessRights" ;
+    rdfs:range dct:RightsStatement ;
+    skos:definition "Information about who can access the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:accrualPeriodicity a owl:ObjectProperty ;
+    rdfs:label "frequency" ;
+    rdfs:range dct:Frequency ;
+    skos:definition "The frequency at which the dataset is updated." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:spatial a owl:ObjectProperty ;
+    rdfs:label "geographicalCoverage" ;
+    rdfs:range dct:Location ;
+    skos:definition "The geographic coverage of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:temporal a owl:ObjectProperty ;
+    rdfs:label "temporalCoverage" ;
+    rdfs:range dct:PeriodOfTime ;
+    skos:definition "The temporal coverage of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:type a owl:ObjectProperty ;
+    rdfs:label "type" ;
+    rdfs:range skos:Concept ;
+    skos:definition "The nature or genre of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+adms:status a owl:ObjectProperty ;
+    rdfs:label "changeType",
+        "status" ;
+    rdfs:range skos:Concept ;
+    skos:definition "The status of the distribution.",
+        "The type of update on the cataloged resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:contactPoint a owl:ObjectProperty ;
+    rdfs:label "contactPoint" ;
+    rdfs:range vcard:Kind ;
+    skos:definition "Contact information for the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:temporalResolution a owl:DatatypeProperty ;
+    rdfs:label "temporalResolution" ;
+    rdfs:range xsd:string ;
+    skos:definition "Minimum time period resolvable in the dataset." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:page a owl:ObjectProperty ;
+    rdfs:label "documentation" ;
+    rdfs:range foaf:Document ;
+    skos:definition "A page or document about the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+eli:LegalResource a owl:Class ;
+    rdfs:label "LegalResource" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A legal resource (ELI)." ;
+    skos:exactMatch dcat_ap:LegalResource ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:RightsStatement a owl:Class ;
+    rdfs:label "RightsStatement" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A statement about rights associated with a resource." ;
+    skos:exactMatch dcat_ap:RightsStatement ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Resource a owl:Class ;
+    rdfs:label "CataloguedResource" ;
+    rdfs:subClassOf [ owl:unionOf ( dcat:Catalog dcat:DataService dcat:Dataset dcat:DatasetSeries ) ],
+        rdfs:Resource ;
+    skos:definition "Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource)." ;
+    skos:exactMatch dcat_ap:CataloguedResource ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:conformsTo a owl:ObjectProperty ;
+    rdfs:label "applicationProfile",
+        "conformsTo",
+        "linkedSchemas" ;
+    rdfs:range dct:Standard ;
+    skos:definition "A schema that the distribution conforms to.",
+        "An established standard the resource conforms to.",
+        "The application profile this catalogue record conforms to." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:language a owl:ObjectProperty ;
+    rdfs:label "language" ;
+    rdfs:range dct:LinguisticSystem ;
+    skos:definition "A language of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:Agent a owl:Class ;
+    rdfs:label "Agent" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty foaf:name ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dct:type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:type ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty foaf:name ],
+        linkml:ClassDefinition ;
+    skos:definition "An agent (e.g. a person, organisation) responsible for a resource." ;
+    skos:exactMatch dcat_ap:Agent ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:license a owl:ObjectProperty ;
+    rdfs:label "licence" ;
+    rdfs:range dct:LicenseDocument ;
+    skos:definition "A licence under which the resource is made available." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat:Dataset a owl:Class ;
+    rdfs:label "Dataset" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:allValuesFrom eli:LegalResource ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:source ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcatap:applicableLegislation ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dcat:theme ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom prov:Attribution ;
+            owl:onProperty prov:qualifiedAttribution ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty adms:identifier ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:ProvenanceStatement ;
+            owl:onProperty dct:provenance ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:description ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Distribution ;
+            owl:onProperty dcat:distribution ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:inSeries ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:provenance ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:isReferencedBy ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Relationship ;
+            owl:onProperty dcat:qualifiedRelation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:RightsStatement ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:publisher ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:type ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:distribution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:decimal ;
+            owl:onProperty dcat:spatialResolutionInMeters ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:version ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:temporal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Frequency ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:relation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:LinguisticSystem ;
+            owl:onProperty dct:language ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:theme ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty adms:versionNotes ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:hasVersion ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom [ a rdfs:Datatype ;
+                    owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:title ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:PeriodOfTime ;
+            owl:onProperty dct:temporal ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Dataset ;
+            owl:onProperty dcat:hasVersion ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:landingPage ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dct:relation ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom rdfs:Resource ;
+            owl:onProperty dct:isReferencedBy ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty adms:versionNotes ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dct:issued ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Dataset ;
+            owl:onProperty dct:source ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcat:keyword ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prov:qualifiedAttribution ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:keyword ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Standard ;
+            owl:onProperty dct:conformsTo ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:DatasetSeries ;
+            owl:onProperty dcat:inSeries ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty prov:wasGeneratedBy ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:identifier ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dct:Location ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom vcard:Kind ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom skos:Concept ;
+            owl:onProperty dct:type ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom prov:Activity ;
+            owl:onProperty prov:wasGeneratedBy ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom dcat:Distribution ;
+            owl:onProperty adms:sample ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:contactPoint ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:creator ],
+        [ a owl:Restriction ;
+            owl:maxCardinality 1 ;
+            owl:onProperty dcat:version ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:qualifiedRelation ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:spatial ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty foaf:page ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:accrualPeriodicity ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Document ;
+            owl:onProperty dcat:landingPage ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dcat:version ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom adms:Identifier ;
+            owl:onProperty adms:identifier ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty adms:sample ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dcat:spatialResolutionInMeters ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:modified ],
+        [ a owl:Restriction ;
+            owl:minCardinality 0 ;
+            owl:onProperty dct:accessRights ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty dct:identifier ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:duration ;
+            owl:onProperty dcat:temporalResolution ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom foaf:Agent ;
+            owl:onProperty dct:creator ],
+        dcat:Resource ;
+    skos:definition "A collection of data, published or curated by a single agent, and available for access or download in one or more representations." ;
+    skos:exactMatch dcat_ap:Dataset ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcatap:applicableLegislation a owl:ObjectProperty ;
+    rdfs:label "applicableLegislation" ;
+    rdfs:range eli:LegalResource ;
+    skos:definition "The legislation applicable to the resource (DCAT-AP extension)." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:MediaType a owl:Class ;
+    rdfs:label "MediaType" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "An IANA media type (DC Terms MediaType)." ;
+    skos:exactMatch dcat_ap:MediaType ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+foaf:Document a owl:Class ;
+    rdfs:label "Document" ;
+    rdfs:subClassOf rdfs:Resource ;
+    skos:definition "A foaf:Document." ;
+    skos:exactMatch dcat_ap:Document ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:description a owl:DatatypeProperty ;
+    rdfs:label "description" ;
+    rdfs:range xsd:string ;
+    skos:definition "A free-text account of the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:publisher a owl:ObjectProperty ;
+    rdfs:label "publisher" ;
+    rdfs:range foaf:Agent ;
+    skos:definition "An entity responsible for making the resource available." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+skos:Concept a owl:Class ;
+    rdfs:label "Concept" ;
+    rdfs:subClassOf [ a owl:Restriction ;
+            owl:minCardinality 1 ;
+            owl:onProperty skos:prefLabel ],
+        [ a owl:Restriction ;
+            owl:allValuesFrom xsd:string ;
+            owl:onProperty skos:prefLabel ],
+        linkml:ClassDefinition ;
+    skos:definition "A concept (e.g. a category, theme, keyword)." ;
+    skos:exactMatch dcat_ap:Concept ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:title a owl:DatatypeProperty ;
+    rdfs:label "title" ;
+    rdfs:range xsd:string ;
+    skos:definition "A name given to the resource." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:issued a owl:DatatypeProperty ;
+    rdfs:label "listingDate",
+        "releaseDate" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ],
+        [ a rdfs:Datatype ;
+            owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+    skos:definition "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+        "The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dct:modified a owl:DatatypeProperty ;
+    rdfs:label "modificationDate" ;
+    rdfs:range [ a rdfs:Datatype ;
+            owl:unionOf ( xsd:date xsd:dateTime xsd:gYear xsd:gYearMonth ) ] ;
+    skos:definition "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape." ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+xsd:gYear a rdfs:Datatype .
+
+xsd:gYearMonth a rdfs:Datatype .
+
+rdfs:Resource a owl:Class ;
+    rdfs:label "Resource" ;
+    rdfs:subClassOf [ owl:unionOf ( prov:Activity prov:Attribution dcat:Resource spdx:ChecksumAlgorithm foaf:Document dct:Frequency locn:Geometry vcard:Kind eli:LegalResource dct:LinguisticSystem dct:MediaType odrl:Policy dct:ProvenanceStatement dct:RightsStatement dcat:Role dct:Standard ) ],
+        linkml:ClassDefinition ;
+    skos:definition "Top-level abstract resource. Used as a generic node range when the DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific class." ;
+    skos:exactMatch dcat_ap:Resource ;
+    skos:inScheme dcat_ap:3.0.1 .
+
+dcat_ap:3.0.1 a owl:Ontology ;
+    rdfs:label "dcat_ap" ;
+    dct:license "CC-BY-4.0" ;
+    dct:title "DCAT-AP 3.0.1 (LinkML approximation)" ;
+    skos:definition "A LinkML approximation of the SEMIC DCAT-AP 3.0.1 specification. This schema captures the core classes and properties of DCAT-AP 3.0.1 as defined by the SHACL shapes at https://semiceu.github.io/DCAT-AP/releases/3.0.1/html/shacl/shapes.ttl and the JSON-LD context at https://semiceu.github.io/DCAT-AP/releases/3.0.1/context/dcat-ap.jsonld This is a SCOPING/DEMO schema, not a production specification. Some constructs (e.g. property-level disjunction shapes, sh:or with multiple datatypes, inverse paths) are not directly expressible in LinkML and are approximated or omitted." .
+

@@ -1,0 +1,4361 @@
+{
+  "name": "dcat_ap",
+  "description": "A LinkML approximation of the SEMIC DCAT-AP 3.0.1 specification. This schema captures the core classes and properties of DCAT-AP 3.0.1 as defined by the SHACL shapes at https://semiceu.github.io/DCAT-AP/releases/3.0.1/html/shacl/shapes.ttl and the JSON-LD context at https://semiceu.github.io/DCAT-AP/releases/3.0.1/context/dcat-ap.jsonld This is a SCOPING/DEMO schema, not a production specification. Some constructs (e.g. property-level disjunction shapes, sh:or with multiple datatypes, inverse paths) are not directly expressible in LinkML and are approximated or omitted.",
+  "title": "DCAT-AP 3.0.1 (LinkML approximation)",
+  "id": "https://w3id.org/semic/dcat-ap/3.0.1",
+  "imports": [
+    "linkml:types"
+  ],
+  "license": "CC-BY-4.0",
+  "prefixes": [
+    {
+      "prefix_prefix": "linkml",
+      "prefix_reference": "https://w3id.org/linkml/"
+    },
+    {
+      "prefix_prefix": "dcat_ap",
+      "prefix_reference": "https://w3id.org/semic/dcat-ap/"
+    },
+    {
+      "prefix_prefix": "dcat",
+      "prefix_reference": "http://www.w3.org/ns/dcat#"
+    },
+    {
+      "prefix_prefix": "dcatap",
+      "prefix_reference": "http://data.europa.eu/r5r/"
+    },
+    {
+      "prefix_prefix": "dct",
+      "prefix_reference": "http://purl.org/dc/terms/"
+    },
+    {
+      "prefix_prefix": "foaf",
+      "prefix_reference": "http://xmlns.com/foaf/0.1/"
+    },
+    {
+      "prefix_prefix": "skos",
+      "prefix_reference": "http://www.w3.org/2004/02/skos/core#"
+    },
+    {
+      "prefix_prefix": "adms",
+      "prefix_reference": "http://www.w3.org/ns/adms#"
+    },
+    {
+      "prefix_prefix": "spdx",
+      "prefix_reference": "http://spdx.org/rdf/terms#"
+    },
+    {
+      "prefix_prefix": "prov",
+      "prefix_reference": "http://www.w3.org/ns/prov#"
+    },
+    {
+      "prefix_prefix": "odrl",
+      "prefix_reference": "http://www.w3.org/ns/odrl/2/"
+    },
+    {
+      "prefix_prefix": "locn",
+      "prefix_reference": "http://www.w3.org/ns/locn#"
+    },
+    {
+      "prefix_prefix": "time",
+      "prefix_reference": "http://www.w3.org/2006/time#"
+    },
+    {
+      "prefix_prefix": "vcard",
+      "prefix_reference": "http://www.w3.org/2006/vcard/ns#"
+    },
+    {
+      "prefix_prefix": "eli",
+      "prefix_reference": "http://data.europa.eu/eli/ontology#"
+    },
+    {
+      "prefix_prefix": "rdf",
+      "prefix_reference": "http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    },
+    {
+      "prefix_prefix": "rdfs",
+      "prefix_reference": "http://www.w3.org/2000/01/rdf-schema#"
+    },
+    {
+      "prefix_prefix": "owl",
+      "prefix_reference": "http://www.w3.org/2002/07/owl#"
+    },
+    {
+      "prefix_prefix": "xsd",
+      "prefix_reference": "http://www.w3.org/2001/XMLSchema#"
+    }
+  ],
+  "default_prefix": "dcat_ap",
+  "default_range": "string",
+  "types": [
+    {
+      "name": "hexBinary",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/HexBinary",
+      "description": "A hex-binary encoded value.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#hexBinary",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "duration",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Duration",
+      "description": "An XSD duration literal.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#duration",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "nonNegativeInteger",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/NonNegativeInteger",
+      "description": "An XSD non-negative integer.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#nonNegativeInteger",
+      "minimum_value": 0,
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "gYear",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/GYear",
+      "description": "An XSD gYear literal (a Gregorian calendar year, e.g. \"2024\"). Used in DCAT-AP's DateOrDateTimeDataType disjunction.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#gYear",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "gYearMonth",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/GYearMonth",
+      "description": "An XSD gYearMonth literal (a Gregorian calendar year and month, e.g. \"2024-04\"). Used in DCAT-AP's DateOrDateTimeDataType disjunction.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#gYearMonth",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "string",
+      "definition_uri": "https://w3id.org/linkml/String",
+      "description": "A character string",
+      "notes": [
+        "In RDF serializations, a slot with range of string is treated as a literal or type xsd:string. If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"string\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Text"
+      ],
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "integer",
+      "definition_uri": "https://w3id.org/linkml/Integer",
+      "description": "An integer",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"integer\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Integer"
+      ],
+      "base": "int",
+      "uri": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "boolean",
+      "definition_uri": "https://w3id.org/linkml/Boolean",
+      "description": "A binary (true or false) value",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"boolean\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Boolean"
+      ],
+      "base": "Bool",
+      "uri": "http://www.w3.org/2001/XMLSchema#boolean",
+      "repr": "bool",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "float",
+      "definition_uri": "https://w3id.org/linkml/Float",
+      "description": "A real number that conforms to the xsd:float specification",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"float\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#float",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "double",
+      "definition_uri": "https://w3id.org/linkml/Double",
+      "description": "A real number that conforms to the xsd:double specification",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"double\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:Float"
+      ],
+      "base": "float",
+      "uri": "http://www.w3.org/2001/XMLSchema#double",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "decimal",
+      "definition_uri": "https://w3id.org/linkml/Decimal",
+      "description": "A real number with arbitrary precision that conforms to the xsd:decimal specification",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"decimal\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "broad_mappings": [
+        "schema:Number"
+      ],
+      "base": "Decimal",
+      "uri": "http://www.w3.org/2001/XMLSchema#decimal",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "time",
+      "definition_uri": "https://w3id.org/linkml/Time",
+      "description": "A time object represents a (local) time of day, independent of any particular day",
+      "notes": [
+        "URI is dateTime because OWL reasoners do not work with straight date or time",
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"time\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Time"
+      ],
+      "base": "XSDTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#time",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date",
+      "definition_uri": "https://w3id.org/linkml/Date",
+      "description": "a date (year, month and day) in an idealized calendar",
+      "notes": [
+        "URI is dateTime because OWL reasoners don't work with straight date or time",
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"date\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:Date"
+      ],
+      "base": "XSDDate",
+      "uri": "http://www.w3.org/2001/XMLSchema#date",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "datetime",
+      "definition_uri": "https://w3id.org/linkml/Datetime",
+      "description": "The combination of a date and time",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"datetime\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "exact_mappings": [
+        "schema:DateTime"
+      ],
+      "base": "XSDDateTime",
+      "uri": "http://www.w3.org/2001/XMLSchema#dateTime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "date_or_datetime",
+      "definition_uri": "https://w3id.org/linkml/DateOrDatetime",
+      "description": "Either a date or a datetime",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"date_or_datetime\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "https://w3id.org/linkml/DateOrDatetime",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uriorcurie",
+      "definition_uri": "https://w3id.org/linkml/Uriorcurie",
+      "description": "a URI or a CURIE",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"uriorcurie\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "URIorCURIE",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "curie",
+      "definition_uri": "https://w3id.org/linkml/Curie",
+      "conforms_to": "https://www.w3.org/TR/curie/",
+      "description": "a compact URI",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"curie\"."
+      ],
+      "comments": [
+        "in RDF serializations this MUST be expanded to a URI",
+        "in non-RDF serializations MAY be serialized as the compact representation"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "Curie",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "uri",
+      "definition_uri": "https://w3id.org/linkml/Uri",
+      "conforms_to": "https://www.ietf.org/rfc/rfc3987.txt",
+      "description": "a complete URI",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"uri\"."
+      ],
+      "comments": [
+        "in RDF serializations a slot with range of uri is treated as a literal or type xsd:anyURI unless it is an identifier or a reference to an identifier, in which case it is translated directly to a node"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "close_mappings": [
+        "schema:URL"
+      ],
+      "base": "URI",
+      "uri": "http://www.w3.org/2001/XMLSchema#anyURI",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "ncname",
+      "definition_uri": "https://w3id.org/linkml/Ncname",
+      "description": "Prefix part of CURIE",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"ncname\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NCName",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "objectidentifier",
+      "definition_uri": "https://w3id.org/linkml/Objectidentifier",
+      "description": "A URI or CURIE that represents an object in the model.",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"objectidentifier\"."
+      ],
+      "comments": [
+        "Used for inheritance and type checking"
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "ElementIdentifier",
+      "uri": "http://www.w3.org/ns/shex#iri",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "nodeidentifier",
+      "definition_uri": "https://w3id.org/linkml/Nodeidentifier",
+      "description": "A URI, CURIE or BNODE that represents a node in a model.",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"nodeidentifier\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "NodeIdentifier",
+      "uri": "http://www.w3.org/ns/shex#nonLiteral",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpointer",
+      "definition_uri": "https://w3id.org/linkml/Jsonpointer",
+      "conforms_to": "https://datatracker.ietf.org/doc/html/rfc6901",
+      "description": "A string encoding a JSON Pointer. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to a valid object within the current instance document when encoded in tree form.",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"jsonpointer\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "jsonpath",
+      "definition_uri": "https://w3id.org/linkml/Jsonpath",
+      "conforms_to": "https://www.ietf.org/archive/id/draft-goessner-dispatch-jsonpath-00.html",
+      "description": "A string encoding a JSON Path. The value of the string MUST conform to JSON Point syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded in tree form.",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"jsonpath\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    },
+    {
+      "name": "sparqlpath",
+      "definition_uri": "https://w3id.org/linkml/Sparqlpath",
+      "conforms_to": "https://www.w3.org/TR/sparql11-query/#propertypaths",
+      "description": "A string encoding a SPARQL Property Path. The value of the string MUST conform to SPARQL syntax and SHOULD dereference to zero or more valid objects within the current instance document when encoded as RDF.",
+      "notes": [
+        "If you are authoring schemas in LinkML YAML, the type is referenced with the lower case \"sparqlpath\"."
+      ],
+      "from_schema": "https://w3id.org/linkml/types",
+      "imported_from": "linkml:types",
+      "base": "str",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "repr": "str",
+      "@type": "TypeDefinition"
+    }
+  ],
+  "slots": [
+    {
+      "name": "title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "CatalogueRecord",
+        "ConceptScheme",
+        "DataService",
+        "Dataset",
+        "DatasetSeries",
+        "Distribution"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "description",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/description",
+      "description": "A free-text account of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/description"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/description",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "CatalogueRecord",
+        "DataService",
+        "Dataset",
+        "DatasetSeries",
+        "Distribution"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "identifier",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/identifier",
+      "description": "A unique identifier of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/identifier"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/identifier",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "keyword",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/keyword",
+      "description": "A keyword or tag describing the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#keyword"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#keyword",
+      "owner": "Dataset",
+      "domain_of": [
+        "DataService",
+        "Dataset"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "notation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/notation",
+      "description": "A string used to identify a concept within a scheme.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2004/02/skos/core#notation"
+      ],
+      "slot_uri": "http://www.w3.org/2004/02/skos/core#notation",
+      "owner": "Identifier",
+      "domain_of": [
+        "Identifier"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "preferredLabel",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/preferredLabel",
+      "description": "The preferred lexical label for a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2004/02/skos/core#prefLabel"
+      ],
+      "slot_uri": "http://www.w3.org/2004/02/skos/core#prefLabel",
+      "owner": "Concept",
+      "domain_of": [
+        "Concept"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "name",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/name",
+      "description": "A name for an agent.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/name"
+      ],
+      "slot_uri": "http://xmlns.com/foaf/0.1/name",
+      "owner": "Agent",
+      "domain_of": [
+        "Agent"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "version",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/version",
+      "description": "The version indicator of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#version"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#version",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "versionNotes",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/versionNotes",
+      "description": "A description of changes between versions.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#versionNotes"
+      ],
+      "slot_uri": "http://www.w3.org/ns/adms#versionNotes",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "string",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "bbox",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/bbox",
+      "description": "The geographic bounding box of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#bbox"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#bbox",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "centroid",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/centroid",
+      "description": "The geographic centroid of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#centroid"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#centroid",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "startDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/startDate",
+      "description": "The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#startDate"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#startDate",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "endDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/endDate",
+      "description": "The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#endDate"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#endDate",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "releaseDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/releaseDate",
+      "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "Dataset",
+        "DatasetSeries",
+        "Distribution"
+      ],
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "CatalogueRecord",
+        "Dataset",
+        "DatasetSeries",
+        "Distribution"
+      ],
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "listingDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/listingDate",
+      "description": "The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "byteSize",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/byteSize",
+      "description": "The size of a distribution in bytes.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#byteSize"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#byteSize",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "integer",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "spatialResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/spatialResolution",
+      "description": "Minimum spatial separation resolvable, in meters.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#spatialResolutionInMeters"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+      "owner": "Distribution",
+      "domain_of": [
+        "Dataset",
+        "Distribution"
+      ],
+      "range": "decimal",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "temporalResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/temporalResolution",
+      "description": "Minimum time period resolvable in the dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#temporalResolution"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#temporalResolution",
+      "owner": "Distribution",
+      "domain_of": [
+        "Dataset",
+        "Distribution"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "checksumValue",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/checksumValue",
+      "description": "A lower-case hexadecimal-encoded checksum value.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#checksumValue"
+      ],
+      "slot_uri": "http://spdx.org/rdf/terms#checksumValue",
+      "owner": "Checksum",
+      "domain_of": [
+        "Checksum"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "publisher",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/publisher",
+      "description": "An entity responsible for making the resource available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/publisher"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/publisher",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "Catalogue",
+        "DataService",
+        "Dataset",
+        "DatasetSeries"
+      ],
+      "range": "Agent",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "creator",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/creator",
+      "description": "The entity responsible for producing the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/creator"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/creator",
+      "owner": "Dataset",
+      "domain_of": [
+        "Catalogue",
+        "Dataset"
+      ],
+      "range": "Agent",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "contactPoint",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/contactPoint",
+      "description": "Contact information for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#contactPoint"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#contactPoint",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DataService",
+        "Dataset",
+        "DatasetSeries"
+      ],
+      "range": "Kind",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "language",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/language",
+      "description": "A language of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/language"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/language",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "CatalogueRecord",
+        "Dataset",
+        "Distribution"
+      ],
+      "range": "LinguisticSystem",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "licence",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/licence",
+      "description": "A licence under which the resource is made available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/license"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/license",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "DataService",
+        "Distribution"
+      ],
+      "range": "LicenceDocument",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "rights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/rights",
+      "description": "Rights statement for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/rights"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/rights",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "Distribution"
+      ],
+      "range": "RightsStatement",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "hasPart",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hasPart",
+      "description": "A related resource that is included physically or logically.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/hasPart"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/hasPart",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "Catalogue",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "geographicalCoverage",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/geographicalCoverage",
+      "description": "The geographic coverage of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/spatial"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/spatial",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "Catalogue",
+        "Dataset",
+        "DatasetSeries"
+      ],
+      "range": "Location",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "temporalCoverage",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/temporalCoverage",
+      "description": "The temporal coverage of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/temporal"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/temporal",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "Catalogue",
+        "Dataset",
+        "DatasetSeries"
+      ],
+      "range": "PeriodOfTime",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "themes",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/themes",
+      "description": "A theme taxonomy used to classify the catalogue's resources.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#themeTaxonomy"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#themeTaxonomy",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "ConceptScheme",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "theme",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/theme",
+      "description": "A category of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#theme"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#theme",
+      "owner": "Dataset",
+      "domain_of": [
+        "DataService",
+        "Dataset"
+      ],
+      "range": "Concept",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "homepage",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/homepage",
+      "description": "A web page that is the primary access point for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/homepage"
+      ],
+      "slot_uri": "http://xmlns.com/foaf/0.1/homepage",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "Document",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "catalogue",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/catalogue",
+      "description": "A subordinate catalogue contained in this catalogue.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#catalog"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#catalog",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "Catalogue",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "dataset",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/dataset",
+      "description": "A dataset listed by the catalogue.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#dataset"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#dataset",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "Dataset",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "service",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/service",
+      "description": "A data service listed by the catalogue.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#service"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#service",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "DataService",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "record",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/record",
+      "description": "A record describing a registration of a resource in the catalogue.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#record"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#record",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "range": "CatalogueRecord",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "applicationProfile",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/applicationProfile",
+      "description": "The application profile this catalogue record conforms to.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/conformsTo"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/conformsTo",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "range": "Standard",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "changeType",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/changeType",
+      "description": "The type of update on the cataloged resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#status"
+      ],
+      "slot_uri": "http://www.w3.org/ns/adms#status",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "primaryTopic",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/primaryTopic",
+      "description": "The resource described by this catalogue record.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/primaryTopic"
+      ],
+      "slot_uri": "http://xmlns.com/foaf/0.1/primaryTopic",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "range": "CataloguedResource",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "sourceMetadata",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/sourceMetadata",
+      "description": "Original metadata source for the catalog record.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/source"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/source",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "range": "CatalogueRecord",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "applicableLegislation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/applicableLegislation",
+      "description": "The legislation applicable to the resource (DCAT-AP extension).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://data.europa.eu/r5r/applicableLegislation"
+      ],
+      "slot_uri": "http://data.europa.eu/r5r/applicableLegislation",
+      "owner": "Distribution",
+      "domain_of": [
+        "Catalogue",
+        "DataService",
+        "Dataset",
+        "DatasetSeries",
+        "Distribution"
+      ],
+      "range": "LegalResource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "algorithm",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/algorithm",
+      "description": "The algorithm used to produce a checksum.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#algorithm"
+      ],
+      "slot_uri": "http://spdx.org/rdf/terms#algorithm",
+      "owner": "Checksum",
+      "domain_of": [
+        "Checksum"
+      ],
+      "range": "ChecksumAlgorithm",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "type",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/type",
+      "description": "The nature or genre of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/type"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/type",
+      "owner": "LicenceDocument",
+      "domain_of": [
+        "Agent",
+        "Dataset",
+        "LicenceDocument"
+      ],
+      "range": "Concept",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "accessRights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessRights",
+      "description": "Information about who can access the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accessRights"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/accessRights",
+      "owner": "Dataset",
+      "domain_of": [
+        "DataService",
+        "Dataset"
+      ],
+      "range": "RightsStatement",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "conformsTo",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/conformsTo",
+      "description": "An established standard the resource conforms to.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/conformsTo"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/conformsTo",
+      "owner": "Dataset",
+      "domain_of": [
+        "DataService",
+        "Dataset"
+      ],
+      "range": "Standard",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "documentation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/documentation",
+      "description": "A page or document about the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/page"
+      ],
+      "slot_uri": "http://xmlns.com/foaf/0.1/page",
+      "owner": "Distribution",
+      "domain_of": [
+        "DataService",
+        "Dataset",
+        "Distribution"
+      ],
+      "range": "Document",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "endpointUrl",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/endpointUrl",
+      "description": "The root location of the service.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#endpointURL"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#endpointURL",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "endpointDescription",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/endpointDescription",
+      "description": "A description of the service endpoint, including operations.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#endpointDescription"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#endpointDescription",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "format",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/format",
+      "description": "The file format, physical medium, or dimensions of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/format"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/format",
+      "owner": "Distribution",
+      "domain_of": [
+        "DataService",
+        "Distribution"
+      ],
+      "range": "MediaType",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "landingPage",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/landingPage",
+      "description": "A web page that gives access to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#landingPage"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#landingPage",
+      "owner": "Dataset",
+      "domain_of": [
+        "DataService",
+        "Dataset"
+      ],
+      "range": "Document",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "servesDataset",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/servesDataset",
+      "description": "A dataset that this service serves.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#servesDataset"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#servesDataset",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "range": "Dataset",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "datasetDistribution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/datasetDistribution",
+      "description": "An available distribution of the dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#distribution"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#distribution",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Distribution",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "frequency",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/frequency",
+      "description": "The frequency at which the dataset is updated.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accrualPeriodicity"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/accrualPeriodicity",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "Dataset",
+        "DatasetSeries"
+      ],
+      "range": "Frequency",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "hasVersion",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hasVersion",
+      "description": "A related dataset that is a version of this dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#hasVersion"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#hasVersion",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Dataset",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "inSeries",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/inSeries",
+      "description": "A dataset series of which this dataset is a part.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#inSeries"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#inSeries",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "DatasetSeries",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "isReferencedBy",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/isReferencedBy",
+      "description": "A related resource that references the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/isReferencedBy"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/isReferencedBy",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "otherIdentifier",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/otherIdentifier",
+      "description": "A secondary identifier of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#identifier"
+      ],
+      "slot_uri": "http://www.w3.org/ns/adms#identifier",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Identifier",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "provenance",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/provenance",
+      "description": "A statement about provenance of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/provenance"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/provenance",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "ProvenanceStatement",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "qualifiedAttribution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/qualifiedAttribution",
+      "description": "An attribution of an agent to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/prov#qualifiedAttribution"
+      ],
+      "slot_uri": "http://www.w3.org/ns/prov#qualifiedAttribution",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Attribution",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "qualifiedRelation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/qualifiedRelation",
+      "description": "A qualified relationship to another resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#qualifiedRelation"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#qualifiedRelation",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Relationship",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "relatedResource",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/relatedResource",
+      "description": "A related resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/relation"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/relation",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "sample",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/sample",
+      "description": "A sample distribution of the dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#sample"
+      ],
+      "slot_uri": "http://www.w3.org/ns/adms#sample",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Distribution",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "source",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/source",
+      "description": "A related resource from which the described resource is derived.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/source"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/source",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Dataset",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "wasGeneratedBy",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/wasGeneratedBy",
+      "description": "An activity that generated the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/prov#wasGeneratedBy"
+      ],
+      "slot_uri": "http://www.w3.org/ns/prov#wasGeneratedBy",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "range": "Activity",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "accessUrl",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessUrl",
+      "description": "A URL of the resource that gives access to a distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#accessURL"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#accessURL",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "accessService",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessService",
+      "description": "A data service that provides access to the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#accessService"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#accessService",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "DataService",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "availability",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/availability",
+      "description": "The availability level of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://data.europa.eu/r5r/availability"
+      ],
+      "slot_uri": "http://data.europa.eu/r5r/availability",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "checksum",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/checksum",
+      "description": "A checksum of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#checksum"
+      ],
+      "slot_uri": "http://spdx.org/rdf/terms#checksum",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Checksum",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "compressionFormat",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/compressionFormat",
+      "description": "The compression format of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#compressFormat"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#compressFormat",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "downloadUrl",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/downloadUrl",
+      "description": "A URL of the downloadable file in a given format.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#downloadURL"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#downloadURL",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "hasPolicy",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hasPolicy",
+      "description": "An ODRL policy attached to the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/odrl/2/hasPolicy"
+      ],
+      "slot_uri": "http://www.w3.org/ns/odrl/2/hasPolicy",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Policy",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "linkedSchemas",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/linkedSchemas",
+      "description": "A schema that the distribution conforms to.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/conformsTo"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/conformsTo",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Standard",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "mediaType",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/mediaType",
+      "description": "The media type of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#mediaType"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#mediaType",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "packagingFormat",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/packagingFormat",
+      "description": "The package format of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#packageFormat"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#packageFormat",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "status",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/status",
+      "description": "The status of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#status"
+      ],
+      "slot_uri": "http://www.w3.org/ns/adms#status",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "hadRole",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hadRole",
+      "description": "The role of an agent in the relationship.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#hadRole"
+      ],
+      "slot_uri": "http://www.w3.org/ns/dcat#hadRole",
+      "owner": "Relationship",
+      "domain_of": [
+        "Relationship"
+      ],
+      "range": "Role",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "relation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/relation",
+      "description": "The resource related through this relationship.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/relation"
+      ],
+      "slot_uri": "http://purl.org/dc/terms/relation",
+      "owner": "Relationship",
+      "domain_of": [
+        "Relationship"
+      ],
+      "range": "Resource",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "beginning",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/beginning",
+      "description": "The start of a period of time.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2006/time#hasBeginning"
+      ],
+      "slot_uri": "http://www.w3.org/2006/time#hasBeginning",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "end",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/end",
+      "description": "The end of a period of time.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2006/time#hasEnd"
+      ],
+      "slot_uri": "http://www.w3.org/2006/time#hasEnd",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "geometry",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/geometry",
+      "description": "The geometry of a location.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/locn#geometry"
+      ],
+      "slot_uri": "http://www.w3.org/ns/locn#geometry",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "range": "Geometry",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Agent_name",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/name",
+      "description": "A name for an agent.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/name"
+      ],
+      "is_a": "name",
+      "domain": "Agent",
+      "slot_uri": "http://xmlns.com/foaf/0.1/name",
+      "alias": "name",
+      "owner": "Agent",
+      "domain_of": [
+        "Agent"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "name",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Agent_type",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/type",
+      "description": "The nature or genre of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/type"
+      ],
+      "is_a": "type",
+      "domain": "Agent",
+      "slot_uri": "http://purl.org/dc/terms/type",
+      "alias": "type",
+      "owner": "Agent",
+      "domain_of": [
+        "Agent"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "type",
+      "range": "Concept",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "is_a": "title",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "alias": "title",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "title",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_description",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/description",
+      "description": "A free-text account of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/description"
+      ],
+      "is_a": "description",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/description",
+      "alias": "description",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "description",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_publisher",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/publisher",
+      "description": "An entity responsible for making the resource available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/publisher"
+      ],
+      "is_a": "publisher",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/publisher",
+      "alias": "publisher",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "publisher",
+      "range": "Agent",
+      "required": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_creator",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/creator",
+      "description": "The entity responsible for producing the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/creator"
+      ],
+      "is_a": "creator",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/creator",
+      "alias": "creator",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "creator",
+      "range": "Agent",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_licence",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/licence",
+      "description": "A licence under which the resource is made available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/license"
+      ],
+      "is_a": "licence",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/license",
+      "alias": "licence",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "licence",
+      "range": "LicenceDocument",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_homepage",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/homepage",
+      "description": "A web page that is the primary access point for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/homepage"
+      ],
+      "is_a": "homepage",
+      "domain": "Catalogue",
+      "slot_uri": "http://xmlns.com/foaf/0.1/homepage",
+      "alias": "homepage",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "homepage",
+      "range": "Document",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_rights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/rights",
+      "description": "Rights statement for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/rights"
+      ],
+      "is_a": "rights",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/rights",
+      "alias": "rights",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "rights",
+      "range": "RightsStatement",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_releaseDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/releaseDate",
+      "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "is_a": "releaseDate",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "alias": "releaseDate",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "releaseDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Catalogue_modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "is_a": "modificationDate",
+      "domain": "Catalogue",
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "alias": "modificationDate",
+      "owner": "Catalogue",
+      "domain_of": [
+        "Catalogue"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "modificationDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_primaryTopic",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/primaryTopic",
+      "description": "The resource described by this catalogue record.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://xmlns.com/foaf/0.1/primaryTopic"
+      ],
+      "is_a": "primaryTopic",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://xmlns.com/foaf/0.1/primaryTopic",
+      "alias": "primaryTopic",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "primaryTopic",
+      "range": "CataloguedResource",
+      "required": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "is_a": "modificationDate",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "alias": "modificationDate",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "modificationDate",
+      "range": "string",
+      "required": true,
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_applicationProfile",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/applicationProfile",
+      "description": "The application profile this catalogue record conforms to.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/conformsTo"
+      ],
+      "is_a": "applicationProfile",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://purl.org/dc/terms/conformsTo",
+      "alias": "applicationProfile",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "applicationProfile",
+      "range": "Standard",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_listingDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/listingDate",
+      "description": "The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "is_a": "listingDate",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "alias": "listingDate",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "listingDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_changeType",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/changeType",
+      "description": "The type of update on the cataloged resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#status"
+      ],
+      "is_a": "changeType",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://www.w3.org/ns/adms#status",
+      "alias": "changeType",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "changeType",
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "CatalogueRecord_sourceMetadata",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/sourceMetadata",
+      "description": "Original metadata source for the catalog record.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/source"
+      ],
+      "is_a": "sourceMetadata",
+      "domain": "CatalogueRecord",
+      "slot_uri": "http://purl.org/dc/terms/source",
+      "alias": "sourceMetadata",
+      "owner": "CatalogueRecord",
+      "domain_of": [
+        "CatalogueRecord"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "sourceMetadata",
+      "range": "CatalogueRecord",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Checksum_algorithm",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/algorithm",
+      "description": "The algorithm used to produce a checksum.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#algorithm"
+      ],
+      "is_a": "algorithm",
+      "domain": "Checksum",
+      "slot_uri": "http://spdx.org/rdf/terms#algorithm",
+      "alias": "algorithm",
+      "owner": "Checksum",
+      "domain_of": [
+        "Checksum"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "algorithm",
+      "range": "ChecksumAlgorithm",
+      "required": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Checksum_checksumValue",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/checksumValue",
+      "description": "A lower-case hexadecimal-encoded checksum value.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#checksumValue"
+      ],
+      "is_a": "checksumValue",
+      "domain": "Checksum",
+      "slot_uri": "http://spdx.org/rdf/terms#checksumValue",
+      "alias": "checksumValue",
+      "owner": "Checksum",
+      "domain_of": [
+        "Checksum"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "checksumValue",
+      "range": "hexBinary",
+      "required": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Concept_preferredLabel",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/preferredLabel",
+      "description": "The preferred lexical label for a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2004/02/skos/core#prefLabel"
+      ],
+      "is_a": "preferredLabel",
+      "domain": "Concept",
+      "slot_uri": "http://www.w3.org/2004/02/skos/core#prefLabel",
+      "alias": "preferredLabel",
+      "owner": "Concept",
+      "domain_of": [
+        "Concept"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "preferredLabel",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "ConceptScheme_title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "is_a": "title",
+      "domain": "ConceptScheme",
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "alias": "title",
+      "owner": "ConceptScheme",
+      "domain_of": [
+        "ConceptScheme"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "title",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataService_title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "is_a": "title",
+      "domain": "DataService",
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "alias": "title",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "title",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataService_endpointUrl",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/endpointUrl",
+      "description": "The root location of the service.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#endpointURL"
+      ],
+      "is_a": "endpointUrl",
+      "domain": "DataService",
+      "slot_uri": "http://www.w3.org/ns/dcat#endpointURL",
+      "alias": "endpointUrl",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "endpointUrl",
+      "range": "Resource",
+      "required": true,
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataService_accessRights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessRights",
+      "description": "Information about who can access the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accessRights"
+      ],
+      "is_a": "accessRights",
+      "domain": "DataService",
+      "slot_uri": "http://purl.org/dc/terms/accessRights",
+      "alias": "accessRights",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "accessRights",
+      "range": "RightsStatement",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataService_licence",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/licence",
+      "description": "A licence under which the resource is made available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/license"
+      ],
+      "is_a": "licence",
+      "domain": "DataService",
+      "slot_uri": "http://purl.org/dc/terms/license",
+      "alias": "licence",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "licence",
+      "range": "LicenceDocument",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DataService_publisher",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/publisher",
+      "description": "An entity responsible for making the resource available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/publisher"
+      ],
+      "is_a": "publisher",
+      "domain": "DataService",
+      "slot_uri": "http://purl.org/dc/terms/publisher",
+      "alias": "publisher",
+      "owner": "DataService",
+      "domain_of": [
+        "DataService"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "publisher",
+      "range": "Agent",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "is_a": "title",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "alias": "title",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "title",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_description",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/description",
+      "description": "A free-text account of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/description"
+      ],
+      "is_a": "description",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/description",
+      "alias": "description",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "description",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_accessRights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessRights",
+      "description": "Information about who can access the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accessRights"
+      ],
+      "is_a": "accessRights",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/accessRights",
+      "alias": "accessRights",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "accessRights",
+      "range": "RightsStatement",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_frequency",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/frequency",
+      "description": "The frequency at which the dataset is updated.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accrualPeriodicity"
+      ],
+      "is_a": "frequency",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/accrualPeriodicity",
+      "alias": "frequency",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "frequency",
+      "range": "Frequency",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "is_a": "modificationDate",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "alias": "modificationDate",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "modificationDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_publisher",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/publisher",
+      "description": "An entity responsible for making the resource available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/publisher"
+      ],
+      "is_a": "publisher",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/publisher",
+      "alias": "publisher",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "publisher",
+      "range": "Agent",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_releaseDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/releaseDate",
+      "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "is_a": "releaseDate",
+      "domain": "Dataset",
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "alias": "releaseDate",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "releaseDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_spatialResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/spatialResolution",
+      "description": "Minimum spatial separation resolvable, in meters.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#spatialResolutionInMeters"
+      ],
+      "is_a": "spatialResolution",
+      "domain": "Dataset",
+      "slot_uri": "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+      "alias": "spatialResolution",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "spatialResolution",
+      "range": "decimal",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_temporalResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/temporalResolution",
+      "description": "Minimum time period resolvable in the dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#temporalResolution"
+      ],
+      "is_a": "temporalResolution",
+      "domain": "Dataset",
+      "slot_uri": "http://www.w3.org/ns/dcat#temporalResolution",
+      "alias": "temporalResolution",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "temporalResolution",
+      "range": "duration",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Dataset_version",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/version",
+      "description": "The version indicator of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#version"
+      ],
+      "is_a": "version",
+      "domain": "Dataset",
+      "slot_uri": "http://www.w3.org/ns/dcat#version",
+      "alias": "version",
+      "owner": "Dataset",
+      "domain_of": [
+        "Dataset"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "version",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_title",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/title",
+      "description": "A name given to the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/title"
+      ],
+      "is_a": "title",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/title",
+      "alias": "title",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "title",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_description",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/description",
+      "description": "A free-text account of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/description"
+      ],
+      "is_a": "description",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/description",
+      "alias": "description",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "description",
+      "range": "string",
+      "required": true,
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_publisher",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/publisher",
+      "description": "An entity responsible for making the resource available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/publisher"
+      ],
+      "is_a": "publisher",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/publisher",
+      "alias": "publisher",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "publisher",
+      "range": "Agent",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_frequency",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/frequency",
+      "description": "The frequency at which the dataset is updated.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/accrualPeriodicity"
+      ],
+      "is_a": "frequency",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/accrualPeriodicity",
+      "alias": "frequency",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "frequency",
+      "range": "Frequency",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "is_a": "modificationDate",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "alias": "modificationDate",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "modificationDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "DatasetSeries_releaseDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/releaseDate",
+      "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "is_a": "releaseDate",
+      "domain": "DatasetSeries",
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "alias": "releaseDate",
+      "owner": "DatasetSeries",
+      "domain_of": [
+        "DatasetSeries"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "releaseDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_accessUrl",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/accessUrl",
+      "description": "A URL of the resource that gives access to a distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#accessURL"
+      ],
+      "is_a": "accessUrl",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#accessURL",
+      "alias": "accessUrl",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "accessUrl",
+      "range": "Resource",
+      "required": true,
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_availability",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/availability",
+      "description": "The availability level of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://data.europa.eu/r5r/availability"
+      ],
+      "is_a": "availability",
+      "domain": "Distribution",
+      "slot_uri": "http://data.europa.eu/r5r/availability",
+      "alias": "availability",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "availability",
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_byteSize",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/byteSize",
+      "description": "The size of a distribution in bytes.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#byteSize"
+      ],
+      "is_a": "byteSize",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#byteSize",
+      "alias": "byteSize",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "byteSize",
+      "range": "nonNegativeInteger",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_checksum",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/checksum",
+      "description": "A checksum of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://spdx.org/rdf/terms#checksum"
+      ],
+      "is_a": "checksum",
+      "domain": "Distribution",
+      "slot_uri": "http://spdx.org/rdf/terms#checksum",
+      "alias": "checksum",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "checksum",
+      "range": "Checksum",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_compressionFormat",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/compressionFormat",
+      "description": "The compression format of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#compressFormat"
+      ],
+      "is_a": "compressionFormat",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#compressFormat",
+      "alias": "compressionFormat",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "compressionFormat",
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_format",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/format",
+      "description": "The file format, physical medium, or dimensions of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/format"
+      ],
+      "is_a": "format",
+      "domain": "Distribution",
+      "slot_uri": "http://purl.org/dc/terms/format",
+      "alias": "format",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "format",
+      "range": "MediaType",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_hasPolicy",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hasPolicy",
+      "description": "An ODRL policy attached to the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/odrl/2/hasPolicy"
+      ],
+      "is_a": "hasPolicy",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/odrl/2/hasPolicy",
+      "alias": "hasPolicy",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "hasPolicy",
+      "range": "Policy",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_licence",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/licence",
+      "description": "A licence under which the resource is made available.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/license"
+      ],
+      "is_a": "licence",
+      "domain": "Distribution",
+      "slot_uri": "http://purl.org/dc/terms/license",
+      "alias": "licence",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "licence",
+      "range": "LicenceDocument",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_mediaType",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/mediaType",
+      "description": "The media type of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#mediaType"
+      ],
+      "is_a": "mediaType",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#mediaType",
+      "alias": "mediaType",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "mediaType",
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_modificationDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/modificationDate",
+      "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/modified"
+      ],
+      "is_a": "modificationDate",
+      "domain": "Distribution",
+      "slot_uri": "http://purl.org/dc/terms/modified",
+      "alias": "modificationDate",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "modificationDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_packagingFormat",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/packagingFormat",
+      "description": "The package format of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#packageFormat"
+      ],
+      "is_a": "packagingFormat",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#packageFormat",
+      "alias": "packagingFormat",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "packagingFormat",
+      "range": "MediaType",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_releaseDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/releaseDate",
+      "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/issued"
+      ],
+      "is_a": "releaseDate",
+      "domain": "Distribution",
+      "slot_uri": "http://purl.org/dc/terms/issued",
+      "alias": "releaseDate",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "releaseDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_rights",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/rights",
+      "description": "Rights statement for the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/rights"
+      ],
+      "is_a": "rights",
+      "domain": "Distribution",
+      "slot_uri": "http://purl.org/dc/terms/rights",
+      "alias": "rights",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "rights",
+      "range": "RightsStatement",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_spatialResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/spatialResolution",
+      "description": "Minimum spatial separation resolvable, in meters.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#spatialResolutionInMeters"
+      ],
+      "is_a": "spatialResolution",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+      "alias": "spatialResolution",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "spatialResolution",
+      "range": "decimal",
+      "multivalued": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_status",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/status",
+      "description": "The status of the distribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/adms#status"
+      ],
+      "is_a": "status",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/adms#status",
+      "alias": "status",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "status",
+      "range": "Concept",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Distribution_temporalResolution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/temporalResolution",
+      "description": "Minimum time period resolvable in the dataset.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#temporalResolution"
+      ],
+      "is_a": "temporalResolution",
+      "domain": "Distribution",
+      "slot_uri": "http://www.w3.org/ns/dcat#temporalResolution",
+      "alias": "temporalResolution",
+      "owner": "Distribution",
+      "domain_of": [
+        "Distribution"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "temporalResolution",
+      "range": "duration",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Identifier_notation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/notation",
+      "description": "A string used to identify a concept within a scheme.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2004/02/skos/core#notation"
+      ],
+      "is_a": "notation",
+      "domain": "Identifier",
+      "slot_uri": "http://www.w3.org/2004/02/skos/core#notation",
+      "alias": "notation",
+      "owner": "Identifier",
+      "domain_of": [
+        "Identifier"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "notation",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "LicenceDocument_type",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/type",
+      "description": "The nature or genre of the resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/type"
+      ],
+      "is_a": "type",
+      "domain": "LicenceDocument",
+      "slot_uri": "http://purl.org/dc/terms/type",
+      "alias": "type",
+      "owner": "LicenceDocument",
+      "domain_of": [
+        "LicenceDocument"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "type",
+      "range": "Concept",
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Location_bbox",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/bbox",
+      "description": "The geographic bounding box of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#bbox"
+      ],
+      "is_a": "bbox",
+      "domain": "Location",
+      "slot_uri": "http://www.w3.org/ns/dcat#bbox",
+      "alias": "bbox",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "bbox",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Location_centroid",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/centroid",
+      "description": "The geographic centroid of a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#centroid"
+      ],
+      "is_a": "centroid",
+      "domain": "Location",
+      "slot_uri": "http://www.w3.org/ns/dcat#centroid",
+      "alias": "centroid",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "centroid",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Location_geometry",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/geometry",
+      "description": "The geometry of a location.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/locn#geometry"
+      ],
+      "is_a": "geometry",
+      "domain": "Location",
+      "slot_uri": "http://www.w3.org/ns/locn#geometry",
+      "alias": "geometry",
+      "owner": "Location",
+      "domain_of": [
+        "Location"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "geometry",
+      "range": "Geometry",
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "PeriodOfTime_beginning",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/beginning",
+      "description": "The start of a period of time.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2006/time#hasBeginning"
+      ],
+      "is_a": "beginning",
+      "domain": "PeriodOfTime",
+      "slot_uri": "http://www.w3.org/2006/time#hasBeginning",
+      "alias": "beginning",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "beginning",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "PeriodOfTime_end",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/end",
+      "description": "The end of a period of time.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/2006/time#hasEnd"
+      ],
+      "is_a": "end",
+      "domain": "PeriodOfTime",
+      "slot_uri": "http://www.w3.org/2006/time#hasEnd",
+      "alias": "end",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "end",
+      "range": "string",
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "PeriodOfTime_endDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/endDate",
+      "description": "The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#endDate"
+      ],
+      "is_a": "endDate",
+      "domain": "PeriodOfTime",
+      "slot_uri": "http://www.w3.org/ns/dcat#endDate",
+      "alias": "endDate",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "endDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "PeriodOfTime_startDate",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/startDate",
+      "description": "The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#startDate"
+      ],
+      "is_a": "startDate",
+      "domain": "PeriodOfTime",
+      "slot_uri": "http://www.w3.org/ns/dcat#startDate",
+      "alias": "startDate",
+      "owner": "PeriodOfTime",
+      "domain_of": [
+        "PeriodOfTime"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "startDate",
+      "range": "string",
+      "any_of": [
+        {
+          "range": "date",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "datetime",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYear",
+          "@type": "AnonymousSlotExpression"
+        },
+        {
+          "range": "gYearMonth",
+          "@type": "AnonymousSlotExpression"
+        }
+      ],
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Relationship_hadRole",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/hadRole",
+      "description": "The role of an agent in the relationship.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://www.w3.org/ns/dcat#hadRole"
+      ],
+      "is_a": "hadRole",
+      "domain": "Relationship",
+      "slot_uri": "http://www.w3.org/ns/dcat#hadRole",
+      "alias": "hadRole",
+      "owner": "Relationship",
+      "domain_of": [
+        "Relationship"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "hadRole",
+      "range": "Role",
+      "required": true,
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    },
+    {
+      "name": "Relationship_relation",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/relation",
+      "description": "The resource related through this relationship.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "mappings": [
+        "http://purl.org/dc/terms/relation"
+      ],
+      "is_a": "relation",
+      "domain": "Relationship",
+      "slot_uri": "http://purl.org/dc/terms/relation",
+      "alias": "relation",
+      "owner": "Relationship",
+      "domain_of": [
+        "Relationship"
+      ],
+      "is_usage_slot": true,
+      "usage_slot_name": "relation",
+      "range": "Resource",
+      "required": true,
+      "multivalued": true,
+      "inlined": true,
+      "inlined_as_list": true,
+      "@type": "SlotDefinition"
+    }
+  ],
+  "classes": [
+    {
+      "name": "Resource",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Resource",
+      "description": "Top-level abstract resource. Used as a generic node range when the DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific class.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "rdfs:Resource"
+      ],
+      "abstract": true,
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "CataloguedResource",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/CataloguedResource",
+      "description": "Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Resource"
+      ],
+      "is_a": "Resource",
+      "abstract": true,
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Agent",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Agent",
+      "description": "An agent (e.g. a person, organisation) responsible for a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "foaf:Agent"
+      ],
+      "slots": [
+        "Agent_name",
+        "Agent_type"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Catalogue",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Catalogue",
+      "description": "A curated collection of metadata about resources (e.g. datasets and data services in the context of a data catalogue).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Catalog"
+      ],
+      "is_a": "CataloguedResource",
+      "slots": [
+        "Catalogue_title",
+        "Catalogue_description",
+        "Catalogue_publisher",
+        "applicableLegislation",
+        "catalogue",
+        "Catalogue_creator",
+        "dataset",
+        "geographicalCoverage",
+        "hasPart",
+        "Catalogue_homepage",
+        "language",
+        "Catalogue_licence",
+        "Catalogue_modificationDate",
+        "record",
+        "Catalogue_releaseDate",
+        "Catalogue_rights",
+        "service",
+        "temporalCoverage",
+        "themes"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "CatalogueRecord",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/CatalogueRecord",
+      "description": "A description of a single entry in a data catalogue.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:CatalogRecord"
+      ],
+      "slots": [
+        "CatalogueRecord_applicationProfile",
+        "CatalogueRecord_changeType",
+        "description",
+        "language",
+        "CatalogueRecord_listingDate",
+        "CatalogueRecord_modificationDate",
+        "CatalogueRecord_primaryTopic",
+        "CatalogueRecord_sourceMetadata",
+        "title"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Checksum",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Checksum",
+      "description": "A value that allows the contents of a file to be authenticated.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "spdx:Checksum"
+      ],
+      "slots": [
+        "Checksum_algorithm",
+        "Checksum_checksumValue"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ChecksumAlgorithm",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/ChecksumAlgorithm",
+      "description": "An algorithm used to produce a checksum.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "spdx:ChecksumAlgorithm"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Concept",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Concept",
+      "description": "A concept (e.g. a category, theme, keyword).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "skos:Concept"
+      ],
+      "slots": [
+        "Concept_preferredLabel"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ConceptScheme",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/ConceptScheme",
+      "description": "A controlled vocabulary or category scheme.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "skos:ConceptScheme"
+      ],
+      "slots": [
+        "ConceptScheme_title"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "DataService",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/DataService",
+      "description": "A collection of operations that provides access to one or more datasets or data processing functions.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:DataService"
+      ],
+      "is_a": "CataloguedResource",
+      "slots": [
+        "DataService_title",
+        "description",
+        "DataService_endpointUrl",
+        "DataService_accessRights",
+        "applicableLegislation",
+        "conformsTo",
+        "contactPoint",
+        "documentation",
+        "endpointDescription",
+        "format",
+        "keyword",
+        "landingPage",
+        "DataService_licence",
+        "DataService_publisher",
+        "servesDataset",
+        "theme"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Dataset",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Dataset",
+      "description": "A collection of data, published or curated by a single agent, and available for access or download in one or more representations.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Dataset"
+      ],
+      "is_a": "CataloguedResource",
+      "slots": [
+        "Dataset_title",
+        "Dataset_description",
+        "Dataset_accessRights",
+        "applicableLegislation",
+        "conformsTo",
+        "contactPoint",
+        "creator",
+        "datasetDistribution",
+        "documentation",
+        "Dataset_frequency",
+        "geographicalCoverage",
+        "hasVersion",
+        "identifier",
+        "inSeries",
+        "isReferencedBy",
+        "keyword",
+        "landingPage",
+        "language",
+        "Dataset_modificationDate",
+        "otherIdentifier",
+        "provenance",
+        "Dataset_publisher",
+        "qualifiedAttribution",
+        "qualifiedRelation",
+        "relatedResource",
+        "Dataset_releaseDate",
+        "sample",
+        "source",
+        "Dataset_spatialResolution",
+        "temporalCoverage",
+        "Dataset_temporalResolution",
+        "theme",
+        "type",
+        "Dataset_version",
+        "versionNotes",
+        "wasGeneratedBy"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "DatasetSeries",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/DatasetSeries",
+      "description": "A collection of datasets that share a common schema and represent a change over time.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:DatasetSeries"
+      ],
+      "is_a": "CataloguedResource",
+      "slots": [
+        "DatasetSeries_title",
+        "DatasetSeries_description",
+        "DatasetSeries_publisher",
+        "applicableLegislation",
+        "contactPoint",
+        "DatasetSeries_frequency",
+        "geographicalCoverage",
+        "DatasetSeries_modificationDate",
+        "DatasetSeries_releaseDate",
+        "temporalCoverage"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Distribution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Distribution",
+      "description": "A specific representation of a dataset (e.g. a downloadable file or an API access).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Distribution"
+      ],
+      "slots": [
+        "Distribution_accessUrl",
+        "accessService",
+        "applicableLegislation",
+        "Distribution_availability",
+        "Distribution_byteSize",
+        "Distribution_checksum",
+        "Distribution_compressionFormat",
+        "description",
+        "documentation",
+        "downloadUrl",
+        "Distribution_format",
+        "Distribution_hasPolicy",
+        "language",
+        "Distribution_licence",
+        "linkedSchemas",
+        "Distribution_mediaType",
+        "Distribution_modificationDate",
+        "Distribution_packagingFormat",
+        "Distribution_releaseDate",
+        "Distribution_rights",
+        "Distribution_spatialResolution",
+        "Distribution_status",
+        "Distribution_temporalResolution",
+        "title"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Document",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Document",
+      "description": "A foaf:Document.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "foaf:Document"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Frequency",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Frequency",
+      "description": "A rate at which something recurs (DC Terms Frequency).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:Frequency"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Geometry",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Geometry",
+      "description": "A spatial geometry (locn:Geometry).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "locn:Geometry"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Identifier",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Identifier",
+      "description": "An identifier in a particular context.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "adms:Identifier"
+      ],
+      "slots": [
+        "Identifier_notation"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Kind",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Kind",
+      "description": "A vCard Kind.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "vcard:Kind"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "LegalResource",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/LegalResource",
+      "description": "A legal resource (ELI).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "eli:LegalResource"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "LicenceDocument",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/LicenceDocument",
+      "description": "A legal document giving official permission to do something with a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:LicenseDocument"
+      ],
+      "slots": [
+        "LicenceDocument_type"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "LinguisticSystem",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/LinguisticSystem",
+      "description": "A linguistic system (DC Terms LinguisticSystem).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:LinguisticSystem"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Location",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Location",
+      "description": "A spatial region or named place.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:Location"
+      ],
+      "slots": [
+        "Location_bbox",
+        "Location_centroid",
+        "Location_geometry"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "MediaType",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/MediaType",
+      "description": "An IANA media type (DC Terms MediaType).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:MediaType"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "PeriodOfTime",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/PeriodOfTime",
+      "description": "An interval of time named or defined by its start and end.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:PeriodOfTime"
+      ],
+      "slots": [
+        "PeriodOfTime_beginning",
+        "PeriodOfTime_end",
+        "PeriodOfTime_endDate",
+        "PeriodOfTime_startDate"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Policy",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Policy",
+      "description": "An ODRL policy.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "odrl:Policy"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "ProvenanceStatement",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/ProvenanceStatement",
+      "description": "A statement of provenance.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:ProvenanceStatement"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Relationship",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Relationship",
+      "description": "An association between resources where one has a particular role.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Relationship"
+      ],
+      "slots": [
+        "Relationship_hadRole",
+        "Relationship_relation"
+      ],
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "RightsStatement",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/RightsStatement",
+      "description": "A statement about rights associated with a resource.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:RightsStatement"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Role",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Role",
+      "description": "A role (dcat:Role).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dcat:Role"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Standard",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Standard",
+      "description": "A standard (DC Terms Standard).",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "dct:Standard"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Activity",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Activity",
+      "description": "A PROV activity.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "prov:Activity"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    },
+    {
+      "name": "Attribution",
+      "definition_uri": "https://w3id.org/semic/dcat-ap/Attribution",
+      "description": "A PROV attribution.",
+      "from_schema": "https://w3id.org/semic/dcat-ap/3.0.1",
+      "exact_mappings": [
+        "prov:Attribution"
+      ],
+      "is_a": "Resource",
+      "slot_usage": {},
+      "@type": "ClassDefinition"
+    }
+  ],
+  "metamodel_version": "1.11.0",
+  "source_file": "dcat_ap.yaml",
+  "source_file_date": "2026-04-29T14:49:33",
+  "source_file_size": 26462,
+  "generation_date": "2026-05-12T14:47:58",
+  "@type": "SchemaDefinition",
+  "@context": [
+    "project/jsonld/dcat_ap.context.jsonld",
+    "https://w3id.org/linkml/types.context.jsonld",
+    {
+      "@base": "https://w3id.org/semic/dcat-ap/"
+    }
+  ]
+}

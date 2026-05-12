@@ -3,15 +3,19 @@
 # The directory where the generated files are stored
 # directory: "tmp"
 
-# By default all generators are run. Specify here the ones to skip.
-excludes:
-  - markdown
-
-# Alternatively only specify the generators to run
-# (comment out the above "excludes" section)
-# includes:
-#   - markdown
-#   - excel
+# Only run the generators we ship as published artefacts under project/.
+# Everything else (excel, graphql, prefixmap, proto, shex, typescript,
+# java, markdown) is omitted to keep the published surface small. The
+# `python` generator is included because its output is moved out of
+# project/ into src/dcat_ap/datamodel/ by the justfile.
+includes:
+  - jsonld
+  - jsonldcontext
+  - jsonschema
+  - owl
+  - shacl
+  - sqltable
+  - python
 
 # Set the arguments for the generators (no matter if they run or not)
 generator_args:

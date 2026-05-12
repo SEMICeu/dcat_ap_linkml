@@ -1,0 +1,1666 @@
+{
+    "$defs": {
+        "Activity": {
+            "additionalProperties": false,
+            "description": "A PROV activity.",
+            "title": "Activity",
+            "type": "object"
+        },
+        "Agent": {
+            "additionalProperties": false,
+            "description": "An agent (e.g. a person, organisation) responsible for a resource.",
+            "properties": {
+                "name": {
+                    "description": "A name for an agent.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Concept"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The nature or genre of the resource."
+                }
+            },
+            "required": [
+                "name"
+            ],
+            "title": "Agent",
+            "type": "object"
+        },
+        "Attribution": {
+            "additionalProperties": false,
+            "description": "A PROV attribution.",
+            "title": "Attribution",
+            "type": "object"
+        },
+        "Catalogue": {
+            "additionalProperties": false,
+            "description": "A curated collection of metadata about resources (e.g. datasets and data services in the context of a data catalogue).",
+            "properties": {
+                "applicableLegislation": {
+                    "description": "The legislation applicable to the resource (DCAT-AP extension).",
+                    "items": {
+                        "$ref": "#/$defs/LegalResource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "catalogue": {
+                    "description": "A subordinate catalogue contained in this catalogue.",
+                    "items": {
+                        "$ref": "#/$defs/Catalogue"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "creator": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Agent"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The entity responsible for producing the resource."
+                },
+                "dataset": {
+                    "description": "A dataset listed by the catalogue.",
+                    "items": {
+                        "$ref": "#/$defs/Dataset"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "geographicalCoverage": {
+                    "description": "The geographic coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Location"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "hasPart": {
+                    "description": "A related resource that is included physically or logically.",
+                    "items": {
+                        "$ref": "#/$defs/Catalogue"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "homepage": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Document"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A web page that is the primary access point for the resource."
+                },
+                "language": {
+                    "description": "A language of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/LinguisticSystem"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "licence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/LicenceDocument"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A licence under which the resource is made available."
+                },
+                "modificationDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "publisher": {
+                    "$ref": "#/$defs/Agent",
+                    "description": "An entity responsible for making the resource available."
+                },
+                "record": {
+                    "description": "A record describing a registration of a resource in the catalogue.",
+                    "items": {
+                        "$ref": "#/$defs/CatalogueRecord"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "releaseDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "rights": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/RightsStatement"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Rights statement for the resource."
+                },
+                "service": {
+                    "description": "A data service listed by the catalogue.",
+                    "items": {
+                        "$ref": "#/$defs/DataService"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "temporalCoverage": {
+                    "description": "The temporal coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/PeriodOfTime"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "themes": {
+                    "description": "A theme taxonomy used to classify the catalogue's resources.",
+                    "items": {
+                        "$ref": "#/$defs/ConceptScheme"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "title",
+                "description",
+                "publisher"
+            ],
+            "title": "Catalogue",
+            "type": "object"
+        },
+        "CatalogueRecord": {
+            "additionalProperties": false,
+            "description": "A description of a single entry in a data catalogue.",
+            "properties": {
+                "applicationProfile": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Standard"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The application profile this catalogue record conforms to."
+                },
+                "changeType": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Concept"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The type of update on the cataloged resource."
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "language": {
+                    "description": "A language of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/LinguisticSystem"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "listingDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date on which the description was listed in the catalogue. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "modificationDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "primaryTopic": {
+                    "$ref": "#/$defs/CataloguedResource",
+                    "description": "The resource described by this catalogue record."
+                },
+                "sourceMetadata": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CatalogueRecord"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Original metadata source for the catalog record."
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "modificationDate",
+                "primaryTopic"
+            ],
+            "title": "CatalogueRecord",
+            "type": "object"
+        },
+        "CataloguedResource": {
+            "additionalProperties": false,
+            "description": "Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource).",
+            "title": "CataloguedResource",
+            "type": "object"
+        },
+        "Checksum": {
+            "additionalProperties": false,
+            "description": "A value that allows the contents of a file to be authenticated.",
+            "properties": {
+                "algorithm": {
+                    "$ref": "#/$defs/ChecksumAlgorithm",
+                    "description": "The algorithm used to produce a checksum."
+                },
+                "checksumValue": {
+                    "description": "A lower-case hexadecimal-encoded checksum value.",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "algorithm",
+                "checksumValue"
+            ],
+            "title": "Checksum",
+            "type": "object"
+        },
+        "ChecksumAlgorithm": {
+            "additionalProperties": false,
+            "description": "An algorithm used to produce a checksum.",
+            "title": "ChecksumAlgorithm",
+            "type": "object"
+        },
+        "Concept": {
+            "additionalProperties": false,
+            "description": "A concept (e.g. a category, theme, keyword).",
+            "properties": {
+                "preferredLabel": {
+                    "description": "The preferred lexical label for a resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "preferredLabel"
+            ],
+            "title": "Concept",
+            "type": "object"
+        },
+        "ConceptScheme": {
+            "additionalProperties": false,
+            "description": "A controlled vocabulary or category scheme.",
+            "properties": {
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "title"
+            ],
+            "title": "ConceptScheme",
+            "type": "object"
+        },
+        "DataService": {
+            "additionalProperties": false,
+            "description": "A collection of operations that provides access to one or more datasets or data processing functions.",
+            "properties": {
+                "accessRights": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/RightsStatement"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Information about who can access the resource."
+                },
+                "applicableLegislation": {
+                    "description": "The legislation applicable to the resource (DCAT-AP extension).",
+                    "items": {
+                        "$ref": "#/$defs/LegalResource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "conformsTo": {
+                    "description": "An established standard the resource conforms to.",
+                    "items": {
+                        "$ref": "#/$defs/Standard"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "contactPoint": {
+                    "description": "Contact information for the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Kind"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "documentation": {
+                    "description": "A page or document about the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Document"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "endpointDescription": {
+                    "description": "A description of the service endpoint, including operations.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "endpointUrl": {
+                    "description": "The root location of the service.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": "array"
+                },
+                "format": {
+                    "description": "The file format, physical medium, or dimensions of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/MediaType"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "keyword": {
+                    "description": "A keyword or tag describing the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "landingPage": {
+                    "description": "A web page that gives access to the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Document"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "licence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/LicenceDocument"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A licence under which the resource is made available."
+                },
+                "publisher": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Agent"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "An entity responsible for making the resource available."
+                },
+                "servesDataset": {
+                    "description": "A dataset that this service serves.",
+                    "items": {
+                        "$ref": "#/$defs/Dataset"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "theme": {
+                    "description": "A category of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Concept"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "title",
+                "endpointUrl"
+            ],
+            "title": "DataService",
+            "type": "object"
+        },
+        "Dataset": {
+            "additionalProperties": false,
+            "description": "A collection of data, published or curated by a single agent, and available for access or download in one or more representations.",
+            "properties": {
+                "accessRights": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/RightsStatement"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Information about who can access the resource."
+                },
+                "applicableLegislation": {
+                    "description": "The legislation applicable to the resource (DCAT-AP extension).",
+                    "items": {
+                        "$ref": "#/$defs/LegalResource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "conformsTo": {
+                    "description": "An established standard the resource conforms to.",
+                    "items": {
+                        "$ref": "#/$defs/Standard"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "contactPoint": {
+                    "description": "Contact information for the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Kind"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "creator": {
+                    "description": "The entity responsible for producing the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Agent"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "datasetDistribution": {
+                    "description": "An available distribution of the dataset.",
+                    "items": {
+                        "$ref": "#/$defs/Distribution"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "documentation": {
+                    "description": "A page or document about the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Document"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "frequency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Frequency"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The frequency at which the dataset is updated."
+                },
+                "geographicalCoverage": {
+                    "description": "The geographic coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Location"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "hasVersion": {
+                    "description": "A related dataset that is a version of this dataset.",
+                    "items": {
+                        "$ref": "#/$defs/Dataset"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "identifier": {
+                    "description": "A unique identifier of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "inSeries": {
+                    "description": "A dataset series of which this dataset is a part.",
+                    "items": {
+                        "$ref": "#/$defs/DatasetSeries"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "isReferencedBy": {
+                    "description": "A related resource that references the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "keyword": {
+                    "description": "A keyword or tag describing the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "landingPage": {
+                    "description": "A web page that gives access to the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Document"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "language": {
+                    "description": "A language of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/LinguisticSystem"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "modificationDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "otherIdentifier": {
+                    "description": "A secondary identifier of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Identifier"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "provenance": {
+                    "description": "A statement about provenance of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/ProvenanceStatement"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "publisher": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Agent"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "An entity responsible for making the resource available."
+                },
+                "qualifiedAttribution": {
+                    "description": "An attribution of an agent to the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Attribution"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "qualifiedRelation": {
+                    "description": "A qualified relationship to another resource.",
+                    "items": {
+                        "$ref": "#/$defs/Relationship"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "relatedResource": {
+                    "description": "A related resource.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "releaseDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "sample": {
+                    "description": "A sample distribution of the dataset.",
+                    "items": {
+                        "$ref": "#/$defs/Distribution"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "source": {
+                    "description": "A related resource from which the described resource is derived.",
+                    "items": {
+                        "$ref": "#/$defs/Dataset"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "spatialResolution": {
+                    "description": "Minimum spatial separation resolvable, in meters.",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "temporalCoverage": {
+                    "description": "The temporal coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/PeriodOfTime"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "temporalResolution": {
+                    "description": "Minimum time period resolvable in the dataset.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "theme": {
+                    "description": "A category of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Concept"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "type": {
+                    "description": "The nature or genre of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Concept"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "version": {
+                    "description": "The version indicator of a resource.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "versionNotes": {
+                    "description": "A description of changes between versions.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "wasGeneratedBy": {
+                    "description": "An activity that generated the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Activity"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "title",
+                "description"
+            ],
+            "title": "Dataset",
+            "type": "object"
+        },
+        "DatasetSeries": {
+            "additionalProperties": false,
+            "description": "A collection of datasets that share a common schema and represent a change over time.",
+            "properties": {
+                "applicableLegislation": {
+                    "description": "The legislation applicable to the resource (DCAT-AP extension).",
+                    "items": {
+                        "$ref": "#/$defs/LegalResource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "contactPoint": {
+                    "description": "Contact information for the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Kind"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "frequency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Frequency"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The frequency at which the dataset is updated."
+                },
+                "geographicalCoverage": {
+                    "description": "The geographic coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Location"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "modificationDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "publisher": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Agent"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "An entity responsible for making the resource available."
+                },
+                "releaseDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "temporalCoverage": {
+                    "description": "The temporal coverage of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/PeriodOfTime"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "title",
+                "description"
+            ],
+            "title": "DatasetSeries",
+            "type": "object"
+        },
+        "Distribution": {
+            "additionalProperties": false,
+            "description": "A specific representation of a dataset (e.g. a downloadable file or an API access).",
+            "properties": {
+                "accessService": {
+                    "description": "A data service that provides access to the distribution.",
+                    "items": {
+                        "$ref": "#/$defs/DataService"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "accessUrl": {
+                    "description": "A URL of the resource that gives access to a distribution.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": "array"
+                },
+                "applicableLegislation": {
+                    "description": "The legislation applicable to the resource (DCAT-AP extension).",
+                    "items": {
+                        "$ref": "#/$defs/LegalResource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "availability": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Concept"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The availability level of the distribution."
+                },
+                "byteSize": {
+                    "description": "The size of a distribution in bytes.",
+                    "minimum": 0,
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "checksum": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Checksum"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A checksum of the distribution."
+                },
+                "compressionFormat": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MediaType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The compression format of the distribution."
+                },
+                "description": {
+                    "description": "A free-text account of the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "documentation": {
+                    "description": "A page or document about the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Document"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "downloadUrl": {
+                    "description": "A URL of the downloadable file in a given format.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "format": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MediaType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The file format, physical medium, or dimensions of the resource."
+                },
+                "hasPolicy": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Policy"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "An ODRL policy attached to the distribution."
+                },
+                "language": {
+                    "description": "A language of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/LinguisticSystem"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "licence": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/LicenceDocument"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "A licence under which the resource is made available."
+                },
+                "linkedSchemas": {
+                    "description": "A schema that the distribution conforms to.",
+                    "items": {
+                        "$ref": "#/$defs/Standard"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "mediaType": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MediaType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The media type of the distribution."
+                },
+                "modificationDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date on which the resource was changed. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "packagingFormat": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/MediaType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The package format of the distribution."
+                },
+                "releaseDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "rights": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/RightsStatement"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Rights statement for the resource."
+                },
+                "spatialResolution": {
+                    "description": "Minimum spatial separation resolvable, in meters.",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "status": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Concept"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The status of the distribution."
+                },
+                "temporalResolution": {
+                    "description": "Minimum time period resolvable in the dataset.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "title": {
+                    "description": "A name given to the resource.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "accessUrl"
+            ],
+            "title": "Distribution",
+            "type": "object"
+        },
+        "Document": {
+            "additionalProperties": false,
+            "description": "A foaf:Document.",
+            "title": "Document",
+            "type": "object"
+        },
+        "Frequency": {
+            "additionalProperties": false,
+            "description": "A rate at which something recurs (DC Terms Frequency).",
+            "title": "Frequency",
+            "type": "object"
+        },
+        "Geometry": {
+            "additionalProperties": false,
+            "description": "A spatial geometry (locn:Geometry).",
+            "title": "Geometry",
+            "type": "object"
+        },
+        "Identifier": {
+            "additionalProperties": false,
+            "description": "An identifier in a particular context.",
+            "properties": {
+                "notation": {
+                    "description": "A string used to identify a concept within a scheme.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "Identifier",
+            "type": "object"
+        },
+        "Kind": {
+            "additionalProperties": false,
+            "description": "A vCard Kind.",
+            "title": "Kind",
+            "type": "object"
+        },
+        "LegalResource": {
+            "additionalProperties": false,
+            "description": "A legal resource (ELI).",
+            "title": "LegalResource",
+            "type": "object"
+        },
+        "LicenceDocument": {
+            "additionalProperties": false,
+            "description": "A legal document giving official permission to do something with a resource.",
+            "properties": {
+                "type": {
+                    "description": "The nature or genre of the resource.",
+                    "items": {
+                        "$ref": "#/$defs/Concept"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "title": "LicenceDocument",
+            "type": "object"
+        },
+        "LinguisticSystem": {
+            "additionalProperties": false,
+            "description": "A linguistic system (DC Terms LinguisticSystem).",
+            "title": "LinguisticSystem",
+            "type": "object"
+        },
+        "Location": {
+            "additionalProperties": false,
+            "description": "A spatial region or named place.",
+            "properties": {
+                "bbox": {
+                    "description": "The geographic bounding box of a resource.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "centroid": {
+                    "description": "The geographic centroid of a resource.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "geometry": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Geometry"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The geometry of a location."
+                }
+            },
+            "title": "Location",
+            "type": "object"
+        },
+        "MediaType": {
+            "additionalProperties": false,
+            "description": "An IANA media type (DC Terms MediaType).",
+            "title": "MediaType",
+            "type": "object"
+        },
+        "PeriodOfTime": {
+            "additionalProperties": false,
+            "description": "An interval of time named or defined by its start and end.",
+            "properties": {
+                "beginning": {
+                    "description": "The start of a period of time.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "end": {
+                    "description": "The end of a period of time.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "endDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The end of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                },
+                "startDate": {
+                    "anyOf": [
+                        {
+                            "format": "date",
+                            "type": "string"
+                        },
+                        {
+                            "format": "date-time",
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The start of the period. Modelled as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.",
+                    "type": "string"
+                }
+            },
+            "title": "PeriodOfTime",
+            "type": "object"
+        },
+        "Policy": {
+            "additionalProperties": false,
+            "description": "An ODRL policy.",
+            "title": "Policy",
+            "type": "object"
+        },
+        "ProvenanceStatement": {
+            "additionalProperties": false,
+            "description": "A statement of provenance.",
+            "title": "ProvenanceStatement",
+            "type": "object"
+        },
+        "Relationship": {
+            "additionalProperties": false,
+            "description": "An association between resources where one has a particular role.",
+            "properties": {
+                "hadRole": {
+                    "description": "The role of an agent in the relationship.",
+                    "items": {
+                        "$ref": "#/$defs/Role"
+                    },
+                    "type": "array"
+                },
+                "relation": {
+                    "description": "The resource related through this relationship.",
+                    "items": {
+                        "$ref": "#/$defs/Resource"
+                    },
+                    "type": "array"
+                }
+            },
+            "required": [
+                "hadRole",
+                "relation"
+            ],
+            "title": "Relationship",
+            "type": "object"
+        },
+        "Resource": {
+            "additionalProperties": false,
+            "description": "Top-level abstract resource. Used as a generic node range when the DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific class.",
+            "title": "Resource",
+            "type": "object"
+        },
+        "RightsStatement": {
+            "additionalProperties": false,
+            "description": "A statement about rights associated with a resource.",
+            "title": "RightsStatement",
+            "type": "object"
+        },
+        "Role": {
+            "additionalProperties": false,
+            "description": "A role (dcat:Role).",
+            "title": "Role",
+            "type": "object"
+        },
+        "Standard": {
+            "additionalProperties": false,
+            "description": "A standard (DC Terms Standard).",
+            "title": "Standard",
+            "type": "object"
+        }
+    },
+    "$id": "https://w3id.org/semic/dcat-ap/3.0.1",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": true,
+    "metamodel_version": "1.11.0",
+    "title": "dcat_ap",
+    "type": "object",
+    "version": null
+}

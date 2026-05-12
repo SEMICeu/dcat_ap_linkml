@@ -1,5 +1,5 @@
 # Auto generated from dcat_ap.yaml by pythongen.py version: 0.0.1
-# Generation date: 2026-04-29T14:49:42
+# Generation date: 2026-05-12T13:23:31
 # Schema: dcat_ap
 #
 # id: https://w3id.org/semic/dcat-ap/3.0.1
@@ -59,7 +59,7 @@ from rdflib import (
 from linkml_runtime.linkml_model.types import Decimal, Integer, String
 from linkml_runtime.utils.metamodelcore import Decimal
 
-metamodel_version = "1.7.0"
+metamodel_version = "1.11.0"
 version = None
 
 # Namespaces

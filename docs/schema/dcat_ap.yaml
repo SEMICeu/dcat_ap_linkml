@@ -94,14 +94,30 @@ types:
     base: int
     uri: xsd:nonNegativeInteger
     minimum_value: 0
+  gYear:
+    name: gYear
+    definition_uri: https://w3id.org/semic/dcat-ap/GYear
+    description: An XSD gYear literal (a Gregorian calendar year, e.g. "2024"). Used
+      in DCAT-AP's DateOrDateTimeDataType disjunction.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    base: str
+    uri: xsd:gYear
+  gYearMonth:
+    name: gYearMonth
+    definition_uri: https://w3id.org/semic/dcat-ap/GYearMonth
+    description: An XSD gYearMonth literal (a Gregorian calendar year and month, e.g.
+      "2024-04"). Used in DCAT-AP's DateOrDateTimeDataType disjunction.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    base: str
+    uri: xsd:gYearMonth
   string:
     name: string
     definition_uri: https://w3id.org/linkml/String
     description: A character string
     notes:
     - In RDF serializations, a slot with range of string is treated as a literal or
-      type xsd:string.   If you are authoring schemas in LinkML YAML, the type is
-      referenced with the lower case "string".
+      type xsd:string. If you are authoring schemas in LinkML YAML, the type is referenced
+      with the lower case "string".
     from_schema: https://w3id.org/linkml/types
     imported_from: linkml:types
     exact_mappings:
@@ -517,7 +533,8 @@ slots:
   startDate:
     name: startDate
     definition_uri: https://w3id.org/semic/dcat-ap/startDate
-    description: The start of the period.
+    description: The start of the period. Modelled as a DateOrDateTimeDataType disjunction
+      (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dcat:startDate
@@ -526,10 +543,16 @@ slots:
     domain_of:
     - PeriodOfTime
     range: string
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   endDate:
     name: endDate
     definition_uri: https://w3id.org/semic/dcat-ap/endDate
-    description: The end of the period.
+    description: The end of the period. Modelled as a DateOrDateTimeDataType disjunction
+      (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dcat:endDate
@@ -538,10 +561,17 @@ slots:
     domain_of:
     - PeriodOfTime
     range: string
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   releaseDate:
     name: releaseDate
     definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
-    description: The date of formal issuance of the resource.
+    description: The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -553,10 +583,17 @@ slots:
     - DatasetSeries
     - Distribution
     range: string
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   modificationDate:
     name: modificationDate
     definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
-    description: The date on which the resource was changed.
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:modified
@@ -569,10 +606,17 @@ slots:
     - DatasetSeries
     - Distribution
     range: string
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   listingDate:
     name: listingDate
     definition_uri: https://w3id.org/semic/dcat-ap/listingDate
-    description: The date on which the description was listed in the catalogue.
+    description: The date on which the description was listed in the catalogue. Modelled
+      as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear
+      | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -581,6 +625,11 @@ slots:
     domain_of:
     - CatalogueRecord
     range: string
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   byteSize:
     name: byteSize
     definition_uri: https://w3id.org/semic/dcat-ap/byteSize
@@ -1697,6 +1746,76 @@ slots:
     multivalued: false
     inlined: true
     inlined_as_list: true
+  Catalogue_rights:
+    name: Catalogue_rights
+    definition_uri: https://w3id.org/semic/dcat-ap/rights
+    description: Rights statement for the resource.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:rights
+    is_a: rights
+    domain: Catalogue
+    slot_uri: dct:rights
+    alias: rights
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: rights
+    range: RightsStatement
+    multivalued: true
+    inlined: true
+    inlined_as_list: true
+  Catalogue_releaseDate:
+    name: Catalogue_releaseDate
+    definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
+    description: The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:issued
+    is_a: releaseDate
+    domain: Catalogue
+    slot_uri: dct:issued
+    alias: releaseDate
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: releaseDate
+    range: string
+    multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
+  Catalogue_modificationDate:
+    name: Catalogue_modificationDate
+    definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
+    from_schema: https://w3id.org/semic/dcat-ap/3.0.1
+    mappings:
+    - dct:modified
+    is_a: modificationDate
+    domain: Catalogue
+    slot_uri: dct:modified
+    alias: modificationDate
+    owner: Catalogue
+    domain_of:
+    - Catalogue
+    is_usage_slot: true
+    usage_slot_name: modificationDate
+    range: string
+    multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   CatalogueRecord_primaryTopic:
     name: CatalogueRecord_primaryTopic
     definition_uri: https://w3id.org/semic/dcat-ap/primaryTopic
@@ -1721,7 +1840,9 @@ slots:
   CatalogueRecord_modificationDate:
     name: CatalogueRecord_modificationDate
     definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
-    description: The date on which the resource was changed.
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:modified
@@ -1737,6 +1858,11 @@ slots:
     range: string
     required: true
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   CatalogueRecord_applicationProfile:
     name: CatalogueRecord_applicationProfile
     definition_uri: https://w3id.org/semic/dcat-ap/applicationProfile
@@ -1760,7 +1886,9 @@ slots:
   CatalogueRecord_listingDate:
     name: CatalogueRecord_listingDate
     definition_uri: https://w3id.org/semic/dcat-ap/listingDate
-    description: The date on which the description was listed in the catalogue.
+    description: The date on which the description was listed in the catalogue. Modelled
+      as a DateOrDateTimeDataType disjunction (xsd:date | xsd:dateTime | xsd:gYear
+      | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -1775,6 +1903,11 @@ slots:
     usage_slot_name: listingDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   CatalogueRecord_changeType:
     name: CatalogueRecord_changeType
     definition_uri: https://w3id.org/semic/dcat-ap/changeType
@@ -2074,7 +2207,9 @@ slots:
   Dataset_modificationDate:
     name: Dataset_modificationDate
     definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
-    description: The date on which the resource was changed.
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:modified
@@ -2089,6 +2224,11 @@ slots:
     usage_slot_name: modificationDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Dataset_publisher:
     name: Dataset_publisher
     definition_uri: https://w3id.org/semic/dcat-ap/publisher
@@ -2112,7 +2252,9 @@ slots:
   Dataset_releaseDate:
     name: Dataset_releaseDate
     definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
-    description: The date of formal issuance of the resource.
+    description: The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -2127,6 +2269,11 @@ slots:
     usage_slot_name: releaseDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Dataset_spatialResolution:
     name: Dataset_spatialResolution
     definition_uri: https://w3id.org/semic/dcat-ap/spatialResolution
@@ -2262,7 +2409,9 @@ slots:
   DatasetSeries_modificationDate:
     name: DatasetSeries_modificationDate
     definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
-    description: The date on which the resource was changed.
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:modified
@@ -2277,10 +2426,17 @@ slots:
     usage_slot_name: modificationDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   DatasetSeries_releaseDate:
     name: DatasetSeries_releaseDate
     definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
-    description: The date of formal issuance of the resource.
+    description: The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -2295,6 +2451,11 @@ slots:
     usage_slot_name: releaseDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Distribution_accessUrl:
     name: Distribution_accessUrl
     definition_uri: https://w3id.org/semic/dcat-ap/accessUrl
@@ -2477,7 +2638,9 @@ slots:
   Distribution_modificationDate:
     name: Distribution_modificationDate
     definition_uri: https://w3id.org/semic/dcat-ap/modificationDate
-    description: The date on which the resource was changed.
+    description: The date on which the resource was changed. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:modified
@@ -2492,6 +2655,11 @@ slots:
     usage_slot_name: modificationDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Distribution_packagingFormat:
     name: Distribution_packagingFormat
     definition_uri: https://w3id.org/semic/dcat-ap/packagingFormat
@@ -2515,7 +2683,9 @@ slots:
   Distribution_releaseDate:
     name: Distribution_releaseDate
     definition_uri: https://w3id.org/semic/dcat-ap/releaseDate
-    description: The date of formal issuance of the resource.
+    description: The date of formal issuance of the resource. Modelled as a DateOrDateTimeDataType
+      disjunction (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match
+      DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dct:issued
@@ -2530,6 +2700,11 @@ slots:
     usage_slot_name: releaseDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Distribution_rights:
     name: Distribution_rights
     definition_uri: https://w3id.org/semic/dcat-ap/rights
@@ -2739,7 +2914,8 @@ slots:
   PeriodOfTime_endDate:
     name: PeriodOfTime_endDate
     definition_uri: https://w3id.org/semic/dcat-ap/endDate
-    description: The end of the period.
+    description: The end of the period. Modelled as a DateOrDateTimeDataType disjunction
+      (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dcat:endDate
@@ -2754,10 +2930,16 @@ slots:
     usage_slot_name: endDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   PeriodOfTime_startDate:
     name: PeriodOfTime_startDate
     definition_uri: https://w3id.org/semic/dcat-ap/startDate
-    description: The start of the period.
+    description: The start of the period. Modelled as a DateOrDateTimeDataType disjunction
+      (xsd:date | xsd:dateTime | xsd:gYear | xsd:gYearMonth) to match DCAT-AP's DateOrDateTimeDataType_Shape.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
     mappings:
     - dcat:startDate
@@ -2772,6 +2954,11 @@ slots:
     usage_slot_name: startDate
     range: string
     multivalued: false
+    any_of:
+    - range: date
+    - range: datetime
+    - range: gYear
+    - range: gYearMonth
   Relationship_hadRole:
     name: Relationship_hadRole
     definition_uri: https://w3id.org/semic/dcat-ap/hadRole
@@ -2822,7 +3009,7 @@ classes:
       DCAT-AP shape only constrains nodeKind to BlankNodeOrIRI/IRI without a specific
       class.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - rdfs:Resource
     abstract: true
     class_uri: rdfs:Resource
@@ -2831,7 +3018,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/CataloguedResource
     description: Union of Catalogue, Dataset, DataService, DatasetSeries (a.k.a. dcat:Resource).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Resource
     is_a: Resource
     abstract: true
@@ -2841,7 +3028,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Agent
     description: An agent (e.g. a person, organisation) responsible for a resource.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - foaf:Agent
     slots:
     - Agent_name
@@ -2861,7 +3048,7 @@ classes:
     description: A curated collection of metadata about resources (e.g. datasets and
       data services in the context of a data catalogue).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Catalog
     is_a: CataloguedResource
     slots:
@@ -2877,10 +3064,10 @@ classes:
     - Catalogue_homepage
     - language
     - Catalogue_licence
-    - modificationDate
+    - Catalogue_modificationDate
     - record
-    - releaseDate
-    - rights
+    - Catalogue_releaseDate
+    - Catalogue_rights
     - service
     - temporalCoverage
     - themes
@@ -2906,13 +3093,22 @@ classes:
       homepage:
         name: homepage
         multivalued: false
+      rights:
+        name: rights
+        multivalued: false
+      releaseDate:
+        name: releaseDate
+        multivalued: false
+      modificationDate:
+        name: modificationDate
+        multivalued: false
     class_uri: dcat:Catalog
   CatalogueRecord:
     name: CatalogueRecord
     definition_uri: https://w3id.org/semic/dcat-ap/CatalogueRecord
     description: A description of a single entry in a data catalogue.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:CatalogRecord
     slots:
     - CatalogueRecord_applicationProfile
@@ -2951,7 +3147,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Checksum
     description: A value that allows the contents of a file to be authenticated.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - spdx:Checksum
     slots:
     - Checksum_algorithm
@@ -2972,7 +3168,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/ChecksumAlgorithm
     description: An algorithm used to produce a checksum.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - spdx:ChecksumAlgorithm
     is_a: Resource
     class_uri: spdx:ChecksumAlgorithm
@@ -2981,7 +3177,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Concept
     description: A concept (e.g. a category, theme, keyword).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - skos:Concept
     slots:
     - Concept_preferredLabel
@@ -2996,7 +3192,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/ConceptScheme
     description: A controlled vocabulary or category scheme.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - skos:ConceptScheme
     slots:
     - ConceptScheme_title
@@ -3012,7 +3208,7 @@ classes:
     description: A collection of operations that provides access to one or more datasets
       or data processing functions.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:DataService
     is_a: CataloguedResource
     slots:
@@ -3057,7 +3253,7 @@ classes:
     description: A collection of data, published or curated by a single agent, and
       available for access or download in one or more representations.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Dataset
     is_a: CataloguedResource
     slots:
@@ -3139,7 +3335,7 @@ classes:
     description: A collection of datasets that share a common schema and represent
       a change over time.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:DatasetSeries
     is_a: CataloguedResource
     slots:
@@ -3181,7 +3377,7 @@ classes:
     description: A specific representation of a dataset (e.g. a downloadable file
       or an API access).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Distribution
     slots:
     - Distribution_accessUrl
@@ -3267,7 +3463,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Document
     description: A foaf:Document.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - foaf:Document
     is_a: Resource
     class_uri: foaf:Document
@@ -3276,7 +3472,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Frequency
     description: A rate at which something recurs (DC Terms Frequency).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:Frequency
     is_a: Resource
     class_uri: dct:Frequency
@@ -3285,7 +3481,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Geometry
     description: A spatial geometry (locn:Geometry).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - locn:Geometry
     is_a: Resource
     class_uri: locn:Geometry
@@ -3294,7 +3490,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Identifier
     description: An identifier in a particular context.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - adms:Identifier
     slots:
     - Identifier_notation
@@ -3308,7 +3504,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Kind
     description: A vCard Kind.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - vcard:Kind
     is_a: Resource
     class_uri: vcard:Kind
@@ -3317,7 +3513,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/LegalResource
     description: A legal resource (ELI).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - eli:LegalResource
     is_a: Resource
     class_uri: eli:LegalResource
@@ -3327,7 +3523,7 @@ classes:
     description: A legal document giving official permission to do something with
       a resource.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:LicenseDocument
     slots:
     - LicenceDocument_type
@@ -3341,7 +3537,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/LinguisticSystem
     description: A linguistic system (DC Terms LinguisticSystem).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:LinguisticSystem
     is_a: Resource
     class_uri: dct:LinguisticSystem
@@ -3350,7 +3546,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Location
     description: A spatial region or named place.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:Location
     slots:
     - Location_bbox
@@ -3372,7 +3568,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/MediaType
     description: An IANA media type (DC Terms MediaType).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:MediaType
     is_a: Resource
     class_uri: dct:MediaType
@@ -3381,7 +3577,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/PeriodOfTime
     description: An interval of time named or defined by its start and end.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:PeriodOfTime
     slots:
     - PeriodOfTime_beginning
@@ -3407,7 +3603,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Policy
     description: An ODRL policy.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - odrl:Policy
     is_a: Resource
     class_uri: odrl:Policy
@@ -3416,7 +3612,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/ProvenanceStatement
     description: A statement of provenance.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:ProvenanceStatement
     is_a: Resource
     class_uri: dct:ProvenanceStatement
@@ -3425,7 +3621,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Relationship
     description: An association between resources where one has a particular role.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Relationship
     slots:
     - Relationship_hadRole
@@ -3445,7 +3641,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/RightsStatement
     description: A statement about rights associated with a resource.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:RightsStatement
     is_a: Resource
     class_uri: dct:RightsStatement
@@ -3454,7 +3650,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Role
     description: A role (dcat:Role).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dcat:Role
     is_a: Resource
     class_uri: dcat:Role
@@ -3463,7 +3659,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Standard
     description: A standard (DC Terms Standard).
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - dct:Standard
     is_a: Resource
     class_uri: dct:Standard
@@ -3472,7 +3668,7 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Activity
     description: A PROV activity.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - prov:Activity
     is_a: Resource
     class_uri: prov:Activity
@@ -3481,13 +3677,13 @@ classes:
     definition_uri: https://w3id.org/semic/dcat-ap/Attribution
     description: A PROV attribution.
     from_schema: https://w3id.org/semic/dcat-ap/3.0.1
-    mappings:
+    exact_mappings:
     - prov:Attribution
     is_a: Resource
     class_uri: prov:Attribution
-metamodel_version: 1.7.0
+metamodel_version: 1.11.0
 source_file: dcat_ap.yaml
-source_file_date: '2026-04-29T10:02:13'
-source_file_size: 24599
-generation_date: '2026-04-29T10:02:40'
+source_file_date: '2026-04-29T14:49:33'
+source_file_size: 26462
+generation_date: '2026-05-12T13:22:27'
 

@@ -1,310 +1,224 @@
 # Structural comparison: LinkML-generated vs original DCAT-AP 3.0.1
 
-This document compares the LinkML-generated SHACL shapes
-(`project/shacl/dcat_ap.shacl.ttl`) against the original SEMIC DCAT-AP 3.0.1
-SHACL shapes (`original/releases/3.0.1/shacl/dcat-ap-SHACL.ttl`).
+This document compares the LinkML-generated artefacts under `project/`
+(SHACL, OWL, JSON-Schema, …) against the original SEMICeu DCAT-AP 3.0.1
+release under `original/releases/3.0.1/`.
 
-> **Note on the snapshot.** The figures below were produced against an earlier
-> local snapshot of the SEMIC SHACL file that carried the
-> `releases/3.0.0/.../shapes.ttl` namespace (essentially the 3.0.0 shapes
-> labelled as 3.0.1). Now that the full upstream repository is available under
-> `original/`, the 3.0.1 SHACL is materially larger (~2200 lines vs ~750) and
-> the headline shape/property counts in this table should be re-derived. The
-> *qualitative* observations (matching target classes, the date-disjunction
-> gap, etc.) still hold; the numeric ones need a refresh.
+## Run metadata
+
+| Field | Value |
+|---|---|
+| Date | 2026-05-12 |
+| `linkml` version | `1.11.0rc3.post8.dev0+1c5f68e4` |
+| `linkml-runtime` version | `1.11.0rc3.post8.dev0+1c5f68e4` |
+| LinkML pinned to | `git+https://github.com/linkml/linkml.git@main` (uv workspace) |
+| Upstream commit (linkml) | `1c5f68e4` |
+
+Capture these in the header of each future run so we can tell whether a
+diff change is "LinkML changed" or "DCAT-AP changed".
 
 ## Headline numbers
 
 | Metric                                    | Original | Generated |
 |-------------------------------------------|----------|-----------|
-| `sh:NodeShape` declarations               | 17       | 32        |
-| Shapes with `sh:targetClass`              | 15       | 32        |
-| Auxiliary disjunction shapes (`sh:or`)    | 2        | 0         |
-| Distinct property paths used              | ~62      | ~63       |
+| `sh:NodeShape` declarations               | 33       | 32        |
+| Shapes with `sh:targetClass`              | 33       | 32        |
+| Shapes with `sh:closed false`             | 33       | 32        |
+| OWL `owl:Class` declarations              | n/a      | 32        |
 
-The generated SHACL has more shapes because LinkML emits a `NodeShape` for
-every class in the schema (including ones used purely as ranges in DCAT-AP,
-e.g. `dct:Frequency`, `vcard:Kind`, `prov:Activity`). The original only
-declares shapes for the 15 main DCAT-AP classes plus two helper shapes.
+Upstream has two shapes we don't emit:
 
-## What matched
+- `dct:MediaTypeOrExtentShape` — a disjunction shape over MediaType and
+  Extent (still blocked by gap #2 — class disjunction in range).
+- `TimeInstantShape` — targets `time:Instant`, used as the range of
+  `time:hasBeginning` / `time:hasEnd` on `PeriodOfTime`. Our `beginning`
+  and `end` slots are still typed as plain `string` — a `TimeInstant`
+  class with `class_uri: time:Instant` would close this. **New
+  observation this run.**
 
-All **15 shape target classes** in the original have corresponding generated
-shapes with identical IRIs (modulo the `_Shape` suffix on the shape IRI itself):
+We emit one shape upstream doesn't:
 
-```
-adms:Identifier      ✓
-dcat:Catalog         ✓
-dcat:CatalogRecord   ✓
-dcat:DataService     ✓
-dcat:Dataset         ✓
-dcat:DatasetSeries   ✓
-dcat:Distribution    ✓
-dcat:Relationship    ✓
-dct:LicenseDocument  ✓
-dct:Location         ✓
-dct:PeriodOfTime     ✓
-foaf:Agent           ✓
-skos:Concept         ✓
-skos:ConceptScheme   ✓
-spdx:Checksum        ✓
-```
+- `rdfs:ResourceShape` (`Resource` superclass we added as a generic
+  abstract top). Harmless, but consider whether the `Resource` class is
+  pulling its weight.
 
-### Sampled shape diff: `dcat:Catalog`
+## What aligned this run
 
-| Property path                | Original (min, max)        | Generated (min, max) | Note |
-|------------------------------|----------------------------|----------------------|------|
-| `dct:title`                  | (1, ∞)                     | (1, ∞)               | match |
-| `dct:description`            | (1, ∞)                     | (1, ∞)               | match |
-| `dct:publisher`              | (1, 1)                     | (1, 1)               | match |
-| `dct:creator`                | (0, 1)                     | (0, 1)               | match |
-| `dct:license`                | (0, 1)                     | (0, 1)               | match |
-| `foaf:homepage`              | (0, 1)                     | (0, 1)               | match |
-| `dct:issued`                 | (0, 1)                     | (0, 1)               | match |
-| `dct:modified`               | (0, 1)                     | (0, 1)               | match |
-| `dct:rights`                 | (0, 1)                     | (0, ∞)               | **mismatch** — original maxCount 1 |
-| `dcat:catalog`               | (0, ∞)                     | (0, ∞)               | match |
-| `dcat:dataset`               | (0, ∞)                     | (0, ∞)               | match |
-| `dcat:service`               | (0, ∞)                     | (0, ∞)               | match |
-| `dcat:record`                | (0, ∞)                     | (0, ∞)               | match |
-| `dcat:themeTaxonomy`         | (0, ∞)                     | (0, ∞)               | match |
-| `dcatap:applicableLegislation` | (0, ∞), nodeKind IRI    | (0, ∞), nodeKind BlankNodeOrIRI | nodeKind looser |
-| `dct:language`               | (0, ∞)                     | (0, ∞)               | match |
-| `dct:spatial`                | (0, ∞)                     | (0, ∞)               | match |
-| `dct:hasPart`                | (0, ∞)                     | (0, ∞)               | match |
+### Shape IRI scheme (gap #7 closed)
 
-### Sampled shape diff: `spdx:Checksum`
+`gen-shacl` now ships `--suffix` and `--use-class-uri-names` (the latter
+is the default). Adding `shacl: { suffix: Shape, closed: false }` to
+`config.yaml` makes our shape IRIs follow the upstream pattern
+exactly: `dcat:CatalogShape`, `spdx:ChecksumShape`,
+`eli:LegalResourceShape`, etc. The local-name component now matches
+`<https://semiceu.github.io/DCAT-AP/releases/3.0.1#dcat:CatalogShape>`
+1:1 (the upstream namespace prefix differs, but the suffix and the
+class-IRI-as-local-name now match).
 
-| Property              | Original                  | Generated                 |
-|-----------------------|---------------------------|---------------------------|
-| `spdx:algorithm`      | (1, 1)                    | (1, 1) + class range      |
-| `spdx:checksumValue`  | (1, 1) datatype hexBinary | (1, 1) datatype hexBinary |
+### Open shapes (gap #6, properly closed now)
 
-Match plus an extra `sh:class` constraint in generated (LinkML knows the range
-class and emits it).
+The prior COMPARISON.md asserted `--non-closed` was already applied, but
+the config.yaml wasn't actually wired to pass it through `gen-project`.
+This run adds `shacl: { closed: false }` to `config.yaml`, and every
+emitted shape now carries `sh:closed false`, matching upstream's
+`shacl:closed false`. Closed by configuration, no schema change needed.
 
-### Sampled shape diff: `adms:Identifier`
+### OWL class IRIs use class_uri (new gap, closed in same run)
 
-| Property         | Original | Generated |
-|------------------|----------|-----------|
-| `skos:notation`  | (0, 1)   | (0, 1)    |
+`gen-owl --no-use-native-uris` makes OWL emit class IRIs based on
+`class_uri` instead of the schema's default-prefix-derived URI. Without
+the flag, our OWL was emitting `dcat_ap:Catalogue`, `dcat_ap:Checksum`,
+etc.; with `owl: { use_native_uris: false }` in `config.yaml` it now
+emits `dcat:Catalog`, `spdx:Checksum`, `foaf:Agent`, matching the upstream
+class identifiers used across the imported ontologies (DCAT, DCT, FOAF,
+SPDX, …). This was not previously called out as a gap; flagging it now
+in case it regresses.
 
-Exact match.
+### Cardinality on `dct:rights` (Catalogue)
 
-## What's missing in the LinkML version
+The prior table flagged `dct:rights` on Catalogue as a (0,∞) generated
+vs (0,1) upstream mismatch. The schema's `Catalogue.slot_usage.rights:
+multivalued: false` is now honoured: generated SHACL emits `sh:maxCount
+1` on the property shape. Match.
 
-1. ~~**`DateOrDateTimeDataType_Shape`**~~ — *resolved.* Originally noted as a
-   gap; the latest revision uses LinkML `any_of` plus custom `gYear` /
-   `gYearMonth` types, and the SHACL generator emits an inlined `sh:or` with
-   all four datatype branches for `dct:issued`, `dct:modified`,
-   `dcat:startDate`, `dcat:endDate`. See "Datatype disjunction" below for the
-   detailed experimental result.
+## Still-open gaps (carry forward to next run)
 
-2. **`DcatResource_Shape`** — the original `sh:or` over `dcat:Catalog |
-   dcat:Dataset | dcat:DataService | dcat:DatasetSeries` becomes an abstract
-   `CataloguedResource` superclass in LinkML. The SHACL output therefore uses
-   `sh:class dcat:Resource` instead of the original disjunction.
+These are the genuine LinkML expressivity gaps remaining after this
+alignment run.
 
-3. **Inverse-path constraint** on `DatasetSeries`
-   (`sh:path [ sh:inversePath dcat:inSeries ]`) — not emitted, no LinkML
-   construct exists for this.
+1. **Class disjunction in property ranges.** DCAT-AP's `DcatResource`
+   (union of `Catalog | Dataset | DataService | DatasetSeries`) and
+   `MediaTypeOrExtent` are emulated by introducing synthetic abstract
+   superclasses; the original upstream form is `sh:or` over class
+   targets. The new `MediaTypeOrExtentShape` observation in step 1
+   above is the same gap, second instance.
 
-4. **`sh:severity sh:Warning`** — the warning-level severity used on the
-   inverse-path shape isn't supported. All generated shapes are
-   `sh:Violation`.
+2. **Inverse-path SHACL constraint** on `DatasetSeries` (`sh:path [
+   sh:inversePath dcat:inSeries ]`) — `SlotDefinition` has an `inverse`
+   field (declares the reciprocal slot) but no metaslot translates to a
+   `sh:inversePath` property shape. Not closed this run.
 
-5. **`sh:nodeKind sh:IRI` distinction** — the original uses `sh:IRI` (no blank
-   nodes allowed) for some properties (e.g.
-   `dcatap:applicableLegislation`, `dcat:theme`). LinkML's generator emits
-   `sh:BlankNodeOrIRI` for all object-valued slots.
+3. **`sh:severity sh:Warning` (or anything below Violation)** — no
+   slot/class metaslot found in current `linkml_runtime.linkml_model.meta`
+   (grepped for `severity` / `shacl` in `SlotDefinition` fields).
 
-6. **Open-world shapes** — *not a gap; CLI flag handles it.* Original
-   SEMIC shapes are *open* (no `sh:closed`). Default `gen-shacl`
-   output is closed. The bundled SHACL in `project/shacl/` is now
-   generated with `--non-closed`, so every shape carries
-   `sh:closed false` — matching the SEMIC semantics. Mixin and
-   abstract classes already get `sh:closed false` even in default
-   mode (see `shaclgen.py:488-493`). The only residual question is
-   per-class override, which is tracked upstream as
-   [linkml/linkml#1249](https://github.com/linkml/linkml/issues/1249).
-   Don't file a duplicate.
+4. **`sh:nodeKind sh:IRI`** — LinkML's gen-shacl emits
+   `sh:BlankNodeOrIRI` for every object-valued slot; no metaslot in
+   the current main lets a slot demand IRI-only.
 
-7. **Specific SHACL `rdfs:label` and `_Shape`-suffixed IRIs** —
-   the original has e.g. `:Catalog_Shape rdfs:label "Catalog"@en`. LinkML
-   generates a shape whose IRI *is* the target class IRI, with a
-   `rdfs:comment` taken from the slot description. The labels and shape IRIs
-   are not reproduced.
+5. **`rdf:langString` first-class type** — language-tagged literals
+   (`@language`) are still mapped to plain `xsd:string`. DCAT-AP relies
+   on language tags for `dct:title`, `dct:description`, etc.
 
-8. **Multilingual literals (`@language`)** — DCAT-AP expects
-   language-tagged literals for `dct:title`, `dct:description`, etc. The
-   JSON-LD context uses `@container: "@set"` with no `@type` constraint,
-   implying language-tagged strings are valid. LinkML's generator types these
-   as plain `xsd:string`.
+6. **Per-shape property reification.** Upstream factors every constraint
+   into its own property shape and references them via
+   `sh:property <IRI>` (e.g.
+   `<#dcat:CatalogRecordShape/06293…> sh:minCount 1 ; sh:path dct:title`).
+   LinkML inlines all constraints into anonymous blank-node property
+   shapes inside the parent NodeShape. Functionally equivalent;
+   structurally different. Probably not worth chasing for the
+   evaluation.
 
-## What LinkML produces but the original doesn't
+7. **`time:Instant` class missing.** Upstream emits `TimeInstantShape`
+   targeting `time:Instant`; we model `beginning` / `end` as `string`.
+   A `TimeInstant` class with `class_uri: time:Instant` would close
+   this — schema-side fix, not a LinkML gap.
 
-1. **17 extra `NodeShape` declarations** for range/value classes
-   (e.g. `dct:Frequency`, `vcard:Kind`, `eli:LegalResource`, `prov:Activity`),
-   most of them empty (no constraints). Harmless but verbose.
+## Datatype disjunction (status: partial gap, no change)
 
-2. ~~**`sh:closed true` + `sh:ignoredProperties (rdf:type)`** on every shape — makes the shapes much stricter than the original.~~
-   *Resolved.* The SHACL in `project/shacl/` is now generated with
-   `--non-closed`, so every shape is `sh:closed false`. (Default
-   `gen-shacl` is closed; the flag toggles it.)
-
-3. **`sh:class` ranges on object-valued slots** — the original is largely
-   silent on the *type* of related resources (relying on `sh:nodeKind`); the
-   generated SHACL is more explicit, e.g. `sh:class dcat:Catalog` for
-   `dct:hasPart` on Catalogue. Often a useful addition.
-
-4. **`sh:order`** — LinkML emits ordering hints absent from the original.
-
-5. **`sh:description`** taken from the slot's description — original shapes
-   don't carry per-property descriptions.
-
-## Constructs LinkML can't express well (key for SEMIC discussion)
-
-These are the most important gaps for the SEMIC × LinkML evaluation:
-
-1. **Datatype disjunction (`sh:or` over multiple datatypes)** — *partial gap.*
-   LinkML supports type disjunctions via `any_of`:
-
-   ```yaml
-   slots:
-     event_date:
-       any_of:
-         - range: date
-         - range: datetime
-   ```
-
-   The SHACL generator translates `any_of` → `sh:or`, so the round-trip works
-   for date/datetime. However:
-   - `xsd:gYear` and `xsd:gYearMonth` are **not built-in** LinkML types
-     (only `date`, `datetime`, `date_or_datetime`, `time` are). Custom types
-     with explicit `uri: xsd:gYear` are required, and downstream generators
-     (JSON Schema, Pydantic, Python dataclasses) may not handle them cleanly.
-   - **Generator coverage is uneven**: SHACL handles `any_of` well, but
-     pythongen, JSON Schema, and others tend to pick a single range or
-     flatten the union.
-
-   Net: expressible syntactically; the gap is narrower than "can't express it"
-   but real — the issue is custom XSD datatype support and inconsistent
-   generator handling, not the meta-modelling primitive.
-
-   **Experimental result (this project).** We replaced
-   `range: datetime` on `releaseDate` (`dct:issued`),
-   `modificationDate` (`dct:modified`), `listingDate` (`dct:issued` on
-   `dcat:CatalogRecord`), `startDate` and `endDate` with an `any_of` over
-   `date | datetime | gYear | gYearMonth` (the latter two declared as
-   custom types — see "Custom datatypes" below) and re-ran `gen-project`.
-   Observed behaviour:
-   - **SHACL** (`project/shacl/dcat_ap.shacl.ttl`): `sh:or` is emitted with
-     all four `sh:datatype` branches plus `sh:nodeKind sh:Literal` on each.
-     Structurally this is **equivalent** to the original
-     `:DateOrDateTimeDataType_Shape` `sh:or` block, just inlined into each
-     property shape rather than referenced via `sh:node` / `sh:shape`. Net
-     semantic content matches the original.
-   - **JSON Schema** (`project/jsonschema/dcat_ap.schema.json`): the slot
-     becomes a JSON Schema `anyOf` with four branches — `format: "date"`,
-     `format: "date-time"`, and two plain `type: "string"` (for `gYear` and
-     `gYearMonth`, since JSON Schema has no `format` for those). Validation
-     is therefore weaker for `gYear`/`gYearMonth` than for date/dateTime.
-   - **Pydantic** (`src/dcat_ap/datamodel/dcat_ap_pydantic.py`): the slot is
-     typed as `Union[date, datetime, str]` (deduplicated — both custom
-     `gYear` and `gYearMonth` collapse to `str`). The original `any_of`
-     metadata is preserved in `json_schema_extra`.
-   - **Python dataclasses** (`src/dcat_ap/datamodel/dcat_ap.py`):
-     pythongen flattens to plain `str` and adds string-coercion in
-     `__post_init__`. The disjunction is lost at the type level.
-
-   So the SHACL round-trip *is* faithful for this DCAT-AP construct; the
-   degradation lives in the JSON-and-Python-shaped end of the toolchain,
-   not in the SHACL output.
+Still partial. The SHACL `sh:or` over `xsd:date | xsd:dateTime |
+xsd:gYear | xsd:gYearMonth` round-trips correctly via LinkML `any_of`
+and the custom `gYear`/`gYearMonth` types. JSON Schema, Pydantic, and
+dataclasses still flatten or collapse the disjunction (no change since
+the previous run). See "Custom datatypes" below.
 
 ### Custom datatypes (`xsd:gYear`, `xsd:gYearMonth`)
 
-To express the DCAT-AP date disjunction we added two custom types to the
-schema's `types:` section:
+To express the DCAT-AP date disjunction we added two custom types to
+the schema's `types:` section (verbatim from the previous run, repeated
+for completeness):
 
 ```yaml
 gYear:
   uri: xsd:gYear
   base: str
-  description: An XSD gYear literal …
-
 gYearMonth:
   uri: xsd:gYearMonth
   base: str
-  description: An XSD gYearMonth literal …
 ```
 
-Quirks observed:
+Quirks observed (unchanged):
+
 - `base: str` is the only practical option — LinkML doesn't ship Python
-  representations for partial-date XSD types, so values flow through as
-  strings.
+  representations for partial-date XSD types.
 - The `uri:` is preserved correctly into SHACL (`sh:datatype xsd:gYear`)
   and JSON-LD context output.
-- pythongen and pydanticgen both reduce these custom types to `str` (they
-  don't introspect the `uri:` to pick a richer type), so two distinct
-  custom types collapse into a single `str` member of the union — losing
-  the distinction between `gYear` and `gYearMonth` at the Python level.
-- gen-typescript prints a `WARNING: Unknown type.base: decimal` (unrelated
-  to our changes — pre-existing on `decimal`) but otherwise emits
-  `string` for the new types, as expected.
+- `pythongen` and `pydanticgen` reduce these custom types to `str`,
+  collapsing the union to `Union[date, datetime, str]` at the Python
+  level. The disjunction is preserved in `json_schema_extra` metadata
+  but not in the type signature.
 
-2. **Class disjunction in property ranges** — LinkML requires a single named
-   range. DCAT-AP's `DcatResource` (union of four classes) has to be
-   emulated by introducing a synthetic abstract superclass, which then
-   ripples into the OWL/RDF semantics in ways the original doesn't have.
+## What LinkML produces but the original doesn't
 
-3. **Inverse path constraints** — SHACL property paths with `sh:inversePath`
-   aren't representable as LinkML slots.
+1. **Extra `NodeShape` declarations for range/value classes** (e.g.
+   `dct:Frequency`, `vcard:Kind`, `eli:LegalResource`, `prov:Activity`),
+   most of them empty. Harmless but verbose — upstream is more
+   restrained about what it shapes.
 
-4. **`sh:severity sh:Warning` (or any severity below Violation)** — LinkML's
-   generator can't distinguish constraint levels.
+2. **`sh:class` ranges on object-valued slots.** Original is largely
+   silent on the *type* of related resources, relying on
+   `sh:nodeKind`; the generated SHACL is more explicit, e.g.
+   `sh:class dcat:Catalog` for `dct:hasPart` on Catalogue. Useful
+   addition.
 
-5. **`sh:nodeKind sh:IRI` (no blank nodes)** — LinkML's gen-shacl always
-   emits `BlankNodeOrIRI` for object-valued slots; the stricter "must be an
-   IRI" constraint isn't expressible.
+3. **`sh:order`** — LinkML emits ordering hints absent from the
+   original.
 
-6. **Open-shape vs closed-shape control** — *already supported.*
-   `gen-shacl` has a `--closed/--non-closed` CLI flag (or
-   `shacl: { closed: false }` in the gen-project config). The bundled
-   SHACL is now built with `--non-closed`. Mixin/abstract classes
-   already get `sh:closed false` automatically. Per-class
-   override is the only remaining open question, tracked upstream as
-   [linkml/linkml#1249](https://github.com/linkml/linkml/issues/1249).
-
-7. **Language-tagged-string as a first-class type** — DCAT-AP relies on
-   `rdf:langString`. LinkML maps everything to `xsd:string`.
+4. **`sh:description`** taken from the slot's description — original
+   shapes don't carry per-property descriptions.
 
 ## Surprising matches
 
-1. **All 15 SHACL target classes are reproduced with the correct IRIs.** The
-   prefix configuration alone was enough to make the IRIs round-trip.
+1. **All 15 SHACL target classes are reproduced with the correct
+   IRIs.** Prefix configuration alone was enough to make the IRIs
+   round-trip.
 
-2. **Cardinalities match exactly** for the vast majority of properties. Where
-   the SHACL says `(0,1)` or `(1,*)`, LinkML's `multivalued` and `required`
-   reproduce it correctly.
+2. **Cardinalities match almost exactly.** Where the SHACL says `(0,1)`
+   or `(1,*)`, LinkML's `multivalued` / `required` / `slot_usage`
+   reproduce it correctly; the previously-flagged `dct:rights` mismatch
+   resolved this run.
 
-3. **`xsd:hexBinary` and `xsd:nonNegativeInteger` round-trip.** Custom LinkML
-   types map cleanly to the right XSD datatype in both SHACL and OWL.
+3. **`xsd:hexBinary` and `xsd:nonNegativeInteger` round-trip.** Custom
+   LinkML types map cleanly to the right XSD datatype in both SHACL
+   and OWL.
 
-4. **Datatype-vs-IRI distinction** mostly works: `dcat:keyword` and
-   `dct:identifier` correctly come out as `sh:Literal`, while object-valued
-   slots like `dct:publisher` correctly come out as `sh:BlankNodeOrIRI`.
+4. **Datatype-vs-IRI distinction** works: `dcat:keyword` and
+   `dct:identifier` come out as `sh:Literal`; object-valued slots like
+   `dct:publisher` come out as `sh:BlankNodeOrIRI`.
 
-5. **SPDX, ADMS, FOAF, ODRL, ELI, time, vcard prefixes** all round-trip
-   intact — the generated SHACL uses the same prefix declarations the
-   original does.
+5. **Prefix round-trip:** SPDX, ADMS, FOAF, ODRL, ELI, time, vcard
+   prefixes all round-trip intact.
+
+## Closed in this run (and how)
+
+| Gap | Resolution |
+|---|---|
+| `_Shape`-suffixed shape IRIs | `gen-shacl --suffix Shape` (new flag) wired via `config.yaml` `shacl.suffix: Shape` |
+| Open shapes actually applied | `gen-shacl --non-closed` wired via `config.yaml` `shacl.closed: false` (the previous run claimed this was wired, but it wasn't) |
+| OWL class IRIs based on `class_uri` (e.g. `dcat:Catalog` not `dcat_ap:Catalogue`) | `gen-owl --no-use-native-uris` wired via `config.yaml` `owl.use_native_uris: false` |
+| `dct:rights` cardinality on Catalogue | Already addressed in the schema via `Catalogue.slot_usage.rights.multivalued: false`; SHACL output now matches |
 
 ## Suggestions for future LinkML work (SEMIC-relevant)
 
-- Add `sh_or_datatypes` (or similar) annotation that lets a slot declare a
-  union of acceptable XSD datatypes, generating `sh:or`.
-- Make the gen-shacl generator honour `class_uri` for the *shape IRI* (or at
-  least add a `_Shape` suffix to a configurable IRI base) so DCAT-AP shape
-  IRIs can be reproduced exactly.
-- Support for `sh:severity` levels.
-- First-class language-tagged-string type with optional `@language`
+- **`sh:nodeKind sh:IRI`** — add a slot-level metaslot or a `gen-shacl`
+  CLI flag that lets identifier-typed slots demand IRI-only object
+  values.
+- **`sh:severity`** — slot/class-level severity that gen-shacl honours.
+- **`rdf:langString` first-class type** with optional `@language`
   constraint.
+- **Class disjunction in slot range** — first-class support for slots
+  whose range is a true class union (without requiring a synthetic
+  abstract superclass).
+- **`sh:inversePath`** — a way to declare an inverse-path constraint
+  as a SHACL property shape (separate from the `inverse:` metaslot
+  which only declares the reciprocal slot).

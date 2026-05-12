@@ -23,6 +23,10 @@ generator_args:
     type_objects: false
     add_root_classes: true
     mixins_as_expressions: true
+    # Emit class IRIs based on class_uri (e.g. dcat:Catalog) rather than
+    # the schema's default-prefix native IRI (dcat_ap:Catalogue). This
+    # matches the upstream DCAT-AP ontology's class identifiers.
+    use_native_uris: false
   markdown:
     mergeimports: true
     directory: "docs/elements"
@@ -52,6 +56,14 @@ generator_args:
     mergeimports: true
   shacl:
     mergeimports: true
+    # Match SEMIC DCAT-AP semantics: open shapes (no sh:closed true).
+    # Mixin/abstract classes already get sh:closed false; this flag
+    # turns it off uniformly. See COMPARISON.md.
+    closed: false
+    # Append 'Shape' to class_uri-derived shape IRIs to match the
+    # upstream convention (e.g. dcat:Catalog -> dcat:CatalogShape).
+    # Available since linkml main (gen-shacl --suffix).
+    suffix: Shape
   shex:
     mergeimports: true
   sqlddl:

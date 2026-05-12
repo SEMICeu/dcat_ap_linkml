@@ -1,0 +1,6 @@
+issue_class_disjunction_range.md
+issue_inverse_path_constraint.md
+issue_shacl_severity_warning.md
+issue_shacl_nodekind_iri.md
+issue_langstring_first_class.md
+issue_custom_xsd_datatype.md

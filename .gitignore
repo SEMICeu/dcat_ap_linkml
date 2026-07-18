@@ -145,3 +145,4 @@ dmypy.json
 .idea
 # Local vscode editor config
 .vscode
+.DS_Store
